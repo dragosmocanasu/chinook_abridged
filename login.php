@@ -6,6 +6,11 @@
 
     // If the user has clicked on 'Logout', the session is destroyed
     if (isset($_POST['logout'])) {
+        // Invalidating the session cookie
+        if(isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), '', time() - 86400, '/');
+        }            
+        // Closing the session
         session_destroy();
         
     // If the user is already logged in, he/she is redirected to the main page
