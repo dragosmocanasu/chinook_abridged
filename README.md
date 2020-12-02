@@ -1,2 +1,2 @@
 # chinook_abridged
-Chinook Abridged full-stack application
+Full-Stack Application using the Chinook Abridged DB
