@@ -1,0 +1,27 @@
+#loginForm, #signup, 
+#signupForm {
+    text-align: center;
+}   
+
+footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    padding: 5px 0 5px 0;
+    color: floralwhite;
+    background-color: midnightblue;
+    text-align: center;
+}
+
+.errorMessage {
+    border: solid thin red;
+    color: red;
+    padding: 10px;
+    text-align: center;
+}
+
+#mandatoryFields {
+    font-style: italic;
+    color: red;
+    text-align: center;
+}
