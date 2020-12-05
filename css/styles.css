@@ -47,7 +47,7 @@ img.smallButton {
     cursor: pointer;
 }
 
-.modal {
+.addArtistModal {
     /* Hidden by default */
     display: none;
     /* Stay in place */
@@ -71,7 +71,7 @@ img.smallButton {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-content {
+.modalContent {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
@@ -82,4 +82,17 @@ img.smallButton {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     animation-name: animatetop;
     animation-duration: 0.4s
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }

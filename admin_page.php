@@ -38,11 +38,18 @@
            
         </div>
 
-        <div class="modal">
-            <div class="modal-content">
+        <div class="addArtistModal">
+            <div class="modalContent">
                 <span class="close">
-                    
+                    &times;
                 </span>
+                Insert a new artist
+                <br>
+                <br>
+                <input type="text" id="artistNameField" name="artistNameField" placeholder="Name" required>
+                <br>
+                <br>
+                <input type="button" id="addArtistButton" value="Add">
             </div>
         </div>
 
