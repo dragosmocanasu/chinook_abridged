@@ -1,10 +1,10 @@
 <?php
     // Artist class
 
-    require_once('src/db_connection.php'); 
+    require_once('db_connection.php'); 
     class Artist extends DB {
         // Retrieves the artist whose name includes a certain text
-        function search($searchText) {
+        function search($text) {
             $query = <<<'SQL'
                 SELECT ArtistId, Name
                 FROM artist
@@ -13,7 +13,24 @@
             SQL;
 
             $statement = $this -> pdo -> prepare($query);
-            $statement -> execute(['%' . $searchText . '%']);
+            $statement -> execute(['%' . $text . '%']);
+            $results = $statement -> fetchAll();
+
+            $this -> disconnect();
+            
+            return $results;
+        }   
+
+        // Retrieves all artists
+        function fetchAll() {
+            $query = <<<'SQL'
+                SELECT *
+                FROM artist
+                ORDER BY Name;
+            SQL;
+
+            $statement = $this -> pdo -> prepare($query);
+            $statement -> execute([]);
             $results = $statement -> fetchAll();
 
             $this -> disconnect();
@@ -39,7 +56,7 @@
         }
         
         // Creates a new artist 
-        function add($info) {
+        function add($name) {
             try {
                 $this -> pdo -> beginTransaction();
                 
@@ -51,7 +68,7 @@
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$info['Name']]);
+                $statement -> execute([$name]);
                 // If exists, rollback and disconnect
                 if ($statement -> fetch()['total'] > 0) {
                     $this -> pdo -> rollBack();
@@ -66,7 +83,7 @@
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$info['Name']]);
+                $statement -> execute([$name]);
                 $newId = $this -> pdo -> lastInsertId();
                 $this -> pdo -> commit();
             } catch (Exception $e) {
@@ -80,7 +97,7 @@
         }
 
         // Updates an artist
-        function update($info) {
+        function update($id, $name) {
             try {
                 $this -> pdo -> beginTransaction();
 
@@ -91,7 +108,7 @@
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$info['Name'], $info['ArtistId']]);
+                $statement -> execute([$name, $id]);
                 $this -> pdo -> commit();
                 // If no rows were affected, the artist does not exist OR the data is the same
                 if (!$statement -> rowCount()) {
@@ -122,7 +139,7 @@
                 $statement = $this -> pdo -> prepare($query);
                 $statement -> execute([$id]);
                 $this -> pdo -> commit();
-                // If no rows were affected, the artist does not exist OR the data is the same
+                // If no rows were affected, the artist does not exist
                 if (!$statement -> rowCount()) {
                     $this -> disconnect();
                     return 0;

@@ -1,5 +1,5 @@
 <?php
-    require_once('src/db_connection.php');
+    require_once('db_connection.php');
     // Admin class
     class Admin extends DB {
         public string $Email = 'admin@kea.dk';

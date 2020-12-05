@@ -1,10 +1,10 @@
 <?php
     // Track class
 
-    require_once('src/db_connection.php'); 
+    require_once('db_connection.php'); 
     class Track extends DB {
         // Retrieves the track(s) whose name OR composer(s) includes a certain text
-        function search($searchText) {
+        function search($text) {
             $query = <<<'SQL'
                 SELECT TrackId, Name, AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice
                 FROM track
@@ -13,13 +13,30 @@
             SQL;
 
             $statement = $this -> pdo -> prepare($query);
-            $statement -> execute(['%' . $searchText . '%']);
+            $statement -> execute(['%' . $text . '%']);
             $results = $statement -> fetchAll();
 
             $this -> disconnect();
 
             return $results;
         }   
+
+          // Retrieves all tracks
+          function fetchAll() {
+            $query = <<<'SQL'
+                SELECT *
+                FROM track
+                ORDER BY Name;
+            SQL;
+
+            $statement = $this -> pdo -> prepare($query);
+            $statement -> execute([]);
+            $results = $statement -> fetchAll();
+
+            $this -> disconnect();
+
+            return $results;
+        }
         
         // Retrieves the track by id
         function get($id) {
@@ -39,7 +56,8 @@
         }
         
         // Creates a new track
-        function add($info) {
+        function add($name, $albumId, $mediaTypeId, $genreId, $composer, $milliseconds, 
+            $bytes, $unitPrice) {
             try {
                 $this -> pdo -> beginTransaction();
 
@@ -51,7 +69,7 @@
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$info['Name'], $info['Composer']]);
+                $statement -> execute([$name, $composer]);
                 // If exists, rollback and disconnect 
                 if ($statement -> fetch()['total'] > 0) {
                     $this -> pdo -> rollBack();
@@ -66,8 +84,8 @@
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$info['Name'], $info['AlbumId'], $info['MediaTypeId'], $info['GenreId'], $info['Composer'], 
-                    $info['Milliseconds'], $info['Bytes'], $info['UnitPrice']]);
+                $statement -> execute([$name, $albumId, $mediaTypeId, $genreId, $composer, $milliseconds, 
+                    $bytes, $unitPrice]);
                 $newId = $this -> pdo -> lastInsertId();
                 $this -> pdo -> commit();
             } catch (Exception $e) {
@@ -81,7 +99,8 @@
         }
 
         // Updates a track
-        function update($info) {
+        function update($name, $albumId, $mediaTypeId, $genreId, $composer, $milliseconds, 
+        $bytes, $unitPrice, $trackId) {
             try {
                 $this -> pdo -> beginTransaction();
 
@@ -92,8 +111,8 @@
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$info['Name'], $info['AlbumId'], $info['MediaTypeId'], $info['GenreId'], $info['Composer'],
-                    $info['Milliseconds'], $info['Bytes'], $info['UnitPrice'], $info['TrackId']]);
+                $statement -> execute([$name, $albumId, $mediaTypeId, $genreId, $composer, $milliseconds, 
+                $bytes, $unitPrice, $trackId]);
                 $this -> pdo -> commit();
                 // If no rows were affected, the track does not exist OR the data is the same
                 if (!$statement -> rowCount()) {

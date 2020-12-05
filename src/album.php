@@ -1,10 +1,10 @@
 <?php
     // Album class
 
-    require_once('src/db_connection.php'); 
+    require_once('db_connection.php'); 
     class Album extends DB {
         // Retrieves the album whose name includes a certain text
-        function search($searchText) {
+        function search($text) {
             $query = <<<'SQL'
                 SELECT AlbumId, Title, ArtistId
                 FROM album
@@ -13,7 +13,24 @@
             SQL;
 
             $statement = $this -> pdo -> prepare($query);
-            $statement -> execute(['%' . $searchText . '%']);
+            $statement -> execute(['%' . $text . '%']);
+            $results = $statement -> fetchAll();
+
+            $this -> disconnect();
+            
+            return $results;
+        }   
+
+        // Retrieves all albums
+        function fetchAll() {
+            $query = <<<'SQL'
+                SELECT *
+                FROM album
+                ORDER BY Title;
+            SQL;
+
+            $statement = $this -> pdo -> prepare($query);
+            $statement -> execute([]);
             $results = $statement -> fetchAll();
 
             $this -> disconnect();
@@ -39,7 +56,7 @@
         }
         
         // Creates a new album
-        function add($info) {
+        function add($title, $artistId) {
             try {
                 $this -> pdo -> beginTransaction();
 
@@ -51,7 +68,7 @@
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$info['Title'], $info['ArtistId']]);
+                $statement -> execute([$title, $artistId]);
                 // If exists, rollback and disconnect 
                 if ($statement -> fetch()['total'] > 0) {
                     $this -> pdo -> rollBack();
@@ -66,7 +83,7 @@
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$info['Title'], $info['ArtistId']]);
+                $statement -> execute([$title, $artistId]);
                 $newId = $this -> pdo -> lastInsertId();
                 $this -> pdo -> commit();
             } catch (Exception $e) {
@@ -80,7 +97,7 @@
         }
 
         // Updates an album
-        function update($info) {
+        function update($title, $id, $artistId) {
             try {
                 $this -> pdo -> beginTransaction();
                 
@@ -91,7 +108,7 @@
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$info['Title'], $info['ArtistId'], $info['AlbumId']]);
+                $statement -> execute([$title, $id, $artistId]);
                 $this -> pdo -> commit();
                 // If no rows were affected, the album does not exist OR the data is the same
                 if (!$statement -> rowCount()) {

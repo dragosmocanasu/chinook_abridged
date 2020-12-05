@@ -4,7 +4,7 @@
 
         // Opens and establishes the connection to the DB
         public function __construct() {
-            include('src/db_connection_data.php');
+            include('db_connection_data.php');
 
             $dsn="mysql:host=$host;dbname=$db;charset=$charset";
             $options = [

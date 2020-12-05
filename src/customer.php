@@ -1,11 +1,11 @@
 <?php
-    require_once('src/db_connection.php'); 
+    require_once('db_connection.php'); 
     // Customer class
     class Customer extends DB {
 
         public int $CustomerId;
-        public string $FirstName, $LastName, $Password, $Company, $Address, $City, $State, 
-            $Country, $PostalCode, $Phone, $Fax, $Email;
+        public string $firstName, $lastName, $password, $company, $address, $city, $state, 
+            $country, $postalCode, $phone, $fax, $email;
 
         // Validate a user login
         function validate($email, $password) {
@@ -45,8 +45,8 @@
         }
         
         // Create a new customer
-        function create($FirstName, $LastName, $Password, $Company, $Address, $City, $State, 
-                $Country, $PostalCode, $Phone, $Fax, $Email) {
+        function create($firstName, $lastName, $password, $company, $address, $city, $state, 
+                $country, $postalCode, $phone, $fax, $email) {
             try {
                 // Check if the user exists already
                 $query = <<<'SQL'
@@ -56,7 +56,7 @@
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$Email]);
+                $statement -> execute([$email]);
                 // If exists, return false
                 if ($statement -> fetch()['total'] > 0) {
                     return false;
@@ -70,8 +70,8 @@
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$FirstName, $LastName, password_hash($Password, PASSWORD_DEFAULT), $Company, $Address, $City, $State, 
-                    $Country, $PostalCode, $Phone, $Fax, $Email]);
+                $statement -> execute([$firstName, $lastName, password_hash($password, PASSWORD_DEFAULT), $company, $address, $city, $state, 
+                    $country, $postalCode, $phone, $fax, $email]);
 
             } catch (Exception $e) {
                 return false;
@@ -82,10 +82,10 @@
         }
         
         // Updates a customer
-        function update($FirstName, $LastName, $Company, $Address, $City, $State, 
-        $Country, $PostalCode, $Phone, $Fax, $Email, $NewPassword) {
+        function update($firstName, $lastName, $company, $address, $city, $state, 
+        $country, $postalCode, $phone, $fax, $email, $newPassword) {
             try {
-                $passwordChange = (trim($NewPassword) !== '');
+                $passwordChange = (trim($newPassword) !== '');
 
                 $query = <<<'SQL'
                     UPDATE customer
@@ -94,18 +94,18 @@
                 SQL;
 
                 if ($passwordChange) {
-                    $NewPassword = password_hash($NewPassword, PASSWORD_DEFAULT);
+                    $NewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
                     $query .= ', Password = ?';
                 }
                 $query .= ' WHERE Email = ?;';
 
                 $statement = $this -> pdo -> prepare($query);
                 if($passwordChange) {
-                    $statement -> execute ([$FirstName, $LastName, $Company, $Address, $City, 
-                        $State, $Country, $PostalCode, $Phone, $Fax, $NewPassword, $Email]);
+                    $statement -> execute ([$firstName, $lastName, $company, $address, $city, 
+                        $state, $country, $postalCode, $phone, $fax, $newPassword, $email]);
                 } else {
-                    $statement -> execute ([$FirstName, $LastName, $Company, $Address, $City, 
-                    $State, $Country, $PostalCode, $Phone, $Fax, $Email]);
+                    $statement -> execute ([$firstName, $lastName, $company, $address, $city, 
+                    $state, $country, $postalCode, $phone, $fax, $email]);
                 }
         
                 // If no rows were affected, the customer does not exist OR the data is the same
