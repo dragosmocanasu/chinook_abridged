@@ -97,7 +97,7 @@
         }
 
         // Updates an album
-        function update($title, $id, $artistId) {
+        function update($id, $title, $artistId) {
             try {
                 $this -> pdo -> beginTransaction();
                 
@@ -108,7 +108,7 @@
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$title, $id, $artistId]);
+                $statement -> execute([$title, $artistId, $id]);
                 $this -> pdo -> commit();
                 // If no rows were affected, the album does not exist OR the data is the same
                 if (!$statement -> rowCount()) {

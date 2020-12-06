@@ -65,11 +65,11 @@
                 $query = <<<'SQL'
                     SELECT COUNT(*) AS total 
                     FROM track
-                    WHERE Name = ? AND Composer = ?
+                    WHERE Name = ? AND AlbumId = ?
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$name, $composer]);
+                $statement -> execute([$name, $albumId]);
                 // If exists, rollback and disconnect 
                 if ($statement -> fetch()['total'] > 0) {
                     $this -> pdo -> rollBack();
@@ -99,8 +99,8 @@
         }
 
         // Updates a track
-        function update($name, $albumId, $mediaTypeId, $genreId, $composer, $milliseconds, 
-        $bytes, $unitPrice, $trackId) {
+        function update($trackId, $name, $albumId, $mediaTypeId, $genreId, $composer, $milliseconds, 
+        $bytes, $unitPrice) {
             try {
                 $this -> pdo -> beginTransaction();
 

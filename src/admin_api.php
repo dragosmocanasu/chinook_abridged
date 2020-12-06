@@ -23,18 +23,17 @@
     header('Accept-version: v1');
 
     $pieces = count($urlPieces);
+    //echo $pieces;
     //echo '<pre>';
     //print_r($urlPieces);
 
-    if ($pieces == 4) {
-        // TODO: replace with APIDescription();
-        echo 'description';
+    if ($pieces == 5) {
+        echo 'For the API description, please chech the README file';
     }   else {
             if ($pieces > MAX_PIECES) {
                 echo formatError();
             } else {
                 $entity = $urlPieces[ENTITY];
-
                 switch ($entity) {
                     case 'artists':
                         require_once('artist.php');
@@ -42,7 +41,7 @@
 
                         $verb = $_SERVER['REQUEST_METHOD'];
                         switch ($verb) {
-                            // Search artists
+                            // Search for an artist
                             case 'GET': 
                                 if ($pieces < MAX_PIECES) {
                                     if (!isset($_GET['name'])) {
@@ -141,134 +140,215 @@
                         break;
 
                     case 'albums':
-                       
+                        require_once('album.php');
+                        $album = new Album();
+
+                        $verb = $_SERVER['REQUEST_METHOD'];
+                        switch ($verb) {
+                            // Search an album
+                            case 'GET':
+                                if ($pieces < MAX_PIECES) {
+                                    if (!isset($_GET['title'])) {
+                                        // Fetch all
+                                        $results = $album -> fetchAll();
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Not found';
+                                            echo json_encode($response, http_response_code(404));
+                                        } else {
+                                            echo json_encode($results, http_response_code(200));
+                                        }
+                                    } else {
+                                        // Fetch by title
+                                        $results = $album -> search($_GET['title']);
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Not found';
+                                            echo json_encode($response, http_response_code(404));
+                                        } else {
+                                            echo json_encode($results, http_response_code(200));
+                                        }
+                                    }
+                                } else {
+                                    // Fetch by id
+                                    $results = $album -> get($urlPieces[ID]);
+                                    if (empty($results)) {
+                                        $response['Message'] = 'Not found';
+                                        echo json_encode($response, http_response_code(404));
+                                    } else {
+                                        echo json_encode($results, http_response_code(200));
+                                    }
+                                }
+                                break;
+                                
+                            // Create an album
+                            case 'POST':
+                                if ($pieces == ID) {
+                                    if (!isset($_POST['title']) || !isset($_POST['artistId'])) {
+                                        echo formatError();
+                                    } else {
+                                        $results = $album -> add($_POST['title'], $_POST['artistId']);
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Album exists already for this artist';
+                                            echo json_encode($response, http_response_code(409));
+                                        } else if ($results === -1) {
+                                            echo 'Database could not process your request';
+                                            } else {
+                                                    $response['Message'] = "Created with id $results";
+                                                    echo json_encode($response, http_response_code(201));
+                                            }
+                                        }
+                                } else {
+                                    echo formatError();
+                                }
+                                break;
+
+                            // Update an album
+                            // PHP does not handle PUT explicitly, they must be read from the request body's raw data
+                            case 'PUT':
+                                $albumData = (array) json_decode(file_get_contents('php://input'), TRUE);
+
+                                if ($pieces < MAX_PIECES || !isset($albumData['title']) || !isset($albumData['artistId'])) {
+                                    echo formatError();
+                                } else {
+                                    $results = $album -> update($urlPieces[ID], $albumData['title'], $albumData['artistId']);
+                                    if (empty($results)) {
+                                            $response['Message'] = 'Album does not exist / update data is the same';
+                                            echo json_encode($response, http_response_code(400));
+                                    } else if($results === -1) {
+                                        echo 'Database could not process your request';
+                                        } else {
+                                                $response['Message'] = 'Updated';
+                                                echo json_encode($response, http_response_code(200));
+                                            }
+                                    }
+                                break;
+
+                            // Delete an album
+                            case 'DELETE':
+                                if ($pieces < MAX_PIECES) {
+                                    echo formatError();
+                                } else {
+                                    $results = $album -> delete($urlPieces[ID]);
+                                    if (empty($results)) {
+                                        $response['Message'] = 'Album does not exist';
+                                        echo json_encode($response, http_response_code(400));
+                                    } else if ($results === -1) {
+                                        echo 'Database could not process your request';
+                                        } else {
+                                            $response['Message'] = 'Deleted';
+                                            echo json_encode($response, http_response_code(200));
+                                        }
+                                }
+                                break;
+                        }
+                        $album = null;
                         break;
 
                     case 'tracks':
-                        
-                        break;
+                       require_once('track.php');
+                        $track = new Track();
 
-                    default :
+                        $verb = $_SERVER['REQUEST_METHOD'];
+                        switch ($verb) {
+                            // Search for a track
+                            case 'GET':
+                                if ($pieces < MAX_PIECES) {
+                                    if (!isset($_GET['name'])) {
+                                        // Fetch all
+                                        $results = $track -> fetchAll();
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Not found';
+                                            echo json_encode($response, http_response_code(404));
+                                        } else {
+                                            echo json_encode($results, http_response_code(200));
+                                        }
+                                    } else {
+                                        // Fetch by name
+                                        $results = $track -> search($_GET['name']);
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Not found';
+                                            echo json_encode($response, http_response_code(404));
+                                        } else {
+                                            echo json_encode($results, http_response_code(200));
+                                        }
+                                    }
+                                } else {
+                                    // Fetch by id
+                                    $results = $track -> get($urlPieces[ID]);
+                                    if (empty($results)) {
+                                        $response['Message'] = 'Not found';
+                                        echo json_encode($response, http_response_code(404));
+                                    } else {
+                                        echo json_encode($results, http_response_code(200));
+                                    }
+                                }
+                                break;
+                            // Create a track
+                            case 'POST':
+                                if ($pieces == ID) {
+                                    if (!isset($_POST['name']) || !isset($_POST['albumId']) || !isset($_POST['mediaTypeId']) || !isset($_POST['genreId']) 
+                                        || !isset($_POST['composer']) || !isset($_POST['milliseconds']) || !isset($_POST['bytes']) || !isset($_POST['unitPrice'])) {
+                                            echo formatError();
+                                        } else {
+                                            $results = $track -> add($_POST['name'], $_POST['albumId'], $_POST['mediaTypeId'], $_POST['genreId'], 
+                                                $_POST['composer'], $_POST['milliseconds'], $_POST['bytes'], $_POST['unitPrice']);
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Track exists already for this album';
+                                                echo json_encode($response, http_response_code(409));
+                                            } else if ($results === -1) {
+                                                echo 'Database could not process your request';
+                                            } else {
+                                                $response['Message'] = "Created with id $results";
+                                                echo json_encode($response, http_response_code(201));
+                                            }
+                                        }
+                                } else {
+                                    echo formatError();
+                                }
+                                break;
+                            case 'PUT':
+                                $trackData = (array) json_decode(file_get_contents('php://input'), TRUE);
+
+                                if ($pieces < MAX_PIECES || !isset($trackData['name']) || !isset($trackData['albumId']) || !isset($trackData['mediaTypeId']) || !isset($trackData['genreId']) 
+                                    || !isset($trackData['composer']) || !isset($trackData['milliseconds']) || !isset($trackData['bytes']) || !isset($trackData['unitPrice'])) {
+                                    echo formatError();
+                                } else {
+                                    $results = $track -> update($urlPieces[ID], $trackData['name'], $trackData['albumId'], $trackData['mediaTypeId'], $trackData['genreId'],
+                                        $trackData['composer'], $trackData['milliseconds'], $trackData['bytes'], $trackData['unitPrice']);
+                                    if (empty($results)) {
+                                            $response['Message'] = 'Track does not exist / update data is the same';
+                                            echo json_encode($response, http_response_code(400));
+                                    } else if($results === -1) {
+                                        echo 'Database could not process your request';
+                                        } else {
+                                                $response['Message'] = 'Updated';
+                                                echo json_encode($response, http_response_code(200));
+                                            }
+                                    }
+                                break;
+                            case 'DELETE':
+                                if ($pieces < MAX_PIECES) {
+                                    echo formatError();
+                                } else {
+                                    $results = $track -> delete($urlPieces[ID]);
+                                    if (empty($results)) {
+                                        $response['Message'] = 'Track does not exist';
+                                        echo json_encode($response, http_response_code(400));
+                                    } else if ($results === -1) {
+                                        echo 'Database could not process your request';
+                                        } else {
+                                            $response['Message'] = 'Deleted';
+                                            echo json_encode($response, http_response_code(200));
+                                        }
+                                }
+                                break;
+                        }
+                        $track = null;
+                        break;
+                    default:
                         echo formatError();
                 }
             }
         }
-    // --------------------------------------------
-    /*
-    switch ($entity) {
-        case 'albums':
-            require_once('album.php');
-            $album = new Album();
-            
-            switch($action) {
-                case 'search':
-                    if (!isset($_POST['text'])) {
-                        echo 'Album search could not be processed';
-                    } else {
-                        echo json_encode($album -> search($_POST['text']));
-                    }
-                    break;
-                case 'fetchAll':
-                    echo json_encode($album -> search($_POST['']));
-                    break;
-                case 'add':
-                    if (!isset($_POST['title']) || !isset($_POST['artistId'])) {
-                        echo 'Album creation could not be processed';
-                    } else {
-                        echo json_decode($album -> add($_POST['title'], $_POST['artistId']));
-                    }
-                    break;
-                case 'update':
-                    if (!isset($_POST['title']) || !isset($_POST['id']) || !isset($_POST['artistId'])) {
-                        echo 'Album update could not be processed';
-                    } else {
-                        echo json_decode($album -> update($_POST['title'], $_POST['id'], $_POST['artistId']));
-                    }
-                    break;
-                case 'delete':
-                    if (!isset($_POST['id'])) {
-                        echo 'Album deletion could not be processed';
-                    } else {
-                        echo json_decode($album -> delete($_POST['id']));
-                    }
-                    break;
-            }
-            break;
-        case 'tracks':
-            require_once('track.php');
-            $track = new Track();
-            
-            switch($action) {
-                case 'search':
-                    if (!isset($_POST['text'])) {
-                        echo 'Track search could not be processed';
-                    } else {
-                        echo json_encode($track -> search($_POST['text']));
-                    }
-                    break;
-                case 'fetchAll':
-                    echo json_encode($track -> search($_POST['']));
-                    break;
-                case 'add':
-                    if (!isset($_POST['name']) || !isset($_POST['albumId']) || !isset($_POST['mediaTypeId']) || !isset($_POST['genreId']) 
-                        || !isset($_POST['composer']) || !isset($_POST['milliseconds']) || !isset($_POST['bytes']) || !isset($_POST['unitPrice'])) {
-                        echo 'Track creation could not be processed';
-                    } else {
-                        echo json_decode($track -> add($_POST['name'], $_POST['albumId'], $_POST['mediaTypeId'], $_POST['genreId'], 
-                            $_POST['composer'], $_POST['milliseconds'], $_POST['bytes'], $_POST['unitPrice']));
-                    }
-                    break;
-                case 'update':
-                    if (!isset($_POST['name']) || !isset($_POST['albumId']) || !isset($_POST['mediaTypeId']) || !isset($_POST['genreId']) 
-                    || !isset($_POST['composer']) || !isset($_POST['milliseconds']) || !isset($_POST['bytes']) || !isset($_POST['unitPrice'],
-                        $_POST['trackId'])) {
-                        echo 'Track update could not be processed';
-                    } else {
-                        echo json_decode($track -> update($_POST['name'], $_POST['albumId'], $_POST['mediaTypeId'], $_POST['genreId'], 
-                            $_POST['composer'], $_POST['milliseconds'], $_POST['bytes'], $_POST['unitPrice'], $_POST['trackId']));
-                    }
-                    break;
-                case 'delete':
-                    if (!isset($_POST['id'])) {
-                        echo 'Track deletion could not be processed';
-                    } else {
-                        echo json_decode($track -> delete($_POST['id']));
-                    }
-                    break;
-            }
-            break;
-        case 'session':
-            switch($action) {
-                case 'destroy':
-                    session_destroy();
-                    break;
-            }
-    }  
-    */
-    // --------------------------------------------
-
-    // TODO:
-    /*
-    function APIDescription() {
-        $apiBaseUrl = 'http://{server}/chinook_abridged';
-        $entityArtists = '/artists';
-        $entityAlbums = '/albums';
-        $entityTracks = '/tracks';
-
-        $apiDescription['api-description'] = array('method' => 'GET', 'url' => $apiBaseUrl);
-        $apiDescription['search-artists'] = array('method' => 'GET', 'url' => $apiBaseUrl . $entityFilms . '?title={film-search-text}');
-        $apiDescription['get-artist'] = array('method' => 'GET', 'url' => $apiBaseUrl . $entityFilms . '/{film-id}');
-        $apiDescription['add-artist'] = array('method' => 'POST', 'url' => $apiBaseUrl . $entityFilms, 'request-body' => array('title' => '', 'overview' => '', 'releaseDate' => '', 'runtime' => '', 'directors' => [], 'actors' => []));
-        $apiDescription['update-artist'] = array('method' => 'PUT', 'url' => $apiBaseUrl . $entityFilms . '/{film-id}', 'request-body' => array('title' => '', 'overview' => '', 'releaseDate' => '', 'runtime' => '', 'directors' => [], 'actors' => []));
-        $apiDescription['delete-artist'] = array('method' => 'DELETE', 'url' => $apiBaseUrl . $entityFilms . '/{film-id}');
-        $apiDescription['search-persons'] = array('method' => 'GET', 'url' => $apiBaseUrl . $entityPersons . '?title={person-search-text}');
-        $apiDescription['add-person'] = array('method' => 'POST', 'url' => $apiBaseUrl . $entityPersons, 'request-body' => array('name' => ''));
-        $apiDescription['delete-person'] = array('method' => 'DELETE', 'url' => $apiBaseUrl . $entityPersons . '/{person-id}');
-
-        return json_encode($apiDescription);
-        
-    }
-    */
 
     function formatError() {
         $output['Message'] = 'Incorrect format';
