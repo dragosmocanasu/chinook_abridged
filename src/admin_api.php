@@ -1,5 +1,10 @@
 <?php
     session_start();
+    /*
+     if (!isset($_SESSION['userType']) || $_SESSION['userType'] !== 'admin') {
+        echo 'Admin not authenticated';
+    }
+    */
 
     define('ENTITY', 5);
     define('ID', 6);
@@ -150,139 +155,95 @@
         }
     // --------------------------------------------
     /*
-    if (!isset($_SESSION['userType']) || $_SESSION['userType'] !== 'admin') {
-        echo 'Admin not authenticated';
-    } else if (!isset($_POST['entity']) || !isset($_POST['action'])){
-        echo 'Entity and action not found';
-    } else {
-        switch ($entity) {
-            case 'artists':
-                require_once('artist.php');
-                $artist = new Artist();
-                
-                switch($action) {
-                    case 'search':
-                        if (!isset($_POST['text'])) {
-                            echo 'Artist search could not be processed';
-                        } else {
-                            echo json_encode($artist -> search($_POST['text']));
-                        }
-                        break;
-                    case 'fetchAll':
-                        echo json_encode($artist -> search($_POST['']));
-                        break;
-                    case 'add':
-                        if (!isset($_POST['name'])) {
-                            echo 'Artist creation could not be processed';
-                        } else {
-                            echo json_decode($artist -> add($_POST['name']));
-                        }
-                        break;
-                    case 'update':
-                        if (!isset($_POST['name']) || !isset($_POST['id'])) {
-                            echo 'Artist update could not be processed';
-                        } else {
-                            echo json_decode($artist -> update($_POST['name'], $_POST['id']));
-                        }
-                        break;
-                    case 'delete':
-                        if (!isset($_POST['id'])) {
-                            echo 'Artist deletion could not be processed';
-                        } else {
-                            echo json_decode($artist -> delete($_POST['id']));
-                        }   
-                        break;
-                }
-                break;
-            case 'albums':
-                require_once('album.php');
-                $album = new Album();
-                
-                switch($action) {
-                    case 'search':
-                        if (!isset($_POST['text'])) {
-                            echo 'Album search could not be processed';
-                        } else {
-                            echo json_encode($album -> search($_POST['text']));
-                        }
-                        break;
-                    case 'fetchAll':
-                        echo json_encode($album -> search($_POST['']));
-                        break;
-                    case 'add':
-                        if (!isset($_POST['title']) || !isset($_POST['artistId'])) {
-                            echo 'Album creation could not be processed';
-                        } else {
-                            echo json_decode($album -> add($_POST['title'], $_POST['artistId']));
-                        }
-                        break;
-                    case 'update':
-                        if (!isset($_POST['title']) || !isset($_POST['id']) || !isset($_POST['artistId'])) {
-                            echo 'Album update could not be processed';
-                        } else {
-                            echo json_decode($album -> update($_POST['title'], $_POST['id'], $_POST['artistId']));
-                        }
-                        break;
-                    case 'delete':
-                        if (!isset($_POST['id'])) {
-                            echo 'Album deletion could not be processed';
-                        } else {
-                            echo json_decode($album -> delete($_POST['id']));
-                        }
-                        break;
-                }
-                break;
-            case 'tracks':
-                require_once('track.php');
-                $track = new Track();
-                
-                switch($action) {
-                    case 'search':
-                        if (!isset($_POST['text'])) {
-                            echo 'Track search could not be processed';
-                        } else {
-                            echo json_encode($track -> search($_POST['text']));
-                        }
-                        break;
-                    case 'fetchAll':
-                        echo json_encode($track -> search($_POST['']));
-                        break;
-                    case 'add':
-                        if (!isset($_POST['name']) || !isset($_POST['albumId']) || !isset($_POST['mediaTypeId']) || !isset($_POST['genreId']) 
-                            || !isset($_POST['composer']) || !isset($_POST['milliseconds']) || !isset($_POST['bytes']) || !isset($_POST['unitPrice'])) {
-                            echo 'Track creation could not be processed';
-                        } else {
-                            echo json_decode($track -> add($_POST['name'], $_POST['albumId'], $_POST['mediaTypeId'], $_POST['genreId'], 
-                                $_POST['composer'], $_POST['milliseconds'], $_POST['bytes'], $_POST['unitPrice']));
-                        }
-                        break;
-                    case 'update':
-                        if (!isset($_POST['name']) || !isset($_POST['albumId']) || !isset($_POST['mediaTypeId']) || !isset($_POST['genreId']) 
-                        || !isset($_POST['composer']) || !isset($_POST['milliseconds']) || !isset($_POST['bytes']) || !isset($_POST['unitPrice'],
-                            $_POST['trackId'])) {
-                            echo 'Track update could not be processed';
-                        } else {
-                            echo json_decode($track -> update($_POST['name'], $_POST['albumId'], $_POST['mediaTypeId'], $_POST['genreId'], 
-                                $_POST['composer'], $_POST['milliseconds'], $_POST['bytes'], $_POST['unitPrice'], $_POST['trackId']));
-                        }
-                        break;
-                    case 'delete':
-                        if (!isset($_POST['id'])) {
-                            echo 'Track deletion could not be processed';
-                        } else {
-                            echo json_decode($track -> delete($_POST['id']));
-                        }
-                        break;
-                }
-                break;
-            case 'session':
-                switch($action) {
-                    case 'destroy':
-                        session_destroy();
-                        break;
-                }
-        }  
-    }
+    switch ($entity) {
+        case 'albums':
+            require_once('album.php');
+            $album = new Album();
+            
+            switch($action) {
+                case 'search':
+                    if (!isset($_POST['text'])) {
+                        echo 'Album search could not be processed';
+                    } else {
+                        echo json_encode($album -> search($_POST['text']));
+                    }
+                    break;
+                case 'fetchAll':
+                    echo json_encode($album -> search($_POST['']));
+                    break;
+                case 'add':
+                    if (!isset($_POST['title']) || !isset($_POST['artistId'])) {
+                        echo 'Album creation could not be processed';
+                    } else {
+                        echo json_decode($album -> add($_POST['title'], $_POST['artistId']));
+                    }
+                    break;
+                case 'update':
+                    if (!isset($_POST['title']) || !isset($_POST['id']) || !isset($_POST['artistId'])) {
+                        echo 'Album update could not be processed';
+                    } else {
+                        echo json_decode($album -> update($_POST['title'], $_POST['id'], $_POST['artistId']));
+                    }
+                    break;
+                case 'delete':
+                    if (!isset($_POST['id'])) {
+                        echo 'Album deletion could not be processed';
+                    } else {
+                        echo json_decode($album -> delete($_POST['id']));
+                    }
+                    break;
+            }
+            break;
+        case 'tracks':
+            require_once('track.php');
+            $track = new Track();
+            
+            switch($action) {
+                case 'search':
+                    if (!isset($_POST['text'])) {
+                        echo 'Track search could not be processed';
+                    } else {
+                        echo json_encode($track -> search($_POST['text']));
+                    }
+                    break;
+                case 'fetchAll':
+                    echo json_encode($track -> search($_POST['']));
+                    break;
+                case 'add':
+                    if (!isset($_POST['name']) || !isset($_POST['albumId']) || !isset($_POST['mediaTypeId']) || !isset($_POST['genreId']) 
+                        || !isset($_POST['composer']) || !isset($_POST['milliseconds']) || !isset($_POST['bytes']) || !isset($_POST['unitPrice'])) {
+                        echo 'Track creation could not be processed';
+                    } else {
+                        echo json_decode($track -> add($_POST['name'], $_POST['albumId'], $_POST['mediaTypeId'], $_POST['genreId'], 
+                            $_POST['composer'], $_POST['milliseconds'], $_POST['bytes'], $_POST['unitPrice']));
+                    }
+                    break;
+                case 'update':
+                    if (!isset($_POST['name']) || !isset($_POST['albumId']) || !isset($_POST['mediaTypeId']) || !isset($_POST['genreId']) 
+                    || !isset($_POST['composer']) || !isset($_POST['milliseconds']) || !isset($_POST['bytes']) || !isset($_POST['unitPrice'],
+                        $_POST['trackId'])) {
+                        echo 'Track update could not be processed';
+                    } else {
+                        echo json_decode($track -> update($_POST['name'], $_POST['albumId'], $_POST['mediaTypeId'], $_POST['genreId'], 
+                            $_POST['composer'], $_POST['milliseconds'], $_POST['bytes'], $_POST['unitPrice'], $_POST['trackId']));
+                    }
+                    break;
+                case 'delete':
+                    if (!isset($_POST['id'])) {
+                        echo 'Track deletion could not be processed';
+                    } else {
+                        echo json_decode($track -> delete($_POST['id']));
+                    }
+                    break;
+            }
+            break;
+        case 'session':
+            switch($action) {
+                case 'destroy':
+                    session_destroy();
+                    break;
+            }
+    }  
     */
     // --------------------------------------------
 
@@ -310,7 +271,7 @@
     */
 
     function formatError() {
-        $output['error'] = 'Incorrect format';
+        $output['Message'] = 'Incorrect format';
         return json_encode($output, http_response_code(400));
     }
 ?>

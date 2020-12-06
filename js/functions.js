@@ -18,8 +18,8 @@ function displayArtists(data) {
         const artistId = data[i].ArtistId;
         row.
             append($('<td />', { 'text': data[i].Name})).
-            append($("<td />", { 'html': "<img id='" + artistId + "' class='smallButton edit' src='img/edit.png'>", 'class': 'action'})).
-            append($("<td />", { 'html': "<img id='" + artistId + "' class='smallButton delete' src='img/delete.png'>", 'class': 'action'}))
+            append($("<td />", { 'html': "<img id='" + artistId + "' class='smallButton editArtist' src='img/edit.png'>", 'class': 'action'})).
+            append($("<td />", { 'html': "<img id='" + artistId + "' class='smallButton deleteArtist' src='img/delete.png'>", 'class': 'action'}))
         tableBody.append(row);
     }
     table.append(tableBody);
@@ -47,8 +47,8 @@ function displayAllArtists(data) {
         const artistId = data[i].ArtistId;
         row.
             append($('<td />', { 'text': data[i].Name})).
-            append($("<td />", { 'html': "<img id='" + artistId + "' class='smallButton edit' src='img/edit.png'>", 'class': 'action'})).
-            append($("<td />", { 'html': "<img id='" + artistId + "' class='smallButton delete' src='img/delete.png'>", 'class': 'action'}))
+            append($("<td />", { 'html': "<img id='" + artistId + "' class='smallButton editArtist' src='img/edit.png'>", 'class': 'action'})).
+            append($("<td />", { 'html': "<img id='" + artistId + "' class='smallButton deleteArtist' src='img/delete.png'>", 'class': 'action'}))
         tableBody.append(row);
     }
     table.append(tableBody);

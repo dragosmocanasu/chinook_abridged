@@ -46,10 +46,39 @@
                 Insert a new artist
                 <br>
                 <br>
-                <input type="text" id="artistNameField" name="artistNameField" placeholder="Name" required>
+                <input type="text" id="addArtistNameField" name="addArtistNameField" placeholder="Name" required>
                 <br>
                 <br>
                 <input type="button" id="addArtistButton" value="Add">
+            </div>
+        </div>
+
+        <div class="updateArtistModal">
+            <div class="modalContent">
+                <span class="close">
+                    &times;
+                </span>
+                Update an artist
+                <br>
+                <br>
+                <input type="text" id="updateArtistNameField" name="updateArtistNameField" placeholder="Name" required>
+                <br>
+                <br>
+                <input type="button" id="updateArtistButton" value="Update">
+            </div>
+        </div>
+
+
+        <div class="deleteArtistModal">
+            <div class="modalContent">
+                <span class="close">
+                    &times;
+                </span>
+                Are you sure you want to delete <span id="artistNameDeleteMessage"></span>?
+                <br>
+                <br>
+                <input type="button" id="deleteArtistButtonYes" value="Yes">
+                <input type="button" id="deleteArtistButtonNo" value="No">
             </div>
         </div>
 
