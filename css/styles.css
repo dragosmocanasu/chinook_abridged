@@ -47,7 +47,8 @@ img.smallButton {
     cursor: pointer;
 }
 
-.addArtistModal, .updateArtistModal, .deleteArtistModal {
+.addArtistModal, .updateArtistModal, .deleteArtistModal, 
+.addAlbumModal, .updateAlbumModalm, .deleteAlbumModal {
     /* Hidden by default */
     display: none;
     /* Stay in place */

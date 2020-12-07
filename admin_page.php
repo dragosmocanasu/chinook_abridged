@@ -82,6 +82,58 @@
             </div>
         </div>
 
+        <div class="addAlbumModal">
+            <div class="modalContent">
+                <span class="close">
+                    &times;
+                </span>
+                Insert a new album
+                <br>
+                <br>
+                <input type="text" id="addAlbumTitleField" name="addAlbumTitleField" placeholder="Title" required>
+                <br>
+                <br>
+                <label for="addArtistDropdown">Choose an artist:</label>
+                <select name="addArtistDropdown" id="addArtistDropdown" required></select>
+                <br>
+                <br>
+                <input type="button" id="addAlbumButton" value="Add">
+            </div>
+        </div>
+
+        <div class="updateAlbumModal">
+            <div class="modalContent">
+                <span class="close">
+                    &times;
+                </span>
+                Update an album
+                <br>
+                <br>
+                <input type="text" id="updateAlbumTitleField" name="updateAlbumTitleField" placeholder="Title" required>
+                <br>
+                <br>
+                <label for="updateArtistDropdown">Choose another artist:</label>
+                <select name="updateArtistDropdown" id="updateArtistDropdown" required></select>
+                <br>
+                <br>
+                <input type="button" id="updateAlbumButton" value="Update">
+            </div>
+        </div>
+
+
+        <div class="deleteAlbumModal">
+            <div class="modalContent">
+                <span class="close">
+                    &times;
+                </span>
+                Are you sure you want to delete <span id="albumTitleDeleteMessage"></span>?
+                <br>
+                <br>
+                <input type="button" id="deleteAlbumButtonYes" value="Yes">
+                <input type="button" id="deleteAlbumButtonNo" value="No">
+            </div>
+        </div>
+
         <form action="login.php" method="POST" id="logoutForm">
             <input type="hidden" name="logout" value="logout">
             <input type="submit" id="logoutButton" value="Logout">
