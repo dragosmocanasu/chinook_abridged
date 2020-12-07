@@ -48,7 +48,8 @@ img.smallButton {
 }
 
 .addArtistModal, .updateArtistModal, .deleteArtistModal, 
-.addAlbumModal, .updateAlbumModalm, .deleteAlbumModal {
+.addAlbumModal, .updateAlbumModal, .deleteAlbumModal,
+.addTrackModal, .updateTrackModal, .deleteTrackModal {
     /* Hidden by default */
     display: none;
     /* Stay in place */
@@ -97,3 +98,7 @@ img.smallButton {
     text-decoration: none;
     cursor: pointer;
 }
+
+table, th, td {
+    border: 1px solid black;
+  }

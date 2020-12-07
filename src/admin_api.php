@@ -344,6 +344,93 @@
                         }
                         $track = null;
                         break;
+
+                        case 'mediatypes':
+                            require_once('mediatype.php');
+                            $mediaType = new MediaType();
+    
+                            $verb = $_SERVER['REQUEST_METHOD'];
+                            switch ($verb) {
+                                // Search for a mediatype
+                                case 'GET': 
+                                    if ($pieces < MAX_PIECES) {
+                                        if (!isset($_GET['name'])) {
+                                            // Fetch all
+                                            $results = $mediaType -> fetchAll();
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        } else {
+                                            // Fetch by name
+                                            $results = $mediaType -> search($_GET['name']);
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        }
+                                    } else {
+                                        // Fetch by id
+                                        $results = $mediaType -> get($urlPieces[ID]);
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Not found';
+                                            echo json_encode($response, http_response_code(404));
+                                        } else {
+                                            echo json_encode($results, http_response_code(200));
+                                        }
+                                    }
+                                    break;       
+                            }
+                            $mediaType = null;
+                            break;
+
+                            case 'genres':
+                                require_once('genre.php');
+                                $genre = new Genre();
+        
+                                $verb = $_SERVER['REQUEST_METHOD'];
+                                switch ($verb) {
+                                    // Search for a genre
+                                    case 'GET': 
+                                        if ($pieces < MAX_PIECES) {
+                                            if (!isset($_GET['name'])) {
+                                                // Fetch all
+                                                $results = $genre -> fetchAll();
+                                                if (empty($results)) {
+                                                    $response['Message'] = 'Not found';
+                                                    echo json_encode($response, http_response_code(404));
+                                                } else {
+                                                    echo json_encode($results, http_response_code(200));
+                                                }
+                                            } else {
+                                                // Fetch by name
+                                                $results = $genre -> search($_GET['name']);
+                                                if (empty($results)) {
+                                                    $response['Message'] = 'Not found';
+                                                    echo json_encode($response, http_response_code(404));
+                                                } else {
+                                                    echo json_encode($results, http_response_code(200));
+                                                }
+                                            }
+                                        } else {
+                                            // Fetch by id
+                                            $results = $genre -> get($urlPieces[ID]);
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        }
+                                        break;       
+                                }
+                                $genre = null;
+                                break;
+    
                     default:
                         echo formatError();
                 }
