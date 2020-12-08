@@ -35,7 +35,7 @@
       
         <br>
         <br>
-        <div id="results">
+        <div id="adminResults">
            
         </div>
 

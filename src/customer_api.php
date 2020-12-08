@@ -1,90 +1,263 @@
 <?php
     session_start();
-    if (!isset($_SESSION['userType']) || $_SESSION['userType'] !== 'customer') {
-        echo 'Customer not authenticated';
-    } else if (!isset($_POST['entity']) || !isset($_POST['action'])){
-        echo 'Entity and action not found';
-    } else {
-        $entity = $_POST['entity'];
-        $action = $_POST['action'];
+    
+    //if (!isset($_SESSION['userType']) || $_SESSION['userType'] !== 'customer') {
+        //echo 'Customer not authenticated';
+    //} else {
 
-        switch ($entity) {
-            case 'artists':
-                require_once('artist.php');
-                $artist = new Artist();
-                
-                switch($action) {
-                    case 'search':
-                        if (!isset($_POST['text'])) {
-                            echo 'Artist search could not be processed';
-                        } else {
-                            echo json_encode($artist -> search($_POST['text']));
-                        }
-                        break;
-                    case 'fetchAll':
-                        echo json_encode($artist -> search($_POST['']));
-                        break;
-                }
-                break;
-            case 'albums':
-                require_once('album.php');
-                $album = new Album();
-                
-                switch($action) {
-                    case 'search':
-                        if (!isset($_POST['text'])) {
-                            echo 'Album search could not be processed';
-                        } else {
-                            echo json_encode($album -> search($_POST['text']));
-                        }
-                        break;
-                    case 'fetchAll':
-                        echo json_encode($album -> search($_POST['']));
-                        break;
-                }
-                break;
-            case 'tracks':
-                require_once('track.php');
-                $track = new Track();
-                
-                switch($action) {
-                    case 'search':
-                        if (!isset($_POST['text'])) {
-                            echo 'Track search could not be processed';
-                        } else {
-                            echo json_encode($track -> search($_POST['text']));
-                        }
-                        break;
-                    case 'fetchAll':
-                        echo json_encode($track -> search($_POST['']));
-                        break;
-                }
-                break;
-            case 'customer':
-                require_once('customer.php');
-                $customer = new Customer();
+        define('ENTITY', 5);
+        define('ID', 6);
+        define('MAX_PIECES', 7);
 
-                switch($action) {
-                    case 'update':
-                        if (!isset($_POST['firstName']) || !isset($_POST['lastName']) || !isset($_POST['company']) || !isset($_POST['address']) || !isset($_POST['city'])
-                        || !isset($_POST['state']) || !isset($_POST['country']) || !isset($_POST['postalCode']) 
-                        || !isset($_POST['phone']) || !isset($_POST['fax']) || !isset($_POST['email']) || !isset($_POST['newPassword'])) {
-                            echo 'User creation could not be processed';
-                    } else {
-                        echo json_encode($customer -> update($_POST['firstName'], $_POST['lastName'], 
-                            $_POST['company'], $_POST['address'], $_POST['city'], $_POST['state'], $_POST['country'], 
-                                $_POST['postalCode'], $_POST['phone'], $_POST['fax'], $_POST['email'], $_POST['newPassword']));
+        // GET parameters are removed
+        $url = strtok($_SERVER['REQUEST_URI'], '?'); 
+
+        // If there is a trailing slash, it is removed, thus not being take into account by explode()
+        if (substr($url, strlen($url) - 1) ==  '/') {
+            $url = substr($url, 0, strlen($url) - 1);
+        }
+        $urlPieces = explode('/', urldecode($url));
+
+        header('Content-Type: application/json');
+        header('Accept-version: v1');
+
+        $pieces = count($urlPieces);
+        //echo $pieces;
+        //echo '<pre>';
+        //print_r($urlPieces);
+
+        if ($pieces == 5) {
+            echo 'For the API description, please chech the README file';
+        }   else {
+                if ($pieces > MAX_PIECES) {
+                    echo formatError();
+                } else {
+                    $entity = $urlPieces[ENTITY];
+                    switch ($entity) {
+                        case 'artists':
+                            require_once('artist.php');
+                            $artist = new Artist();
+
+                            $verb = $_SERVER['REQUEST_METHOD'];
+                            switch ($verb) {
+                                // Search for an artist
+                                case 'GET': 
+                                    if ($pieces < MAX_PIECES) {
+                                        if (!isset($_GET['name'])) {
+                                            // Fetch all
+                                            $results = $artist -> fetchAll();
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        } else {
+                                            // Fetch by name
+                                            $results = $artist -> search($_GET['name']);
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        }
+                                    } else {
+                                        // Fetch by id
+                                        $results = $artist -> get($urlPieces[ID]);
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Not found';
+                                            echo json_encode($response, http_response_code(404));
+                                        } else {
+                                            echo json_encode($results, http_response_code(200));
+                                        }
+                                    }
+                                    break;
+                            }
+                            $artist = null;
+                            break;
+
+                        case 'albums':
+                            require_once('album.php');
+                            $album = new Album();
+
+                            $verb = $_SERVER['REQUEST_METHOD'];
+                            switch ($verb) {
+                                // Search an album
+                                case 'GET':
+                                    if ($pieces < MAX_PIECES) {
+                                        if (!isset($_GET['title'])) {
+                                            // Fetch all
+                                            $results = $album -> fetchAll();
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        } else {
+                                            // Fetch by title
+                                            $results = $album -> search($_GET['title']);
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        }
+                                    } else {
+                                        // Fetch by id
+                                        $results = $album -> get($urlPieces[ID]);
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Not found';
+                                            echo json_encode($response, http_response_code(404));
+                                        } else {
+                                            echo json_encode($results, http_response_code(200));
+                                        }
+                                    }
+                                    break;
+                            }
+                            $album = null;
+                            break;
+
+                        case 'tracks':
+                        require_once('track.php');
+                            $track = new Track();
+
+                            $verb = $_SERVER['REQUEST_METHOD'];
+                            switch ($verb) {
+                                // Search for a track
+                                case 'GET':
+                                    if ($pieces < MAX_PIECES) {
+                                        if (!isset($_GET['name'])) {
+                                            // Fetch all
+                                            $results = $track -> fetchAll();
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        } else {
+                                            // Fetch by name
+                                            $results = $track -> search($_GET['name']);
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        }
+                                    } else {
+                                        // Fetch by id
+                                        $results = $track -> get($urlPieces[ID]);
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Not found';
+                                            echo json_encode($response, http_response_code(404));
+                                        } else {
+                                            echo json_encode($results, http_response_code(200));
+                                        }
+                                    }
+                                    break;
+                            }
+                            $track = null;
+                            break;
+
+                            case 'mediatypes':
+                                require_once('mediatype.php');
+                                $mediaType = new MediaType();
+        
+                                $verb = $_SERVER['REQUEST_METHOD'];
+                                switch ($verb) {
+                                    // Search for a mediatype
+                                    case 'GET': 
+                                        if ($pieces < MAX_PIECES) {
+                                            if (!isset($_GET['name'])) {
+                                                // Fetch all
+                                                $results = $mediaType -> fetchAll();
+                                                if (empty($results)) {
+                                                    $response['Message'] = 'Not found';
+                                                    echo json_encode($response, http_response_code(404));
+                                                } else {
+                                                    echo json_encode($results, http_response_code(200));
+                                                }
+                                            } else {
+                                                // Fetch by name
+                                                $results = $mediaType -> search($_GET['name']);
+                                                if (empty($results)) {
+                                                    $response['Message'] = 'Not found';
+                                                    echo json_encode($response, http_response_code(404));
+                                                } else {
+                                                    echo json_encode($results, http_response_code(200));
+                                                }
+                                            }
+                                        } else {
+                                            // Fetch by id
+                                            $results = $mediaType -> get($urlPieces[ID]);
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        }
+                                        break;       
+                                }
+                                $mediaType = null;
+                                break;
+
+                                case 'genres':
+                                    require_once('genre.php');
+                                    $genre = new Genre();
+            
+                                    $verb = $_SERVER['REQUEST_METHOD'];
+                                    switch ($verb) {
+                                        // Search for a genre
+                                        case 'GET': 
+                                            if ($pieces < MAX_PIECES) {
+                                                if (!isset($_GET['name'])) {
+                                                    // Fetch all
+                                                    $results = $genre -> fetchAll();
+                                                    if (empty($results)) {
+                                                        $response['Message'] = 'Not found';
+                                                        echo json_encode($response, http_response_code(404));
+                                                    } else {
+                                                        echo json_encode($results, http_response_code(200));
+                                                    }
+                                                } else {
+                                                    // Fetch by name
+                                                    $results = $genre -> search($_GET['name']);
+                                                    if (empty($results)) {
+                                                        $response['Message'] = 'Not found';
+                                                        echo json_encode($response, http_response_code(404));
+                                                    } else {
+                                                        echo json_encode($results, http_response_code(200));
+                                                    }
+                                                }
+                                            } else {
+                                                // Fetch by id
+                                                $results = $genre -> get($urlPieces[ID]);
+                                                if (empty($results)) {
+                                                    $response['Message'] = 'Not found';
+                                                    echo json_encode($response, http_response_code(404));
+                                                } else {
+                                                    echo json_encode($results, http_response_code(200));
+                                                }
+                                            }
+                                            break;       
+                                    }
+                                    $genre = null;
+                                    break;
+        
+                        default:
+                            echo formatError();
                     }
-                        break;
-                    break;
                 }
-                break;
-            case 'session':
-                switch($action) {
-                    case 'destroy':
-                        session_destroy();
-                        break;
-                }
-        }  
+            }
+    //}
+
+    function formatError() {
+        $output['Message'] = 'Incorrect format';
+        return json_encode($output, http_response_code(400));
     }
 ?>
