@@ -371,6 +371,8 @@ $('document').ready(function () {
                      $('#updateArtistDropdown').empty();
                     // Save the ID of the clicked item
                     let itemId = this.id;
+                    // Save the ID of the artist
+                    let artistId = $(this).attr("artistId");
                     // Show modal
                     updateAlbumModal.show();
                     // Close if user clicks on X
@@ -406,6 +408,9 @@ $('document').ready(function () {
                                             'text': data[i].Name
                                         }).appendTo($('#updateArtistDropdown'));
                                     }
+                                    // Select the correct value from the artist dropdown
+                                    $('#updateArtistDropdown').val(artistId);
+
                                     // Unbind and bind the click event to the button
                                     $('#updateAlbumButton').off('click');
                                     $('#updateAlbumButton').on('click', function(e) {
@@ -688,6 +693,10 @@ $('document').ready(function () {
                      $('#updateGenreDropdown').empty();
                     // Save the ID of the clicked item
                     let itemId = this.id;
+                    // Save all of the foreign key Ids
+                    let albumId = $(this).attr("albumId");
+                    let mediaTypeId = $(this).attr("mediaTypeId");
+                    let genreId = $(this).attr("genreId");
                     // Show modal
                     updateTrackModal.show();
                     // Close if user clicks on X
@@ -757,6 +766,11 @@ $('document').ready(function () {
                                                                 'text': data[i].Name
                                                             }).appendTo($('#updateGenreDropdown'));
                                                         }
+                                                        // Select all the correct value from all the dropdowns
+                                                        $('#updateAlbumDropdown').val(albumId);
+                                                        $('#updateMediaTypeDropdown').val(mediaTypeId);
+                                                        $('#updateGenreDropdown').val(genreId);
+
                                                         // Unbind and bind the click event to the button
                                                         $('#updateTrackButton').off('click');
                                                         $('#updateTrackButton').on('click', function(e) {
