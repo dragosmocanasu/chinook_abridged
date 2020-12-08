@@ -13,7 +13,7 @@
         </header>
         <div class="adminRadioGroup">
             <label>
-                <input type="radio" name="adminRadioGroup" class="radio" id="artistsRadio" value="artists" checked> Artists
+                <input type="radio" name="adminRadioGroup" class="radio" id="artistsRadio" value="artists"> Artists
             </label>
             <br>
             <label>
@@ -78,8 +78,8 @@
                 Are you sure you want to delete <span id="artistNameDeleteMessage"></span>?
                 <br>
                 <br>
-                <input type="button" id="deleteArtistButtonYes" value="Yes">
                 <input type="button" id="deleteArtistButtonNo" value="No">
+                <input type="button" id="deleteArtistButtonYes" value="Yes">
             </div>
         </div>
 
@@ -130,8 +130,8 @@
                 Are you sure you want to delete <span id="albumTitleDeleteMessage"></span>?
                 <br>
                 <br>
-                <input type="button" id="deleteAlbumButtonYes" value="Yes">
                 <input type="button" id="deleteAlbumButtonNo" value="No">
+                <input type="button" id="deleteAlbumButtonYes" value="Yes">
             </div>
         </div>
 
@@ -221,8 +221,8 @@
                 Are you sure you want to delete <span id="trackNameDeleteMessage"></span>?
                 <br>
                 <br>
-                <input type="button" id="deleteTrackButtonYes" value="Yes">
                 <input type="button" id="deleteTrackButtonNo" value="No">
+                <input type="button" id="deleteTrackButtonYes" value="Yes">
             </div>
         </div>
 

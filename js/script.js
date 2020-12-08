@@ -12,8 +12,6 @@ $('document').ready(function () {
     const updateTrackModal = $('div.updateTrackModal');
     const deleteTrackModal = $('div.deleteTrackModal');
 
-    const spanClose = $('span.close');
-
     // Hide modals from the user
     addArtistModal.hide();
     updateArtistModal.hide();
@@ -27,11 +25,14 @@ $('document').ready(function () {
     updateTrackModal.hide();
     deleteTrackModal.hide();
 
+    hideButtons();
+    const spanClose = $('span.close');
+
     $('.radio').change(function () {
         let radioValue = $('input[name="adminRadioGroup"]:checked').val();
         switch (radioValue) {
             case 'artists': 
-                $('#fetchAllButton').show();
+                showButtons();
                 // Search API call
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) { 
@@ -247,7 +248,7 @@ $('document').ready(function () {
                     break;           
 
             case 'albums':
-                $('#fetchAllButton').show();
+                showButtons();
                 // Search API call
                 // Unbind and bind the click event to the button
                 $('#searchButton').off('click');
@@ -372,7 +373,7 @@ $('document').ready(function () {
                     // Save the ID of the clicked item
                     let itemId = this.id;
                     // Save the ID of the artist
-                    let artistId = $(this).attr("artistId");
+                    let artistId = $(this).attr('artistId');
                     // Show modal
                     updateAlbumModal.show();
                     // Close if user clicks on X
@@ -516,7 +517,7 @@ $('document').ready(function () {
                 break;
 
             case 'tracks':
-                $('#fetchAllButton').hide();
+                showButtons();
                 // Search API call
                 // Unbind and bind the click event to the button
                 $('#searchButton').off('click');
@@ -541,7 +542,9 @@ $('document').ready(function () {
                             $('div#results').html('<br>There is no data matching the entered text.');
                         })
                 });
+                $('#fetchAllButton').hide();
                 /*
+                * Fetch all functionality
                 * On Chrome does not load all data -> ERR_INSUFFICIENT_RESOURCES
                 * Works fine on Firefox
                 // Fetch all API call
@@ -694,9 +697,9 @@ $('document').ready(function () {
                     // Save the ID of the clicked item
                     let itemId = this.id;
                     // Save all of the foreign key Ids
-                    let albumId = $(this).attr("albumId");
-                    let mediaTypeId = $(this).attr("mediaTypeId");
-                    let genreId = $(this).attr("genreId");
+                    let albumId = $(this).attr('albumId');
+                    let mediaTypeId = $(this).attr('mediaTypeId');
+                    let genreId = $(this).attr('genreId');
                     // Show modal
                     updateTrackModal.show();
                     // Close if user clicks on X
@@ -901,3 +904,17 @@ $('document').ready(function () {
         }
     });
 });
+
+function showButtons() {
+    $('#searchField').show();
+    $('#searchButton').show();
+    $('#fetchAllButton').show();
+    $('#addButton').show();
+}
+
+function hideButtons() {
+    $('#searchField').hide();
+    $('#searchButton').hide();
+    $('#fetchAllButton').hide();
+    $('#addButton').hide();
+}
