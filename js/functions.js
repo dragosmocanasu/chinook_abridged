@@ -158,8 +158,7 @@ function displayArtistsCustomer(artistData) {
     const header = $('<thead />');
     const headerRow = $('<tr />');
     headerRow.
-        append($('<th />', { 'text': 'Name'})).
-        append($('<th />', { 'class': 'action'}))
+        append($('<th />', { 'text': 'Name'}))
     header.append(headerRow);
     table.append(header);
 
@@ -168,8 +167,7 @@ function displayArtistsCustomer(artistData) {
         const row = $('<tr />');
         const artistId = artistData[i].ArtistId;
         row.
-            append($('<td />', { 'text': artistData[i].Name})).
-            append($("<td />", { 'html': "<img id='" + artistId + "' class='smallButton addToCartArtist' src='img/add-to-cart.png'>", 'class': 'action'}))
+            append($('<td />', { 'text': artistData[i].Name}))
         tableBody.append(row);
     }
     table.append(tableBody);
@@ -185,8 +183,7 @@ function displayAlbumsCustomer(albumData) {
     const headerRow = $('<tr />');
     headerRow.
         append($('<th />', { 'text': 'Title'})).
-        append($('<th />', { 'text': 'Artist'})).
-        append($('<th />', { 'class': 'action'}))
+        append($('<th />', { 'text': 'Artist'}))
     header.append(headerRow);
     table.append(header);
 
@@ -205,8 +202,7 @@ function displayAlbumsCustomer(albumData) {
                 artistName = data.Name;
                 row.
                     append($('<td />', { 'text': albumTitle})).
-                    append($('<td />', { 'text': artistName})).
-                    append($("<td />", { 'html': "<img id='" + albumId + "' artistId='" + artistId + "' class='smallButton addToCartAlbum' src='img/add-to-cart.png'>", 'class': 'action'}))
+                    append($('<td />', { 'text': artistName}))
                 tableBody.append(row);
             })
             .fail (function(data) {

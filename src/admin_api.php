@@ -85,7 +85,7 @@
                                                 $response['Message'] = 'Artist exists already';
                                                 echo json_encode($response, http_response_code(409));
                                             } else if ($results === -1) {
-                                                echo 'Database could not process your request';
+                                                echo json_encode('Database could not process your request', http_response_code(400));
                                                 } else {
                                                         $response['Message'] = "Created with id $results";
                                                         echo json_encode($response, http_response_code(201));
@@ -109,7 +109,7 @@
                                                 $response['Message'] = 'Artist does not exist / update data is the same';
                                                 echo json_encode($response, http_response_code(400));
                                         } else if($results === -1) {
-                                            echo 'Database could not process your request';
+                                            echo json_encode('Database could not process your request', http_response_code(400));
                                             } else {
                                                     $response['Message'] = 'Updated';
                                                     echo json_encode($response, http_response_code(200));
@@ -127,7 +127,7 @@
                                             $response['Message'] = 'Artist does not exist';
                                             echo json_encode($response, http_response_code(400));
                                         } else if ($results === -1) {
-                                            echo 'Database could not process your request';
+                                            echo json_encode('Database could not process your request', http_response_code(400));
                                             } else {
                                                 $response['Message'] = 'Deleted';
                                                 echo json_encode($response, http_response_code(200));
@@ -189,7 +189,7 @@
                                                 $response['Message'] = 'Album exists already for this artist';
                                                 echo json_encode($response, http_response_code(409));
                                             } else if ($results === -1) {
-                                                echo 'Database could not process your request';
+                                                echo json_encode('Database could not process your request', http_response_code(400));
                                                 } else {
                                                         $response['Message'] = "Created with id $results";
                                                         echo json_encode($response, http_response_code(201));
@@ -213,7 +213,7 @@
                                                 $response['Message'] = 'Album does not exist / update data is the same';
                                                 echo json_encode($response, http_response_code(400));
                                         } else if($results === -1) {
-                                            echo 'Database could not process your request';
+                                            echo json_encode('Database could not process your request', http_response_code(400));
                                             } else {
                                                     $response['Message'] = 'Updated';
                                                     echo json_encode($response, http_response_code(200));
@@ -231,7 +231,7 @@
                                             $response['Message'] = 'Album does not exist';
                                             echo json_encode($response, http_response_code(400));
                                         } else if ($results === -1) {
-                                            echo 'Database could not process your request';
+                                            echo json_encode('Database could not process your request', http_response_code(400));
                                             } else {
                                                 $response['Message'] = 'Deleted';
                                                 echo json_encode($response, http_response_code(200));
@@ -294,7 +294,7 @@
                                                     $response['Message'] = 'Track exists already for this album';
                                                     echo json_encode($response, http_response_code(409));
                                                 } else if ($results === -1) {
-                                                    echo 'Database could not process your request';
+                                                    echo json_encode('Database could not process your request', http_response_code(400));
                                                 } else {
                                                     $response['Message'] = "Created with id $results";
                                                     echo json_encode($response, http_response_code(201));
@@ -317,7 +317,7 @@
                                                 $response['Message'] = 'Track does not exist / update data is the same';
                                                 echo json_encode($response, http_response_code(400));
                                         } else if($results === -1) {
-                                            echo 'Database could not process your request';
+                                            echo json_encode('Database could not process your request', http_response_code(400));
                                             } else {
                                                     $response['Message'] = 'Updated';
                                                     echo json_encode($response, http_response_code(200));
@@ -333,7 +333,7 @@
                                             $response['Message'] = 'Track does not exist';
                                             echo json_encode($response, http_response_code(400));
                                         } else if ($results === -1) {
-                                            echo 'Database could not process your request';
+                                            echo json_encode('Database could not process your request', http_response_code(400));
                                             } else {
                                                 $response['Message'] = 'Deleted';
                                                 echo json_encode($response, http_response_code(200));

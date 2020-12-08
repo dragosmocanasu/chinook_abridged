@@ -38,12 +38,12 @@
            
         </div>
 
-        <div class="updateTrackModal">
+        <div class="updateUserModal">
             <div class="modalContent">
                 <span class="close">
                     &times;
                 </span>
-                Update a track
+                Update your user information
                 <br>
                 <br>
                 <input type="text" id="updateTrackNameField" name="updateTrackNameField" placeholder="Name" required>
@@ -73,9 +73,12 @@
                 <input type="number" id="updateTrackUnitPriceField" name="updateTrackUnitPriceField" placeholder="Unit Price" required>
                 <br>
                 <br>
-                <input type="button" id="updateTrackButton" value="Update">
+                <input type="button" id="updateUserButton" value="Update">
             </div>
         </div>
+
+        <!--<img id='" + albumId + "' artistId='" + artistId + "' class='smallButton addToCartAlbum' src='img/add-to-cart.png'>", 'class': 'action'}))-->
+        <img class='smallButton editUser' src='img/user.png'>
 
         <form action="login.php" method="POST" id="logoutForm">
             <input type="hidden" name="logout" value="logout">

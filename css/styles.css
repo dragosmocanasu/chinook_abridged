@@ -28,8 +28,14 @@ footer {
 
 #logoutForm {
     position:absolute;
-    top:0;
-    right:0;
+    top:5px;
+    right:5px;
+}
+
+img.editUser {
+    position:absolute;
+    top:5px;
+    right:70px;
 }
 
 img.smallButton {
@@ -49,7 +55,8 @@ img.smallButton {
 
 .addArtistModal, .updateArtistModal, .deleteArtistModal, 
 .addAlbumModal, .updateAlbumModal, .deleteAlbumModal,
-.addTrackModal, .updateTrackModal, .deleteTrackModal {
+.addTrackModal, .updateTrackModal, .deleteTrackModal,
+.updateUserModal {
     /* Hidden by default */
     display: none;
     /* Stay in place */

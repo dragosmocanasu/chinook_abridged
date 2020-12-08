@@ -12,6 +12,8 @@ $('document').ready(function () {
     const updateTrackModal = $('div.updateTrackModal');
     const deleteTrackModal = $('div.deleteTrackModal');
 
+    const updateUserModal = $('div.updateUserModal');
+
     // Hide modals from the user
     addArtistModal.hide();
     updateArtistModal.hide();
@@ -24,6 +26,8 @@ $('document').ready(function () {
     addTrackModal.hide();
     updateTrackModal.hide();
     deleteTrackModal.hide();
+
+    updateUserModal.hide();
 
     // Hide buttons so that they are created when the user clicks on a radio button
     hideButtons();
@@ -241,7 +245,7 @@ $('document').ready(function () {
                                         $('#searchField').val('');
                                     })
                                     .fail (function(data) {
-                                        alert(data.responseJSON.Message);
+                                        alert(data.responseText);
                                     })
                             }) 
                         })
@@ -372,8 +376,8 @@ $('document').ready(function () {
 
                 // Update API call 
                 $(document).on('click', 'img.editAlbum', function(e) {
-                     // Clear the dropdown
-                     $('#updateArtistDropdown').empty();
+                    // Clear the dropdown
+                    $('#updateArtistDropdown').empty();
                     // Save the ID of the clicked item
                     let itemId = this.id;
                     // Save the ID of the artist
@@ -907,6 +911,8 @@ $('document').ready(function () {
                 $('div#adminResults').html('<br>There is no data matching the entered text.');
         }
     });
+    
+    // ------------------------------------------------------------------------------------------
 
     // Functionality for the customer
     $('.customerRadioGroup').change(function () {
@@ -1055,6 +1061,93 @@ $('document').ready(function () {
         }
     });
 
+    // Update API call 
+    $(document).on('click', 'img.editUser', function(e) {
+        // Clear the dropdown
+        $('#updateUserDropdown').empty();
+        // Save the ID of the clicked item
+        let itemId = this.id;
+        // Show modal
+        updateUserModal.show();
+        // Close if user clicks on X
+        spanClose.on('click', (function (e) {
+            updateUserModal.css('display', 'none');
+        }));
+        // Close if user hits Escape key
+        $(document).on('keydown', function (event) {
+            if (event.key == 'Escape') {
+                updateUserModal.css('display', 'none');
+            }
+        });
+        
+        // GET ajax call to fetch user details by id
+        $.ajax({
+            url: 'src/admin_api.php/albums' + '/' + itemId,
+            type: 'GET'
+        })
+            .done (function(data) {
+                // Populate the field with the title of the item
+                $('#updateAlbumTitleField').val(data.Title);
+
+                $.ajax({
+                    url: 'src/admin_api.php/artists',
+                    type: 'GET'
+                })
+                    .done (function(data) {
+                        // Populate the dropdown with all the artists
+                        // Each option has the Id of the artist and the HTML text is the name of the artist
+                        for (let i = 0; i < data.length; i ++) {
+                            $('<option />', {
+                                'value': data[i].ArtistId,
+                                'text': data[i].Name
+                            }).appendTo($('#updateArtistDropdown'));
+                        }
+                        // Select the correct value from the artist dropdown
+                        $('#updateArtistDropdown').val(artistId);
+
+                        // Unbind and bind the click event to the button
+                        $('#updateAlbumButton').off('click');
+                        $('#updateAlbumButton').on('click', function(e) {
+                            // Title cannot be empty
+                            if (!$('#updateAlbumTitleField').val()) {
+                                alert('Title cannot be empty');
+                            } else if (!$('#updateArtistDropdown').val()) {
+                                alert('You have to choose an artist');
+                            } else {
+                                // Body needs to be raw JSON
+                                let body = {
+                                    'title': $('#updateAlbumTitleField').val(),
+                                    'artistId': $('#updateArtistDropdown').val()
+                                }
+                                $.ajax({
+                                    url: 'src/admin_api.php/albums'+ '/' + itemId,
+                                    type: 'PUT',
+                                    data: JSON.stringify(body)
+                                })
+                                    .done (function(data) {
+                                        alert(data.Message);
+                                        // Hide the modal after update
+                                        updateAlbumModal.css('display', 'none');
+                                        // Clear the results
+                                        $('div#adminResults').empty();
+                                        // Clear the search field
+                                        $('#searchField').val('');
+                                    })
+                                    .fail (function(data) {
+                                        alert(data.responseJSON.Message);
+                                    })
+                            }
+                        }) 
+                    })
+                    .fail (function(data) {
+                        alert(data.responseJSON.Message);
+                    })
+            })
+            .fail (function(data) {
+                alert(data.responseJSON.Message);
+            })
+    }); 
+    
 });
 
 function showButtons() {
