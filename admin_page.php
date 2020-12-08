@@ -13,7 +13,7 @@
         </header>
         <div class="adminRadioGroup">
             <label>
-                <input type="radio" name="adminRadioGroup" class="radio" id="artistsRadio" value="artists"> Artists
+                <input type="radio" name="adminRadioGroup" class="radio" id="artistsRadio" value="artists" checked> Artists
             </label>
             <br>
             <label>
