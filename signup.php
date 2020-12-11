@@ -9,7 +9,7 @@
     </header>
     <main>
     
-        <div id="signupForm">
+        <form id="signupForm" method="POST">
                 <fieldset>
                     <legend>
                         Sign up
@@ -65,7 +65,7 @@
                     <input type="submit" id="signupButton" value="Signup">   
                     <input type="button" id="signupBackButton" value="Back">  
                 </fieldset>
-        </div> 
+        </form> 
     </main>
     <?php
     require_once('footer.htm');

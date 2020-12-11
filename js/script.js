@@ -1144,8 +1144,8 @@ $('document').ready(function () {
     });      
 
     // User signup
-    $('#singupButton').off('click');
-    $('#signupButton').on('click', function(e) {
+    $('#signupForm').on('submit', function(e) {
+        e.preventDefault();
         // Mandatory fields cannot be empty
         if (!$('#signupFirstNameField').val() || !$('#signupLastNameField').val() || !$('#signupAddressField').val() ||
             !$('#signupCityField').val() || !$('#signupCountryField').val() || !$('#signupPhoneField').val() || !$('#signupEmailField').val() ||
