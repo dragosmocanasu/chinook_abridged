@@ -48,18 +48,7 @@
             session_start();
 
             $_SESSION['userType'] = 'customer';
-            $_SESSION['FirstName'] = $customer -> FirstName;
-            $_SESSION['LastName'] = $customer -> LastName;
-            $_SESSION['Password'] = $customer -> Password;
-            $_SESSION['Company'] = $customer -> Company;
-            $_SESSION['Address'] = $customer -> Address;
-            $_SESSION['City'] = $customer -> City;
-            $_SESSION['State'] = $customer -> State;
-            $_SESSION['Country'] = $customer -> Country;
-            $_SESSION['PostalCode'] = $customer -> PostalCode;
-            $_SESSION['Phone'] = $customer -> Phone;
-            $_SESSION['Fax'] = $customer -> Fax;
-            $_SESSION['Email'] = $customer -> Email;
+            $_SESSION['userId'] = $customer -> CustomerId;
             header('Location: customer_page.php');
         }
     }

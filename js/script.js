@@ -35,7 +35,7 @@ $('document').ready(function () {
     // Save the close button of the modals
     const spanClose = $('span.close');
 
-    // Functionality for the admin
+    // Admin radio group functionality
     $('.adminRadioGroup').change(function () {
         let radioValue = $('input[name="adminRadioGroup"]:checked').val();
         switch (radioValue) {
@@ -245,7 +245,7 @@ $('document').ready(function () {
                                         $('#searchField').val('');
                                     })
                                     .fail (function(data) {
-                                        alert(data.responseText);
+                                        alert(data.responseJSON.Message);
                                     })
                             }) 
                         })
@@ -513,7 +513,7 @@ $('document').ready(function () {
                                         $('#searchField').val('');
                                     })
                                     .fail (function(data) {
-                                        alert(data.responseText);
+                                        alert(data.responseJSON.Message);
                                     })
                             }) 
                         })
@@ -897,7 +897,7 @@ $('document').ready(function () {
                                         $('#searchField').val('');
                                     })
                                     .fail (function(data) {
-                                        alert(data.responseText);
+                                        alert(data.responseJSON.Message);
                                     })
                             }) 
                         })
@@ -914,7 +914,7 @@ $('document').ready(function () {
     
     // ------------------------------------------------------------------------------------------
 
-    // Functionality for the customer
+    // Customer radio group functionality
     $('.customerRadioGroup').change(function () {
         let radioValue = $('input[name="customerRadioGroup"]:checked').val();
         switch (radioValue) {
@@ -1061,10 +1061,8 @@ $('document').ready(function () {
         }
     });
 
-    // Update API call 
+    // Update user data
     $(document).on('click', 'img.editUser', function(e) {
-        // Clear the dropdown
-        $('#updateUserDropdown').empty();
         // Save the ID of the clicked item
         let itemId = this.id;
         // Show modal
@@ -1080,74 +1078,127 @@ $('document').ready(function () {
             }
         });
         
-        // GET ajax call to fetch user details by id
+        // GET ajax call to fetch all details by id
         $.ajax({
-            url: 'src/admin_api.php/albums' + '/' + itemId,
-            type: 'GET'
+            url: 'src/customer_api.php/users' + '/' + itemId,
+            type: 'GET',
         })
             .done (function(data) {
-                // Populate the field with the title of the item
-                $('#updateAlbumTitleField').val(data.Title);
+                // Populate all the fields with the data received
+                $('#updateUserFirstNameField').val(data.FirstName);
+                $('#updateUserLastNameField').val(data.LastName);
+                $('#updateUserAddressField').val(data.Address);
+                $('#updateUserPostalCodeField').val(data.PostalCode);
+                $('#updateUserCompanyField').val(data.Company);
+                $('#updateUserCityField').val(data.City);
+                $('#updateUserStateField').val(data.State);
+                $('#updateUserCountryField').val(data.Country);
+                $('#updateUserPhoneField').val(data.Phone);
+                $('#updateUserFaxField').val(data.Fax);
+                $('#updateUserEmailField').val(data.Email);
+                $('#updateUserPasswordField').val('');
 
-                $.ajax({
-                    url: 'src/admin_api.php/artists',
-                    type: 'GET'
-                })
-                    .done (function(data) {
-                        // Populate the dropdown with all the artists
-                        // Each option has the Id of the artist and the HTML text is the name of the artist
-                        for (let i = 0; i < data.length; i ++) {
-                            $('<option />', {
-                                'value': data[i].ArtistId,
-                                'text': data[i].Name
-                            }).appendTo($('#updateArtistDropdown'));
+                // Unbind and bind the click event to the button
+                $('#updateUserButton').off('click');
+                $('#updateUserButton').on('click', function(e) {
+                    // Mandatory fields cannot be empty
+                    if (!$('#updateUserFirstNameField').val() || !$('#updateUserLastNameField').val() || 
+                        !$('#updateUserAddressField').val() || !$('#updateUserCityField').val() || !$('#updateUserCountryField').val() || 
+                        !$('#updateUserPhoneField').val() || !$('#updateUserEmailField').val()) {
+                        alert('All fields marked with * are mandatory');
+                    } else {
+                        // Body needs to be raw JSON
+                        let body = {
+                            'firstName': $('#updateUserFirstNameField').val(),
+                            'lastName': $('#updateUserLastNameField').val(),
+                            'address': $('#updateUserAddressField').val(),
+                            'postalCode': $('#updateUserPostalCodeField').val(),
+                            'company': $('#updateUserCompanyField').val(),
+                            'city': $('#updateUserCityField').val(),
+                            'state': $('#updateUserStateField').val(),
+                            'country': $('#updateUserCountryField').val(),
+                            'phone': $('#updateUserPhoneField').val(),
+                            'fax': $('#updateUserFaxField').val(),
+                            'email': $('#updateUserEmailField').val(),
+                            'password': $('#updateUserPasswordField').val()
                         }
-                        // Select the correct value from the artist dropdown
-                        $('#updateArtistDropdown').val(artistId);
-
-                        // Unbind and bind the click event to the button
-                        $('#updateAlbumButton').off('click');
-                        $('#updateAlbumButton').on('click', function(e) {
-                            // Title cannot be empty
-                            if (!$('#updateAlbumTitleField').val()) {
-                                alert('Title cannot be empty');
-                            } else if (!$('#updateArtistDropdown').val()) {
-                                alert('You have to choose an artist');
-                            } else {
-                                // Body needs to be raw JSON
-                                let body = {
-                                    'title': $('#updateAlbumTitleField').val(),
-                                    'artistId': $('#updateArtistDropdown').val()
-                                }
-                                $.ajax({
-                                    url: 'src/admin_api.php/albums'+ '/' + itemId,
-                                    type: 'PUT',
-                                    data: JSON.stringify(body)
-                                })
-                                    .done (function(data) {
-                                        alert(data.Message);
-                                        // Hide the modal after update
-                                        updateAlbumModal.css('display', 'none');
-                                        // Clear the results
-                                        $('div#adminResults').empty();
-                                        // Clear the search field
-                                        $('#searchField').val('');
-                                    })
-                                    .fail (function(data) {
-                                        alert(data.responseJSON.Message);
-                                    })
-                            }
-                        }) 
-                    })
-                    .fail (function(data) {
-                        alert(data.responseJSON.Message);
-                    })
+                        $.ajax({
+                            url: 'src/customer_api.php/users'+ '/' + itemId,
+                            type: 'PUT',
+                            data: JSON.stringify(body)
+                        })
+                            .done (function(data) {
+                                alert(data.Message);
+                                // Hide the modal after update
+                                updateUserModal.css('display', 'none');
+                            })
+                            .fail (function(data) {
+                                alert(data.responseJSON.Message);
+                            })
+                    }
+                }) 
             })
             .fail (function(data) {
                 alert(data.responseJSON.Message);
             })
-    }); 
-    
+    });      
+
+    // User signup
+    $('#singupButton').off('click');
+    $('#signupButton').on('click', function(e) {
+        // Mandatory fields cannot be empty
+        if (!$('#signupFirstNameField').val() || !$('#signupLastNameField').val() || !$('#signupAddressField').val() ||
+            !$('#signupCityField').val() || !$('#signupCountryField').val() || !$('#signupPhoneField').val() || !$('#signupEmailField').val() ||
+            !$('#signupPasswordField').val()) {
+                alert('All fields marked with * are mandatory');
+        } else {
+            $.ajax({
+                url: 'src/customer_api.php/users',
+                type: 'POST',
+                data: {
+                    firstName: $('#signupFirstNameField').val(),
+                    lastName: $('#signupLastNameField').val(),
+                    address: $('#signupAddressField').val(), 
+                    postalCode: $('#signupPostalCodeField').val(), 
+                    company: $('#signupCompanyField').val(), 
+                    city: $('#signupCityField').val(), 
+                    state: $('#signupStateField').val(), 
+                    country: $('#signupCountryField').val(), 
+                    phone: $('#signupPhoneField').val(), 
+                    fax: $('#signupFaxField').val(), 
+                    email: $('#signupEmailField').val(), 
+                    password: $('#signupPasswordField').val()
+                }
+            })
+                .done (function(data) {
+                    // Alert that the user was created
+                    alert('Account created successfully');
+                    // Redirect to login
+                    window.location.href = 'login.php';
+                    // Clear all fields
+                    $('#signupFirstNameField').val('');
+                    $('#signupLastNameField').val('');
+                    $('#signupAddressField').val('');
+                    $('#signupPostalCodeField').val('');
+                    $('#signupCompanyField').val('');
+                    $('#signupCityField').val('');
+                    $('#signupStateField').val('');
+                    $('#signupCountryField').val('');
+                    $('#signupPhoneField').val('');
+                    $('#signupFaxField').val('');
+                    $('#signupEmailField').val('');
+                    $('#signupPasswordField').val('');
+                })
+                .fail (function(data) {
+                    alert(data.responseJSON.Message);
+                })
+        }
+    });
+
+    $('#signupBackButton').off('click');
+    $('#signupBackButton').on('click', function(e) {
+        window.location.href = 'login.php';
+    });
 });
 
 function showButtons() {

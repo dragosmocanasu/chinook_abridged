@@ -3,6 +3,10 @@
     text-align: center;
 }   
 
+.center {
+    text-align: center;
+}
+
 footer {
     position: fixed;
     bottom: 0px;
@@ -20,10 +24,9 @@ footer {
     text-align: center;
 }
 
-#mandatoryFields {
+#mandatoryFieldsUpdate {
     font-style: italic;
-    color: red;
-    text-align: center;
+    color: grey;
 }
 
 #logoutForm {

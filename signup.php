@@ -1,32 +1,5 @@
 <?php 
     require_once('head.htm');
-    $showForm = true;
-
-    // New user
-    if (isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_POST['password'])
-        && isset($_POST['address']) && isset($_POST['city']) && isset($_POST['country']) 
-        && isset($_POST['phone']) && isset($_POST['email'])) {
-        $showForm = false;
-
-        require_once('src/customer.php');
-        
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
-        $password = $_POST['password'];
-        $company = $_POST['company'] ?? '';
-        $address = $_POST['address'];
-        $city = $_POST['city'];
-        $state = $_POST['state'] ?? '';
-        $country = $_POST['country'];
-        $postalCode = $_POST['postalCode'] ?? '';
-        $phone = $_POST['phone'];
-        $fax = $_POST['fax'] ?? '';
-        $email = $_POST['email'];
-
-        $customer = new Customer();
-        $customerCreated = $customer -> create($firstName, $lastName, $password, $company, $address, 
-            $city, $state, $country, $postalCode, $phone, $fax, $email);
-    }
 ?>
 <body>
     <header>
@@ -35,91 +8,64 @@
         </h1>
     </header>
     <main>
-        <?php 
-            if ($showForm) {
-        ?>
-        <form action="signup.php" method="POST" id="signupForm">
+    
+        <div id="signupForm">
                 <fieldset>
                     <legend>
                         Sign up
                     </legend>
-                    <label for="firstNameField">First Name*</label>
-                    <input type="text" id="firstNameField" name="firstName" required>
+                    <label for="signupFirstNameField">First Name*</label>
+                    <input type="text" id="signupFirstNameField" name="signupFirstNameField" maxlength="40" required>
                     <br>
                     <br>
-                    <label for="lastNameField">Last Name*</label>
-                    <input type="text" id="lastNameField" name="lastName" required>
+                    <label for="signupLastNameField">Last Name*</label>
+                    <input type="text" id="signupLastNameField" name="signupLastNameField" maxlength="20" required>
                     <br>
                     <br>
-                    <label for="addressField">Address*</label>
-                    <input type="text" id="addressField" name="address" required>
+                    <label for="signupAddressField">Address*</label>
+                    <input type="text" id="signupAddressField" name="signupAddressField" maxlength="70" required>
                     <br>
                     <br>
-                    <label for="postalCodeField">Postal Code</label>
-                    <input type="number" id="postalCodeField" name="postalCode">
+                    <label for="signupPostalCodeField">Postal Code</label>
+                    <input type="text" id="signupPostalCodeField" name="signupPostalCodeField" maxlength="10">
                     <br>
                     <br>
-                    <label for="companyField">Company</label>
-                    <input type="text" id="companyField" name="company">
+                    <label for="signupCompanyField">Company</label>
+                    <input type="text" id="signupCompanyField" name="signupCompanyField" maxlength="80"> 
                     <br>
                     <br>
-                    <label for="cityField">City*</label>
-                    <input type="text" id="cityField" name="city" required>
+                    <label for="signupCityField">City*</label>
+                    <input type="text" id="signupCityField" name="signupCityField" maxlength="40" required>
                     <br>
                     <br>
-                    <label for="stateField">State</label>
-                    <input type="text" id="stateField" name="state">
+                    <label for="signupStateField">State</label>
+                    <input type="text" id="signupStateField" name="signupStateField" maxlength="40">
                     <br>
                     <br>
-                    <label for="countryField">Country*</label>
-                    <input type="text" id="countryField" name="country" required>
+                    <label for="signupCountryField">Country*</label>
+                    <input type="text" id="signupCountryField" name="signupCountryField" maxlength="40" required>
                     <br>
                     <br>
-                    <label for="phoneField">Phone*</label>
-                    <input type="number" id="phoneField" name="phone" requied>
+                    <label for="signupPhoneField">Phone*</label>
+                    <input type="text" id="signupPhoneField" name="signupPhoneField" maxlength="24" requied>
                     <br>
                     <br>
-                    <label for="faxField">Fax</label>
-                    <input type="number" id="faxField" name="fax">
+                    <label for="signupFaxField">Fax</label>
+                    <input type="text" id="signupFaxField" name="signupFaxField" maxlength="24">
                     <br>
                     <br>
-                    <label for="emailField">Email*</label>
-                    <input type="email" id="emailField" name="email" required>
+                    <label for="signupEmailField">Email*</label>
+                    <input type="email" id="signupEmailField" name="signupEmailField" maxlength="60" required>
                     <br>
                     <br>
-                    <label for="passwordField">Password*</label>
-                    <input type="password" id="passwordField" name="password" required>
+                    <label for="signupPasswordField">Password*</label>
+                    <input type="password" id="signupPasswordField" name="signupPasswordField" maxlength="255" required>
                     <br>
-                    <br>
-                    <div id="mandatoryFields">
-                        All fields marked with * are mandatory.
-                    </div>
                     <br>
                     <input type="submit" id="signupButton" value="Signup">   
-                    <input type="button" id="signupCancelButton" value="Cancel">  
-                    
+                    <input type="button" id="signupBackButton" value="Back">  
                 </fieldset>
-        </form> 
-        <?php 
-            } else {
-                if ($customerCreated) {
-        ?>
-        <div>
-            The user was succesfully created. 
-            <br>
-            <a href="login.php">Back</a>
-        </div>
-        <?php
-                } else {
-        ?>  
-        <div>
-            A user registered with this email address already exists. 
-            <a href="signup.php">Back</a>
-        </div>
-        <?php
-                }
-            }
-        ?>
+        </div> 
     </main>
     <?php
     require_once('footer.htm');

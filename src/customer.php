@@ -4,8 +4,6 @@
     class Customer extends DB {
 
         public int $CustomerId;
-        public string $firstName, $lastName, $password, $company, $address, $city, $state, 
-            $country, $postalCode, $phone, $fax, $email;
 
         // Validate a user login
         function validate($email, $password) {
@@ -26,29 +24,71 @@
 
             $row = $statement -> fetch(); 
 
-            $this -> CustomerId = $row['CustomerId'] ?? 'null';
-            $this -> FirstName = $row['FirstName'] ?? 'null';
-            $this -> LastName = $row['LastName'] ?? 'null';
-            $this -> Password = $row['Password'] ?? 'null';
-            $this -> Company = $row['Company'] ?? 'null';
-            $this -> Address = $row['Address'] ?? 'null';
-            $this -> City = $row['City'] ?? 'null';
-            $this -> State = $row['State'] ?? 'null';
-            $this -> Country = $row['Country'] ?? 'null';
-            $this -> PostalCode = $row['PostalCode'] ?? 'null';
-            $this -> Phone = $row['Phone'] ?? 'null';
-            $this -> Fax= $row['Fax'] ?? 'null';
-            $this -> Email = $email;
+            $this -> CustomerId = $row['CustomerId'];
 
             // Check the password
             return (password_verify($password, $row['Password']));
         }
+
+        // Retrieves the user whose email is the provided text
+        function search($text) {
+            $query = <<<'SQL'
+                SELECT *
+                FROM customer
+                WHERE Email = ?
+                ORDER BY FirstName, LastName;
+            SQL;
+
+            $statement = $this -> pdo -> prepare($query);
+            $statement -> execute([$text]);
+            $results = $statement -> fetch();
+            $this -> disconnect();
+            
+            return $results;
+        }   
+
+        // Retrieves all users
+        function fetchAll() {
+            $query = <<<'SQL'
+                SELECT *
+                FROM customer
+                ORDER BY FirstName, LastName;
+            SQL;
+
+            $statement = $this -> pdo -> prepare($query);
+            $statement -> execute([]);
+            $results = $statement -> fetchAll();
+
+            $this -> disconnect();
+            
+            return $results;
+        }   
+
+
+        // Retrieves the user by id
+        function get($id) {
+            $query = <<<'SQL'
+                SELECT *
+                FROM customer
+                WHERE CustomerId = ?
+            SQL;
+
+            $statement = $this -> pdo -> prepare($query);
+            $statement -> execute([$id]);
+            $results = $statement -> fetch();
+
+            $this -> disconnect();
         
-        // Create a new customer
-        function create($firstName, $lastName, $password, $company, $address, $city, $state, 
-                $country, $postalCode, $phone, $fax, $email) {
+            return $results;
+        }
+        
+        // Create a new user
+        function create($firstName, $lastName, $address, $postalCode, $company,  $city, $state, 
+        $country,  $phone, $fax, $email, $password) {
             try {
-                // Check if the user exists already
+                $this -> pdo -> beginTransaction();
+                
+                // Check if a user already exists with this email
                 $query = <<<'SQL'
                     SELECT COUNT(*) AS total 
                     FROM customer
@@ -59,7 +99,9 @@
                 $statement -> execute([$email]);
                 // If exists, return false
                 if ($statement -> fetch()['total'] > 0) {
-                    return false;
+                    $this -> pdo -> rollBack();
+                    $this -> disconnect();
+                    return 0;
                 }   
 
                 // If not, insert the new customer
@@ -72,50 +114,92 @@
                 $statement = $this -> pdo -> prepare($query);
                 $statement -> execute([$firstName, $lastName, password_hash($password, PASSWORD_DEFAULT), $company, $address, $city, $state, 
                     $country, $postalCode, $phone, $fax, $email]);
-
+                $newId = $this -> pdo -> lastInsertId();
+                $this -> pdo -> commit();
             } catch (Exception $e) {
-                return false;
+                echo $e;
+                $newId = -1;
+                $this -> pdo -> rollBack();
             }
 
             $this -> disconnect();
-            return true;
+            return $newId;
         }
         
-        // Updates a customer
-        function update($firstName, $lastName, $company, $address, $city, $state, 
-        $country, $postalCode, $phone, $fax, $email, $newPassword) {
+        // Updates a user
+        function update($id, $firstName, $lastName, $address, $postalCode, $company,  $city, $state, 
+            $country,  $phone, $fax, $email, $password) {
             try {
-                $passwordChange = (trim($newPassword) !== '');
+                $this -> pdo -> beginTransaction();
+
+                $passwordChange = (trim($password) !== '');
 
                 $query = <<<'SQL'
                     UPDATE customer
                     SET FirstName = ?, LastName = ?, Company = ?, Address = ?, City = ?,
-                        State = ?, Country = ?, PostalCode = ?, Phone = ?, Fax = ?
+                        State = ?, Country = ?, PostalCode = ?, Phone = ?, Fax = ?, Email = ?
                 SQL;
 
                 if ($passwordChange) {
-                    $NewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+                    $password = password_hash($password, PASSWORD_DEFAULT);
                     $query .= ', Password = ?';
                 }
-                $query .= ' WHERE Email = ?;';
+
+                $query .= ' WHERE CustomerId = ?;';
 
                 $statement = $this -> pdo -> prepare($query);
+
                 if($passwordChange) {
                     $statement -> execute ([$firstName, $lastName, $company, $address, $city, 
-                        $state, $country, $postalCode, $phone, $fax, $newPassword, $email]);
+                        $state, $country, $postalCode, $phone, $fax, $email, $password, $id]);
                 } else {
                     $statement -> execute ([$firstName, $lastName, $company, $address, $city, 
-                    $state, $country, $postalCode, $phone, $fax, $email]);
+                    $state, $country, $postalCode, $phone, $fax, $email, $id]);
                 }
-        
-                // If no rows were affected, the customer does not exist OR the data is the same
+
+                $this -> pdo -> commit();
+                // If no rows were affected, the user does not exist OR the data is the same
                 if (!$statement -> rowCount()) {
-                    return false;
+                    $this -> disconnect();
+                    return 0;
                 }
+                $response = true;
             } catch (Exception $e) {
-                return false;
+                $response = -1;
+                $this -> pdo -> rollBack();
             }
-            return true;
+            $this -> disconnect();
+
+            return $response;
+        }
+
+        // Deletes a user
+        function delete($id) {
+            try {
+                $this -> pdo -> beginTransaction();
+
+                $query = <<<'SQL'
+                    DELETE 
+                    FROM customer
+                    WHERE CustomerId = ?
+                SQL;
+
+                $statement = $this -> pdo -> prepare($query);
+                $statement -> execute([$id]);
+                $this -> pdo -> commit();
+                // If no rows were affected, the artist does not exist
+                if (!$statement -> rowCount()) {
+                    $this -> disconnect();
+                    return 0;
+                }
+                $response = true;
+            } catch (Exception $e) {
+                $response = -1;
+                $this -> pdo -> rollBack();
+            }
+            $this -> disconnect();
+
+            return $response;
         }
         
     }

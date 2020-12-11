@@ -4,6 +4,7 @@
     require_once('footer.htm');
     
     if (isset($_SESSION['userType']) && $_SESSION['userType'] == 'customer') {
+        //echo $_SESSION['userId'];
 ?>
     <body>
         <header>
@@ -46,39 +47,63 @@
                 Update your user information
                 <br>
                 <br>
-                <input type="text" id="updateTrackNameField" name="updateTrackNameField" placeholder="Name" required>
+                <label for="updateUserFirstNameField">First Name*</label>
+                <input type="text" id="updateUserFirstNameField" name="updateUserFirstNameField" maxlength="40" required>
                 <br>
                 <br>
-                <label for="updateAlbumDropdown">Choose another album:</label>
-                <select name="updateAlbumDropdown" id="updateAlbumDropdown" required></select>
+                <label for="updateUserLastNameField">Last Name*</label>
+                <input type="text" id="updateUserLastNameField" name="updateUserLastNameField" maxlength="20" required>
                 <br>
                 <br>
-                <label for="updateMediaTypeDropdown">Choose another media type:</label>
-                <select name="updateMediaTypeDropdown" id="updateMediaTypeDropdown" required></select>
+                <label for="updateUserAddressField">Address*</label>
+                <input type="text" id="updateUserAddressField" name="updateUserAddressField" maxlength="70" required>
                 <br>
                 <br>
-                <label for="updateGenreDropdown">Choose another genre:</label>
-                <select name="updateGenreDropdown" id="updateGenreDropdown" required></select>
+                <label for="updateUserPostalCodeField">Postal Code</label>
+                <input type="text" id="updateUserPostalCodeField" name="updateUserPostalCodeField" maxlength="10">
                 <br>
                 <br>
-                <input type="text" id="updateTrackComposerField" name="updateTrackComposerField" placeholder="Composer" required>
+                <label for="updateUserCompanyField">Company</label>
+                <input type="text" id="updateUserCompanyField" name="updateUserCompanyField" maxlength="80">
                 <br>
                 <br>
-                <input type="number" id="updateTrackMillisecondsField" name="updateTrackMillisecondsField" placeholder="Milliseconds" required>
+                <label for="updateUserCityField">City*</label>
+                <input type="text" id="updateUserCityField" name="updateUserCityField" maxlength="40" required>
                 <br>
                 <br>
-                <input type="number" id="updateTrackBytesField" name="updateTrackBytesField" placeholder="Bytes" required>
+                <label for="updateUserStateField">State</label>
+                <input type="text" id="updateUserStateField" name="updateUserStateField" maxlength="40">
                 <br>
                 <br>
-                <input type="number" id="updateTrackUnitPriceField" name="updateTrackUnitPriceField" placeholder="Unit Price" required>
+                <label for="updateUserCountryField">Country*</label>
+                <input type="text" id="updateUserCountryField" name="updateUserCountryField" maxlength="40" required>
                 <br>
+                <br>
+                <label for="updateUserPhoneField">Phone*</label>
+                <input type="text" id="updateUserPhoneField" name="updateUserPhoneField" maxlength="24" required>
+                <br>
+                <br>
+                <label for="updateUserFaxField">Fax</label>
+                <input type="text" id="updateUserFaxField" name="updateUserFaxField" maxlength="24">
+                <br>
+                <br>
+                <label for="updateUserEmailField">Email</label>
+                <input type="email" id="updateUserEmailField" name="updateUserEmailField" disabled="disabled">
+                <br>
+                <br>
+                <label for="updateUserPasswordField">New password*</label>
+                <input type="password" id="updateUserPasswordField" name="updateUserPasswordField" maxlength="255" required>
+                <br>
+                <br>
+                <div id="mandatoryFieldsUpdate">
+                        * required
+                </div>
                 <br>
                 <input type="button" id="updateUserButton" value="Update">
             </div>
         </div>
 
-        <!--<img id='" + albumId + "' artistId='" + artistId + "' class='smallButton addToCartAlbum' src='img/add-to-cart.png'>", 'class': 'action'}))-->
-        <img class='smallButton editUser' src='img/user.png'>
+        <img class="smallButton editUser" id="<?=$_SESSION['userId']?>" src="img/user.png">
 
         <form action="login.php" method="POST" id="logoutForm">
             <input type="hidden" name="logout" value="logout">
