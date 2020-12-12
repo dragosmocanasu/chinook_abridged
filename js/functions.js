@@ -48,7 +48,7 @@ function displayAlbumsAdmin(albumData) {
         const artistId = albumData[i].ArtistId;
         let artistName = '';
         $.ajax({
-            url: 'src/admin_api.php/artists/' + artistId,
+            url: 'artists/' + artistId,
             type: 'GET'
         })
             .done (function(data) {
@@ -104,19 +104,19 @@ function displayTracksAdmin(trackData) {
         let genreName = '';
 
         $.ajax({
-            url: 'src/admin_api.php/albums/' + albumId,
+            url: 'albums/' + albumId,
             type: 'GET'
         })
             .done (function(data) {
                 albumTitle = data.Title;
                 $.ajax({
-                    url: 'src/admin_api.php/mediatypes/' + mediaTypeId,
+                    url: 'mediatypes/' + mediaTypeId,
                     type: 'GET'
                 })
                     .done (function(data) {
                         mediaTypeName = data.Name;
                         $.ajax({
-                            url: 'src/admin_api.php/genres/' + genreId,
+                            url: 'genres/' + genreId,
                             type: 'GET'
                         })
                             .done (function (data) {
@@ -195,7 +195,7 @@ function displayAlbumsCustomer(albumData) {
         const artistId = albumData[i].ArtistId;
         let artistName = '';
         $.ajax({
-            url: 'src/customer_api.php/artists/' + artistId,
+            url: 'artists/' + artistId,
             type: 'GET'
         })
             .done (function(data) {
@@ -248,19 +248,19 @@ function displayTracksCustomer(trackData) {
         let genreName = '';
 
         $.ajax({
-            url: 'src/customer_api.php/albums/' + albumId,
+            url: 'albums/' + albumId,
             type: 'GET'
         })
             .done (function(data) {
                 albumTitle = data.Title;
                 $.ajax({
-                    url: 'src/customer_api.php/mediatypes/' + mediaTypeId,
+                    url: 'mediatypes/' + mediaTypeId,
                     type: 'GET'
                 })
                     .done (function(data) {
                         mediaTypeName = data.Name;
                         $.ajax({
-                            url: 'src/customer_api.php/genres/' + genreId,
+                            url: 'genres/' + genreId,
                             type: 'GET'
                         })
                             .done (function (data) {
