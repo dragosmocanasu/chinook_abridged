@@ -311,6 +311,8 @@
                                         echo formatError();
                                     }
                                     break;
+                                // Update a track
+                                // PHP does not handle PUT explicitly, they must be read from the request body's raw data
                                 case 'PUT':
                                     $trackData = (array) json_decode(file_get_contents('php://input'), TRUE);
 
@@ -332,6 +334,7 @@
                                                 }
                                         }
                                     break;
+                                // Delete a track
                                 case 'DELETE':
                                     if ($pieces < MAX_PIECES) {
                                         echo formatError();
@@ -554,6 +557,219 @@
 
                             $user = null;
                             break;    
+
+                        case 'invoices':
+                            require_once('src/invoice.php');
+                            $invoice = new Invoice();
+
+                            $verb = $_SERVER['REQUEST_METHOD'];
+                            switch ($verb) {
+                                // Search for an invoice
+                                case 'GET':
+                                    if ($pieces < MAX_PIECES) {
+                                        if (!isset($_GET['customerId'])) {
+                                            // Fetch all
+                                            $results = $invoice -> fetchAll();
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        } else {
+                                            // Fetch by customerId
+                                            $results = $invoice -> search($_GET['customerId']);
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        }
+                                    } else {
+                                        // Fetch by id
+                                        $results = $invoice -> get($urlPieces[ID]);
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Not found';
+                                            echo json_encode($response, http_response_code(404));
+                                        } else {
+                                            echo json_encode($results, http_response_code(200));
+                                        }
+                                    }
+                                    break;
+                                // Create an invoice
+                                case 'POST':
+                                    if ($pieces == ID) {
+                                        if (!isset($_POST['customerId']) || !isset($_POST['invoiceDate']) || !isset($_POST['billingAddress']) || !isset($_POST['billingCity']) 
+                                            || !isset($_POST['billingState']) || !isset($_POST['billingCountry']) || !isset($_POST['billingPostalCode']) || !isset($_POST['total'])) {
+                                                echo formatError();
+                                            } else {
+                                                $results = $invoice -> add($_POST['customerId'], $_POST['invoiceDate'], $_POST['billingAddress'], $_POST['billingCity'], 
+                                                    $_POST['billingState'], $_POST['billingCountry'], $_POST['billingPostalCode'], $_POST['total']);
+                                                if (empty($results)) {
+                                                    $response['Message'] = 'Invoice exists already';
+                                                    echo json_encode($response, http_response_code(409));
+                                                } else if ($results === -1) {
+                                                    $response['Message'] = 'Database could not process your request';
+                                                    echo json_encode($response, http_response_code(400));
+                                                } else {
+                                                    $response['Message'] = "Created with id $results";
+                                                    echo json_encode($response, http_response_code(201));
+                                                }
+                                            }
+                                    } else {
+                                        echo formatError();
+                                    }
+                                    break;
+                                // Update an invoice
+                                case 'PUT':
+                                    $invoiceData = (array) json_decode(file_get_contents('php://input'), TRUE);
+
+                                    if ($pieces < MAX_PIECES || !isset($invoiceData['customerId']) || !isset($invoiceData['invoiceDate']) || !isset($invoiceData['billingAddress']) || !isset($invoiceData['billingCity']) 
+                                        || !isset($invoiceData['billingState']) || !isset($invoiceData['billingCountry']) || !isset($invoiceData['billingPostalCode']) || !isset($invoiceData['total'])) {
+                                        echo formatError();
+                                    } else {
+                                        $results = $invoice -> update($urlPieces[ID], $invoiceData['customerId'], $invoiceData['invoiceDate'], $invoiceData['billingAddress'], $invoiceData['billingCity'],
+                                            $invoiceData['billingState'], $invoiceData['billingCountry'], $invoiceData['billingPostalCode'], $invoiceData['total']);
+                                        if (empty($results)) {
+                                                $response['Message'] = 'Invoice does not exist / update data is the same';
+                                                echo json_encode($response, http_response_code(400));
+                                        } else if($results === -1) {
+                                            $response['Message'] = 'Database could not process your request';
+                                            echo json_encode($response, http_response_code(400));
+                                            } else {
+                                                    $response['Message'] = 'Updated';
+                                                    echo json_encode($response, http_response_code(200));
+                                                }
+                                        }
+                                    break;
+                                // Delete an invoice
+                                case 'DELETE':
+                                    if ($pieces < MAX_PIECES) {
+                                        echo formatError();
+                                    } else {
+                                        $results = $invoice -> delete($urlPieces[ID]);
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Invoice does not exist';
+                                            echo json_encode($response, http_response_code(400));
+                                        } else if ($results === -1) {
+                                            $response['Message'] = 'Database could not process your request';
+                                            echo json_encode($response, http_response_code(400));
+                                            } else {
+                                                $response['Message'] = 'Deleted';
+                                                echo json_encode($response, http_response_code(200));
+                                            }
+                                    }
+                                    break;
+                            }
+
+                            $invoice = null;
+                            break;
+                        
+                        case 'invoicelines':
+                            require_once('src/invoiceline.php');
+                            $invoiceLine = new InvoiceLine();
+                            
+                            $verb = $_SERVER['REQUEST_METHOD'];
+                            switch ($verb) {
+                                // Search for an invoiceline
+                                case 'GET':
+                                    if ($pieces < MAX_PIECES) {
+                                        if (!isset($_GET['invoiceId'])) {
+                                            // Fetch all
+                                            $results = $invoiceLine -> fetchAll();
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        } else {
+                                            // Fetch by invoiceId
+                                            $results = $invoiceLine -> search($_GET['invoiceId']);
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Not found';
+                                                echo json_encode($response, http_response_code(404));
+                                            } else {
+                                                echo json_encode($results, http_response_code(200));
+                                            }
+                                        }
+                                    } else {
+                                        // Fetch by id
+                                        $results = $invoiceLine -> get($urlPieces[ID]);
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Not found';
+                                            echo json_encode($response, http_response_code(404));
+                                        } else {
+                                            echo json_encode($results, http_response_code(200));
+                                        }
+                                    }
+                                        break;
+                                // Create an invoiceline
+                                case 'POST':
+                                if ($pieces == ID) {
+                                    if (!isset($_POST['invoiceId']) || !isset($_POST['trackId']) || !isset($_POST['unitPrice']) || !isset($_POST['quantity'])) {
+                                            echo formatError();
+                                        } else {
+                                            $results = $invoiceLine -> add($_POST['invoiceId'], $_POST['trackId'], $_POST['unitPrice'], $_POST['quantity']);
+                                            if (empty($results)) {
+                                                $response['Message'] = 'Invoiceline exists already';
+                                                echo json_encode($response, http_response_code(409));
+                                            } else if ($results === -1) {
+                                                $response['Message'] = 'Database could not process your request';
+                                                echo json_encode($response, http_response_code(400));
+                                            } else {
+                                                $response['Message'] = "Created with id $results";
+                                                echo json_encode($response, http_response_code(201));
+                                            }
+                                        }
+                                } else {
+                                    echo formatError();
+                                }
+                                    break;
+                                // Update an invoiceline
+                                case 'PUT':
+                                    $invoiceLineData = (array) json_decode(file_get_contents('php://input'), TRUE);
+
+                                    if ($pieces < MAX_PIECES || !isset($invoiceLineData['invoiceId']) || !isset($invoiceLineData['trackId']) || !isset($invoiceLineData['unitPrice']) || 
+                                        !isset($invoiceLineData['quantity'])) {
+                                        echo formatError();
+                                    } else {
+                                        $results = $invoiceLine -> update($urlPieces[ID], $invoiceLineData['invoiceId'], $invoiceLineData['trackId'], $invoiceLineData['unitPrice'], $invoiceLineData['quantity']);
+                                        if (empty($results)) {
+                                                $response['Message'] = 'Invoiceline does not exist / update data is the same';
+                                                echo json_encode($response, http_response_code(400));
+                                        } else if($results === -1) {
+                                            $response['Message'] = 'Database could not process your request';
+                                            echo json_encode($response, http_response_code(400));
+                                            } else {
+                                                    $response['Message'] = 'Updated';
+                                                    echo json_encode($response, http_response_code(200));
+                                                }
+                                        }
+                                        break;
+                                    // Delete an invoice
+                                    case 'DELETE':
+                                    if ($pieces < MAX_PIECES) {
+                                        echo formatError();
+                                    } else {
+                                        $results = $invoiceLine -> delete($urlPieces[ID]);
+                                        if (empty($results)) {
+                                            $response['Message'] = 'Invoiceline does not exist';
+                                            echo json_encode($response, http_response_code(400));
+                                        } else if ($results === -1) {
+                                            $response['Message'] = 'Database could not process your request';
+                                            echo json_encode($response, http_response_code(400));
+                                            } else {
+                                                $response['Message'] = 'Deleted';
+                                                echo json_encode($response, http_response_code(200));
+                                            }
+                                    }
+                                        break;
+                                }
+
+                            $invoiceLine = null;
+                            break;
 
                         default:
                             echo formatError();

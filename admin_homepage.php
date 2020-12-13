@@ -8,7 +8,7 @@
     <body>
         <header>
             <h1>
-                Admin Page
+                Admin Homepage
             </h1>
         </header>
         <div class="adminRadioGroup">

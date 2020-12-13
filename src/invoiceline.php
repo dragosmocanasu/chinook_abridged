@@ -1,19 +1,19 @@
 <?php
-    // Track class
+    // InvoiceLine class
 
     require_once('db_connection.php'); 
-    class Track extends DB {
-        // Retrieves the track(s) whose name OR composer(s) includes a certain text
-        function search($text) {
+    class InvoiceLine extends DB {
+        // Retrieves the invoiceline(s) by invoice Id
+        function search($invoiceId) {
+            echo 'hello';
             $query = <<<'SQL'
                 SELECT *
-                FROM track
-                WHERE Name LIKE ?
-                ORDER BY Name;
+                FROM invoiceline
+                WHERE InvoiceId = ?
             SQL;
 
             $statement = $this -> pdo -> prepare($query);
-            $statement -> execute(['%' . $text . '%']);
+            $statement -> execute([$invoiceId]);
             $results = $statement -> fetchAll();
 
             $this -> disconnect();
@@ -21,12 +21,12 @@
             return $results;
         }   
 
-          // Retrieves all tracks
+          // Retrieves all invoicelines
           function fetchAll() {
             $query = <<<'SQL'
                 SELECT *
-                FROM track
-                ORDER BY Name;
+                FROM invoiceline
+                ORDER BY InvoiceId;
             SQL;
 
             $statement = $this -> pdo -> prepare($query);
@@ -38,12 +38,12 @@
             return $results;
         }
         
-        // Retrieves the track by id
+        // Retrieves the invoiceline by id
         function get($id) {
             $query = <<<'SQL'
                 SELECT *
-                FROM track
-                WHERE TrackId = ?
+                FROM invoiceline
+                WHERE InvoiceLineId = ?
             SQL;
 
             $statement = $this -> pdo -> prepare($query);
@@ -55,21 +55,20 @@
             return $results;
         }
         
-        // Creates a new track
-        function add($name, $albumId, $mediaTypeId, $genreId, $composer, $milliseconds, 
-            $bytes, $unitPrice) {
+        // Creates a new invoiceline
+        function add($invoiceId, $trackId, $unitPrice, $quantity) {
             try {
                 $this -> pdo -> beginTransaction();
 
-                // Check if the track exists already
+                // Check if the invoiceline exists already
                 $query = <<<'SQL'
                     SELECT COUNT(*) AS total 
-                    FROM track
-                    WHERE Name = ? AND AlbumId = ?
+                    FROM invoiceline
+                    WHERE InvoiceId = ? AND TrackId  = ? AND UnitPrice = ? AND Quantity  = ?
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$name, $albumId]);
+                $statement -> execute([$invoiceId, $trackId, $unitPrice, $quantity]);
                 // If exists, rollback and disconnect 
                 if ($statement -> fetch()['total'] > 0) {
                     $this -> pdo -> rollBack();
@@ -77,15 +76,14 @@
                     return 0;
                 }
 
-                // If not, insert the new track
+                // If not, insert the new invoiceline
                 $query = <<<'SQL'
-                    INSERT INTO track (Name, AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+                    INSERT INTO invoiceline (InvoiceId, TrackId, UnitPrice, Quantity)
+                    VALUES (?, ?, ?, ?);
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$name, $albumId, $mediaTypeId, $genreId, $composer, $milliseconds, 
-                    $bytes, $unitPrice]);
+                $statement -> execute([$invoiceId, $trackId, $unitPrice, $quantity]);
                 $newId = $this -> pdo -> lastInsertId();
                 $this -> pdo -> commit();
             } catch (Exception $e) {
@@ -98,23 +96,21 @@
             return $newId;
         }
 
-        // Updates a track
-        function update($trackId, $name, $albumId, $mediaTypeId, $genreId, $composer, $milliseconds, 
-        $bytes, $unitPrice) {
+        // Updates an invoiceline
+        function update($invoiceLineId, $invoiceId, $trackId, $unitPrice, $quantity) {
             try {
                 $this -> pdo -> beginTransaction();
 
                 $query = <<<'SQL'
-                    UPDATE track
-                    SET Name = ?, AlbumId = ?, MediaTypeId = ?, GenreId = ?, Composer = ?, Milliseconds = ?, Bytes = ?, UnitPrice = ?
-                    WHERE TrackId = ?
+                    UPDATE invoiceline
+                    SET InvoiceId = ?, TrackId = ?, UnitPrice = ?, Quantity = ? 
+                    WHERE InvoiceLineId = ?
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$name, $albumId, $mediaTypeId, $genreId, $composer, $milliseconds, 
-                $bytes, $unitPrice, $trackId]);
+                $statement -> execute([$invoiceId, $trackId, $unitPrice, $quantity, $invoiceLineId]);
                 $this -> pdo -> commit();
-                // If no rows were affected, the track does not exist OR the data is the same
+                // If no rows were affected, the invoiceline does not exist OR the data is the same
                 if (!$statement -> rowCount()) {
                     $this -> disconnect();
                     return 0;
@@ -129,21 +125,21 @@
             return $response;
         }
 
-        // Deletes a track
+        // Deletes an invoiceline
         function delete($id) {
             try {
                 $this -> pdo -> beginTransaction();
 
                 $query = <<<'SQL'
                     DELETE 
-                    FROM track
-                    WHERE TrackId = ?
+                    FROM invoiceline
+                    WHERE InvoiceLineId = ?
                 SQL;
 
                 $statement = $this -> pdo -> prepare($query);
                 $statement -> execute([$id]);
                 $this -> pdo -> commit();
-                // If no rows were affected, the track does not exist OR the data is the same
+                // If no rows were affected, the invoiceline does not exist OR the data is the same
                 if (!$statement -> rowCount()) {
                     $this -> disconnect();
                     return 0;

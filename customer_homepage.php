@@ -9,7 +9,7 @@
     <body>
         <header>
             <h1>
-                Customer Page
+                Homepage
             </h1>
         </header>
         <div class="customerRadioGroup">
@@ -35,7 +35,7 @@
       
         <br>
         <br>
-        <div id="customerResults">
+        <div id="customerHomepageResults">
            
         </div>
 
@@ -102,6 +102,28 @@
                 <input type="button" id="updateUserButton" value="Update">
             </div>
         </div>
+
+        <div class="userBasketModal">
+            <div class="modalContent">
+                <span class="close">
+                    &times;
+                </span>
+                Your basket
+                <br>
+                <br>
+                <input type="text" id="updateAlbumTitleField" name="updateAlbumTitleField" placeholder="Title" required>
+                <br>
+                <br>
+                <label for="updateArtistDropdown">Choose another artist:</label>
+                <select name="updateArtistDropdown" id="updateArtistDropdown" required></select>
+                <br>
+                <br>
+                <input type="button" id="updateAlbumButton" value="Update">
+            </div>
+        </div>
+
+
+        <img class="smallButton basketPage" id="<?=$_SESSION['userId']?>" src="img/basket.png">
 
         <img class="smallButton editUser" id="<?=$_SESSION['userId']?>" src="img/user.png">
 
