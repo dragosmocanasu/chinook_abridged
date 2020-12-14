@@ -17,10 +17,10 @@
     } else if (isset($_SESSION['userType'])) {
         switch ($_SESSION['userType']) {
             case 'admin': 
-                header('Location: admin_page.php');
+                header('Location: admin_homepage.php');
                 break;
             case 'customer': 
-                header('Location: customer_page.php');
+                header('Location: customer_homepage.php');
                 break;
             default: 
                 echo '<b> Error 500: Internal server error...<b>';
@@ -43,13 +43,13 @@
             session_start();
 
             $_SESSION['userType'] = 'admin';
-            header('Location: admin_page.php');
+            header('Location: admin_homepage.php');
         } else if($validCustomer) {
             session_start();
 
             $_SESSION['userType'] = 'customer';
             $_SESSION['userId'] = $customer -> CustomerId;
-            header('Location: customer_page.php');
+            header('Location: customer_homepage.php');
         }
     }
 ?>
