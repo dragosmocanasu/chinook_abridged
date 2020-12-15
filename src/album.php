@@ -9,7 +9,6 @@
                 SELECT AlbumId, Title, ArtistId
                 FROM album
                 WHERE Title LIKE ?;
-                ORDER BY Title;
             SQL;
 
             $statement = $this -> pdo -> prepare($query);
@@ -26,7 +25,6 @@
             $query = <<<'SQL'
                 SELECT *
                 FROM album
-                ORDER BY Title;
             SQL;
 
             $statement = $this -> pdo -> prepare($query);

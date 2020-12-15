@@ -9,7 +9,6 @@
                 SELECT GenreId, Name
                 FROM genre
                 WHERE Name LIKE ?
-                ORDER BY Name;
             SQL;
 
             $statement = $this -> pdo -> prepare($query);
@@ -26,7 +25,6 @@
             $query = <<<'SQL'
                 SELECT *
                 FROM genre
-                ORDER BY Name;
             SQL;
 
             $statement = $this -> pdo -> prepare($query);

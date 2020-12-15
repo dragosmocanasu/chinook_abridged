@@ -9,7 +9,6 @@
                 SELECT ArtistId, Name
                 FROM artist
                 WHERE Name LIKE ?
-                ORDER BY Name;
             SQL;
 
             $statement = $this -> pdo -> prepare($query);
@@ -26,7 +25,6 @@
             $query = <<<'SQL'
                 SELECT *
                 FROM artist
-                ORDER BY Name;
             SQL;
 
             $statement = $this -> pdo -> prepare($query);
