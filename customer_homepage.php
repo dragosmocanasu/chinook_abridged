@@ -111,19 +111,13 @@
                 Your basket
                 <br>
                 <br>
-                <input type="text" id="updateAlbumTitleField" name="updateAlbumTitleField" placeholder="Title" required>
-                <br>
-                <br>
-                <label for="updateArtistDropdown">Choose another artist:</label>
-                <select name="updateArtistDropdown" id="updateArtistDropdown" required></select>
-                <br>
-                <br>
+
                 <input type="button" id="updateAlbumButton" value="Update">
             </div>
         </div>
 
 
-        <img class="smallButton basketPage" id="<?=$_SESSION['userId']?>" src="img/basket.png">
+        <img class="smallButton userBasket" id="<?=$_SESSION['userId']?>" src="img/basket.png">
 
         <img class="smallButton editUser" id="<?=$_SESSION['userId']?>" src="img/user.png">
 
@@ -131,7 +125,7 @@
             <input type="hidden" name="logout" value="logout">
             <input type="submit" id="logoutButton" value="Logout">
         </form>  
-        <script src="js/script.js"></script>
+        <script src="js/cookies.js"></script>
     </body>
      
 <?php

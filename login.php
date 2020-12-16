@@ -9,6 +9,9 @@
         // Invalidating the session cookie
         if(isset($_COOKIE[session_name()])) {
             setcookie(session_name(), '', time() - 86400, '/');
+            setcookie('tracks', false);  
+            setcookie('IDs', false);  
+            setcookie('total', false);  
         }            
         // Closing the session
         session_destroy();

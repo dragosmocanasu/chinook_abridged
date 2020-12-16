@@ -35,10 +35,16 @@ footer {
     right:5px;
 }
 
+img.userBasket {
+    position: absolute;
+    top: 5px;
+    right: 180px;
+}
+
 img.editUser {
-    position:absolute;
-    top:5px;
-    right:70px;
+    position: absolute;
+    top: 5px;
+    right: 120px;
 }
 
 img.smallButton {
@@ -59,7 +65,7 @@ img.smallButton {
 .addArtistModal, .updateArtistModal, .deleteArtistModal, 
 .addAlbumModal, .updateAlbumModal, .deleteAlbumModal,
 .addTrackModal, .updateTrackModal, .deleteTrackModal,
-.updateUserModal {
+.updateUserModal, .userBasketModal {
     /* Hidden by default */
     display: none;
     /* Stay in place */

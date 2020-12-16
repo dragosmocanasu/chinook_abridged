@@ -237,7 +237,7 @@
                                             echo json_encode($response, http_response_code(400));
                                         } else if ($results === -1) {
                                             $response['Message'] = 'Database could not process your request';
-                                            echo json_encode($response, http_response_code(400));
+                                            echo json_encode($response, http_response_code(409));
                                             } else {
                                                 $response['Message'] = 'Deleted';
                                                 echo json_encode($response, http_response_code(200));
@@ -345,7 +345,7 @@
                                             echo json_encode($response, http_response_code(400));
                                         } else if ($results === -1) {
                                             $response['Message'] = 'Database could not process your request';
-                                            echo json_encode($response, http_response_code(400));
+                                            echo json_encode($response, http_response_code(409));
                                             } else {
                                                 $response['Message'] = 'Deleted';
                                                 echo json_encode($response, http_response_code(200));
@@ -654,7 +654,7 @@
                                             echo json_encode($response, http_response_code(400));
                                         } else if ($results === -1) {
                                             $response['Message'] = 'Database could not process your request';
-                                            echo json_encode($response, http_response_code(400));
+                                            echo json_encode($response, http_response_code(409));
                                             } else {
                                                 $response['Message'] = 'Deleted';
                                                 echo json_encode($response, http_response_code(200));
@@ -747,26 +747,26 @@
                                                     echo json_encode($response, http_response_code(200));
                                                 }
                                         }
-                                        break;
-                                    // Delete an invoice
-                                    case 'DELETE':
-                                    if ($pieces < MAX_PIECES) {
-                                        echo formatError();
-                                    } else {
-                                        $results = $invoiceLine -> delete($urlPieces[ID]);
-                                        if (empty($results)) {
-                                            $response['Message'] = 'Invoiceline does not exist';
-                                            echo json_encode($response, http_response_code(400));
-                                        } else if ($results === -1) {
-                                            $response['Message'] = 'Database could not process your request';
-                                            echo json_encode($response, http_response_code(400));
-                                            } else {
-                                                $response['Message'] = 'Deleted';
-                                                echo json_encode($response, http_response_code(200));
-                                            }
-                                    }
-                                        break;
+                                    break;
+                                // Delete an invoice
+                                case 'DELETE':
+                                if ($pieces < MAX_PIECES) {
+                                    echo formatError();
+                                } else {
+                                    $results = $invoiceLine -> delete($urlPieces[ID]);
+                                    if (empty($results)) {
+                                        $response['Message'] = 'Invoiceline does not exist';
+                                        echo json_encode($response, http_response_code(400));
+                                    } else if ($results === -1) {
+                                        $response['Message'] = 'Database could not process your request';
+                                        echo json_encode($response, http_response_code(409));
+                                        } else {
+                                            $response['Message'] = 'Deleted';
+                                            echo json_encode($response, http_response_code(200));
+                                        }
                                 }
+                                    break;
+                            }
 
                             $invoiceLine = null;
                             break;

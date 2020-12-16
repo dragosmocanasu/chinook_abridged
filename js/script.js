@@ -13,6 +13,7 @@ $('document').ready(function () {
     const deleteTrackModal = $('div.deleteTrackModal');
 
     const updateUserModal = $('div.updateUserModal');
+    const userBasketModal = $('div.userBasketModal');
 
     // Hide modals from the user
     addArtistModal.hide();
@@ -28,6 +29,7 @@ $('document').ready(function () {
     deleteTrackModal.hide();
 
     updateUserModal.hide();
+    userBasketModal.hide();
 
     // Hide buttons so that they are created when the user clicks on a radio button
     hideButtons();
@@ -133,6 +135,7 @@ $('document').ready(function () {
                 }); 
 
                 // Update API call 
+                $(document).off('click', 'img.editArtist');
                 $(document).on('click', 'img.editArtist', function(e) {
                     // Save the ID of the clicked item
                     let itemId = this.id;
@@ -196,6 +199,7 @@ $('document').ready(function () {
 
 
                 // Delete API call 
+                $(document).off('click', 'img.deleteArtist');
                 $(document).on('click', 'img.deleteArtist', function(e) {
                     // Save the ID of the clicked item
                     let itemId = this.id;
@@ -375,6 +379,7 @@ $('document').ready(function () {
                 });
 
                 // Update API call 
+                $(document).off('click', 'img.editAlbum');
                 $(document).on('click', 'img.editAlbum', function(e) {
                     // Clear the dropdown
                     $('#updateArtistDropdown').empty();
@@ -464,6 +469,7 @@ $('document').ready(function () {
                 }); 
 
                 // Delete API call 
+                $(document).off('click', 'img.deleteAlbum');
                 $(document).on('click', 'img.deleteAlbum', function(e) {
                     // Save the ID of the clicked item
                     let itemId = this.id;
@@ -550,11 +556,7 @@ $('document').ready(function () {
                             $('div#adminResults').html('<br>There is no data matching the entered text.');
                         })
                 });
-                $('#fetchAllButton').hide();
-                /*
-                * Fetch all functionality
-                * On Chrome does not load all data -> ERR_INSUFFICIENT_RESOURCES
-                * Works fine on Firefox
+               
                 // Fetch all API call
                 $('#fetchAllButton').off('click');
                 $('#fetchAllButton').on('click', function(e) {
@@ -571,7 +573,6 @@ $('document').ready(function () {
                             $('div#adminResults').html('<br>There is no data to display.');
                         })
                 });
-                */
 
                 // Create API call
                 // Unbind and bind the click event to the button
@@ -697,6 +698,7 @@ $('document').ready(function () {
                 });
 
                 // Update API call 
+                $(document).off('click', 'img.editTrack');
                 $(document).on('click', 'img.editTrack', function(e) {
                      // Clear the dropdown menus
                      $('#updateAlbumDropdown').empty();
@@ -848,6 +850,7 @@ $('document').ready(function () {
                 });
                                
                 // Delete API call 
+                $(document).off('click', 'img.deleteTrack');
                 $(document).on('click', 'img.deleteTrack', function(e) {
                     // Save the ID of the clicked item
                     let itemId = this.id;
@@ -933,7 +936,7 @@ $('document').ready(function () {
                         .done (function(data) {
                             // Search field cannot be empty
                             if (!$('#searchField').val()) {
-                                $('div#customerResults').html('<br>The name cannot be empty');
+                                $('div#customerHomepageResults').html('<br>The name cannot be empty');
                             } else {
                                 // Display results and clear the search field
                                 displayArtistsCustomer(data);
@@ -941,7 +944,7 @@ $('document').ready(function () {
                             }
                         })
                         .fail (function(data) {
-                            $('div#customerResults').html('<br>There is no data matching the entered text.');
+                            $('div#customerHomepageResults').html('<br>There is no data matching the entered text.');
                         })
                 });
 
@@ -958,7 +961,7 @@ $('document').ready(function () {
                             $('#searchField').val('');
                         })
                         .fail (function(data) {
-                            $('div#customerResults').html('<br>There is no data to display.');
+                            $('div#customerHomepageResults').html('<br>There is no data to display.');
                         })
                 });
                 break;
@@ -979,14 +982,14 @@ $('document').ready(function () {
                         .done (function(data) { 
                             // Search field cannot be empty
                             if (!$('#searchField').val()) {
-                                $('div#customerResults').html('<br>The title cannot be empty');
+                                $('div#customerHomepageResults').html('<br>The title cannot be empty');
                             } else {
                                 displayAlbumsCustomer(data);        
                                 $('#searchField').val('');
                             }
                         })
                         .fail (function(data) {
-                            $('div#customerResults').html('<br>There is no data matching the entered text.');
+                            $('div#customerHomepageResults').html('<br>There is no data matching the entered text.');
                         })
                 });
 
@@ -1004,7 +1007,7 @@ $('document').ready(function () {
                             $('#searchField').val('');
                         })
                         .fail (function(data) {
-                            $('div#customerResults').html('<br>There is no data to display.');
+                            $('div#customerHomepageResults').html('<br>There is no data to display.');
                         })
                 });
                 break;
@@ -1025,21 +1028,17 @@ $('document').ready(function () {
                         .done (function(data) { 
                             // Search field cannot be empty
                             if (!$('#searchField').val()) {
-                                $('div#customerResults').html('<br>The name cannot be empty');
+                                $('div#customerHomepageResults').html('<br>The name cannot be empty');
                             } else {
                                 displayTracksCustomer(data);
                                 $('#searchField').val('');
                             }
                         })
                         .fail (function(data) {
-                            $('div#customerResults').html('<br>There is no data matching the entered text.');
+                            $('div#customerHomepageResults').html('<br>There is no data matching the entered text.');
                         })
                 });
-                $('#fetchAllButton').hide();
-                /*
-                * Fetch all functionality
-                * On Chrome does not load all data -> ERR_INSUFFICIENT_RESOURCES
-                * Works fine on Firefox
+               
                 // Fetch all API call
                 $('#fetchAllButton').off('click');
                 $('#fetchAllButton').on('click', function(e) {
@@ -1049,19 +1048,19 @@ $('document').ready(function () {
                     })
                         .done (function(data) {
                             // Display results and clear the search field
-                            displayTracksAdmin(data);
+                            displayTracksCustomer(data);
                             $('#searchField').val('');
                         })
                         .fail (function(data) {
                             $('div#adminResults').html('<br>There is no data to display.');
                         })
                 });
-                */
                 break;
         }
     });
 
     // Update user data
+    $(document).off('click', 'img.editUser');
     $(document).on('click', 'img.editUser', function(e) {
         // Save the ID of the clicked item
         let itemId = this.id;
@@ -1195,10 +1194,79 @@ $('document').ready(function () {
         }
     });
 
+    // Go to login if signup is cancelled
     $('#signupBackButton').off('click');
     $('#signupBackButton').on('click', function(e) {
         window.location.href = 'login.php';
     });
+
+    // Add to basket 
+    $(document).off('click', 'img.addTrackToBasket');
+    $(document).on('click', 'img.addTrackToBasket', function(e) {
+        // Track Id
+        trackId = this.id; 
+        // Table row which contains the added track
+        tr = (this.parentElement).parentElement;
+        // Name of the track
+        trackName = tr.querySelector('.trackName').textContent;
+        // Price of the track
+        trackPrice = tr.querySelector('.unitPrice').textContent;
+
+        // If IDs cookie is not empty
+        if(getCookie('IDs')) {
+            // If the same ID has been added, alert
+            if (getCookie('IDs').includes(trackId)) {
+                alert ('Track has already been added!');
+                // If a new track is inserted, add it to the cookies
+            } else {
+                alert ('Added to basket!');
+                addedTracksNames = getCookie('tracks');
+                addedTracksNames = addedTracksNames + trackName + '###,';
+                setCookie('tracks', addedTracksNames, 365);
+
+                addedTracksIds = getCookie('IDs');
+                addedTracksIds = addedTracksIds + trackId + ',';
+                setCookie('IDs', addedTracksIds, 365);
+
+                addedTracksPrices = getCookie('total');
+                addedTracksPrices = addedTracksPrices + trackPrice + ',';
+                totalPrice += parseFloat(trackPrice);
+                setCookie('total', totalPrice.toFixed(2), 365);
+                
+            }
+        // If it is empty, it's the first time the page is accessed. Cookies are created
+        } else {
+            alert ('Added to basket!');
+            addedTracksNames = addedTracksNames + trackName + '###,';
+            setCookie('tracks', addedTracksNames, 365);
+
+            addedTracksIds = addedTracksIds + trackId + ',';
+            setCookie('IDs', addedTracksIds, 365);
+
+            addedTracksPrices = addedTracksPrices + trackPrice + ',';
+            totalPrice += parseFloat(trackPrice);
+            setCookie('total', totalPrice.toFixed(2), 365);
+        }
+    });
+
+     // Basket modal
+     $(document).off('click', 'img.userBasket');
+     $(document).on('click', 'img.userBasket', function(e) {
+      
+        // Show basket modal
+        userBasketModal.show();
+        // Close if user clicks on X
+        spanClose.on('click', (function (e) {
+            userBasketModal.css('display', 'none');
+        }));
+        // Close if user hits Escape key
+        $(document).on('keydown', function (event) {
+            if (event.key == 'Escape') {
+                userBasketModal.css('display', 'none');
+            }
+        });
+     });
+
 });
 
 function showButtons() {
