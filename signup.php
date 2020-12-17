@@ -71,6 +71,5 @@
     require_once('footer.htm');
     ?>
 </body>
-<script src="js/signup.js"></script>
 </html>
 
