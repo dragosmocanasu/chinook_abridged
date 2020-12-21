@@ -111,8 +111,32 @@
                 Your basket
                 <br>
                 <br>
+                <label for="billingAddressField">Billing Address*</label>
+                <input type="text" id="billingAddressField" name="billingAddressField" maxlength="70" required>
+                <br>
+                <br>
+                <label for="billingPostalCodeField">Billing Postal Code</label>
+                <input type="text" id="billingPostalCodeField" name="billingPostalCodeField" maxlength="10">
+                <br>
+                <br>
+                <label for="billingCityField">Billing City*</label>
+                <input type="text" id="billingCityField" name="billingCityField" maxlength="40" required>
+                <br>
+                <br>
+                <label for="billingStateField">Billing State</label>
+                <input type="text" id="billingStateField" name="billingStateField" maxlength="40">
+                <br>
+                <br>
+                <label for="billingCountryField">Billing Country*</label>
+                <input type="text" id="billingCountryField" name="billingCountryField" maxlength="40" required>
+                <br>
+                <br>
+                <div id="mandatoryFieldsBasket">
+                        * required
+                </div>
+                <br>
 
-                <input type="button" id="updateAlbumButton" value="Update">
+                <input type="button" id="buyTracksButton" value="Buy">
             </div>
         </div>
 

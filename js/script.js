@@ -1249,10 +1249,14 @@ $('document').ready(function () {
         }
     });
 
-     // Basket modal
-     $(document).off('click', 'img.userBasket');
-     $(document).on('click', 'img.userBasket', function(e) {
-      
+    // Basket modal
+    $(document).off('click', 'img.userBasket');
+    $(document).on('click', 'img.userBasket', function(e) {
+        
+
+        // Save the id of the clicked item
+        let itemId = this.id;
+
         // Show basket modal
         userBasketModal.show();
         // Close if user clicks on X
@@ -1265,7 +1269,64 @@ $('document').ready(function () {
                 userBasketModal.css('display', 'none');
             }
         });
-     });
+
+         // GET ajax call to fetch all details by id
+         $.ajax({
+            url: 'users' + '/' + itemId,
+            type: 'GET',
+        })
+            .done (function(data) {
+                // Populate all the fields with the data received
+                $('#billingAddressField').val(data.Address);
+                $('#billingPostalCodeField').val(data.PostalCode);
+                $('#billingCityField').val(data.City);
+                $('#billingStateField').val(data.State);
+                $('#billingCountryField').val(data.Country);
+
+                // Unbind and bind the click event to the button
+                $('#buyTracksButton').off('click');
+                $('#buyTracksButton').on('click', function(e) {
+                    // Mandatory fields cannot be empty
+                    if (!$('#billingAddressField').val() || !$('#billingCityField').val() || 
+                        !$('#billingCountryField').val()) {
+                        alert('All fields marked with * are mandatory');
+                    } else {
+                        // Body needs to be raw JSON
+                        let body = {
+                            'firstName': $('#updateUserFirstNameField').val(),
+                            'lastName': $('#updateUserLastNameField').val(),
+                            'address': $('#updateUserAddressField').val(),
+                            'postalCode': $('#updateUserPostalCodeField').val(),
+                            'company': $('#updateUserCompanyField').val(),
+                            'city': $('#updateUserCityField').val(),
+                            'state': $('#updateUserStateField').val(),
+                            'country': $('#updateUserCountryField').val(),
+                            'phone': $('#updateUserPhoneField').val(),
+                            'fax': $('#updateUserFaxField').val(),
+                            'email': $('#updateUserEmailField').val(),
+                            'password': $('#updateUserPasswordField').val()
+                        }
+                        $.ajax({
+                            url: 'users'+ '/' + itemId,
+                            type: 'PUT',
+                            data: JSON.stringify(body)
+                        })
+                            .done (function(data) {
+                                alert(data.Message);
+                                // Hide the modal after update
+                                updateUserModal.css('display', 'none');
+                            })
+                            .fail (function(data) {
+                                alert(data.responseJSON.Message);
+                            })
+                    }
+                })
+
+            })
+            .fail (function (data) {
+                alert(data.responseJSON.Message);
+            })
+    });
 
 });
 
