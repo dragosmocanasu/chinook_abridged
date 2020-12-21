@@ -47,7 +47,7 @@ $('document').ready(function () {
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) { 
                     $.ajax({
-                        url: 'artists',
+                        url: URLPath + 'artists',
                         type: 'GET',
                         data: {
                             name: $('#searchField').val()
@@ -72,7 +72,7 @@ $('document').ready(function () {
                 $('#fetchAllButton').off('click');
                 $('#fetchAllButton').on('click', function(e) {
                     $.ajax({
-                        url: 'artists',
+                        url: URLPath + 'artists',
                         type: 'GET'
                     })
                         .done (function(data) {
@@ -110,7 +110,7 @@ $('document').ready(function () {
                             alert('Name cannot be empty');
                         } else {
                             $.ajax({
-                                url: 'artists',
+                                url: URLPath + 'artists',
                                 type: 'POST',
                                 data: {
                                     name: $('#addArtistNameField').val()
@@ -154,7 +154,7 @@ $('document').ready(function () {
                     
                     // GET ajax call to fetch the name by id
                     $.ajax({
-                        url: 'artists' + '/' + itemId,
+                        url: URLPath + 'artists' + '/' + itemId,
                         type: 'GET',
                     })
                         .done (function(data) {
@@ -173,7 +173,7 @@ $('document').ready(function () {
                                         'name': $('#updateArtistNameField').val()
                                     }
                                     $.ajax({
-                                        url: 'artists'+ '/' + itemId,
+                                        url: URLPath + 'artists'+ '/' + itemId,
                                         type: 'PUT',
                                         data: JSON.stringify(body)
                                     })
@@ -218,7 +218,7 @@ $('document').ready(function () {
                     
                     // GET ajax call to fetch the name by id
                     $.ajax({
-                        url: 'artists' + '/' + itemId,
+                        url: URLPath + 'artists' + '/' + itemId,
                         type: 'GET',
                     })
                         .done (function(data) {
@@ -236,7 +236,7 @@ $('document').ready(function () {
                             $('#deleteArtistButtonYes').off('click');
                             $('#deleteArtistButtonYes').on('click', function(e) {
                                 $.ajax({
-                                    url: 'artists'+ '/' + itemId,
+                                    url: URLPath + 'artists'+ '/' + itemId,
                                     type: 'DELETE'
                                 })
                                     .done (function(data) {
@@ -266,7 +266,7 @@ $('document').ready(function () {
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) {
                     $.ajax({
-                        url: 'albums',
+                        url: URLPath + 'albums',
                         type: 'GET',
                         data: {
                             title: $('#searchField').val()
@@ -291,7 +291,7 @@ $('document').ready(function () {
                 $('#fetchAllButton').off('click');
                 $('#fetchAllButton').on('click', function(e) {
                     $.ajax({
-                        url: 'albums',
+                        url: URLPath + 'albums',
                         type: 'GET'
                     })
                         .done (function(data) {
@@ -325,7 +325,7 @@ $('document').ready(function () {
 
                     // GET ajax call fo fetch all artists
                     $.ajax({
-                        url: 'artists',
+                        url: URLPath + 'artists',
                         type: 'GET'
                     })
                         .done (function(data) {
@@ -348,7 +348,7 @@ $('document').ready(function () {
                                     alert('You have to choose an artist');
                                 } else {
                                     $.ajax({
-                                        url: 'albums',
+                                        url: URLPath + 'albums',
                                         type: 'POST',
                                         data: {
                                             title: $('#addAlbumTitleField').val(),
@@ -402,7 +402,7 @@ $('document').ready(function () {
                     
                     // GET ajax call to fetch the title by id
                     $.ajax({
-                        url: 'albums' + '/' + itemId,
+                        url: URLPath + 'albums' + '/' + itemId,
                         type: 'GET'
                     })
                         .done (function(data) {
@@ -410,7 +410,7 @@ $('document').ready(function () {
                             $('#updateAlbumTitleField').val(data.Title);
 
                             $.ajax({
-                                url: 'artists',
+                                url: URLPath + 'artists',
                                 type: 'GET'
                             })
                                 .done (function(data) {
@@ -440,7 +440,7 @@ $('document').ready(function () {
                                                 'artistId': $('#updateArtistDropdown').val()
                                             }
                                             $.ajax({
-                                                url: 'albums'+ '/' + itemId,
+                                                url: URLPath + 'albums'+ '/' + itemId,
                                                 type: 'PUT',
                                                 data: JSON.stringify(body)
                                             })
@@ -488,7 +488,7 @@ $('document').ready(function () {
                     
                     // GET ajax call to fetch the name by id
                     $.ajax({
-                        url: 'albums' + '/' + itemId,
+                        url: URLPath + 'albums' + '/' + itemId,
                         type: 'GET',
                     })
                         .done (function(data) {
@@ -506,7 +506,7 @@ $('document').ready(function () {
                             $('#deleteAlbumButtonYes').off('click');
                             $('#deleteAlbumButtonYes').on('click', function(e) {
                                 $.ajax({
-                                    url: 'albums'+ '/' + itemId,
+                                    url: URLPath + 'albums'+ '/' + itemId,
                                     type: 'DELETE'
                                 })
                                     .done (function(data) {
@@ -537,7 +537,7 @@ $('document').ready(function () {
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) {
                     $.ajax({
-                        url: 'tracks',
+                        url: URLPath + 'tracks',
                         type: 'GET',
                         data: {
                             name: $('#searchField').val()
@@ -561,7 +561,7 @@ $('document').ready(function () {
                 $('#fetchAllButton').off('click');
                 $('#fetchAllButton').on('click', function(e) {
                     $.ajax({
-                        url: 'tracks',
+                        url: URLPath + 'tracks',
                         type: 'GET'
                     })
                         .done (function(data) {
@@ -597,7 +597,7 @@ $('document').ready(function () {
 
                     // GET ajax call fo fetch all albums
                     $.ajax({
-                        url: 'albums',
+                        url: URLPath + 'albums',
                         type: 'GET'
                     })
                         .done (function(data) {
@@ -611,7 +611,7 @@ $('document').ready(function () {
                             }   
                             // GET ajax call fo fetch all mediatypes
                             $.ajax({
-                                url: 'mediatypes',
+                                url: URLPath + 'mediatypes',
                                 type: 'GET'
                             })
                                 .done (function(data) {
@@ -625,7 +625,7 @@ $('document').ready(function () {
                                     }   
                                     // GET ajax call fo fetch all genres
                                     $.ajax({
-                                        url: 'genres',
+                                        url: URLPath + 'genres',
                                         type: 'GET'
                                     })
                                         .done (function(data) {
@@ -649,7 +649,7 @@ $('document').ready(function () {
                                                         alert('All fields are mandatory');
                                                     }  else {
                                                         $.ajax({
-                                                            url: 'tracks',
+                                                            url: URLPath + 'tracks',
                                                             type: 'POST',
                                                             data: {
                                                                 name: $('#addTrackNameField').val(),
@@ -725,7 +725,7 @@ $('document').ready(function () {
                     
                     // GET ajax call to fetch a track by id
                     $.ajax({
-                        url: 'tracks' + '/' + itemId,
+                        url: URLPath + 'tracks' + '/' + itemId,
                         type: 'GET'
                     })
                         .done (function(data) {
@@ -739,7 +739,7 @@ $('document').ready(function () {
                             
                             // GET ajax call fo fetch all albums
                             $.ajax({
-                                url: 'albums',
+                                url: URLPath + 'albums',
                                 type: 'GET'
                             })
                                 .done (function(data) {
@@ -753,7 +753,7 @@ $('document').ready(function () {
                                     }   
                                     // GET ajax call fo fetch all mediatypes
                                     $.ajax({
-                                        url: 'mediatypes',
+                                        url: URLPath + 'mediatypes',
                                         type: 'GET'
                                     })
                                         .done (function(data) {
@@ -767,7 +767,7 @@ $('document').ready(function () {
                                             }   
                                             // GET ajax call fo fetch all genres
                                             $.ajax({
-                                                url: 'genres',
+                                                url: URLPath + 'genres',
                                                 type: 'GET'
                                             })
                                                 .done (function(data) {
@@ -806,7 +806,7 @@ $('document').ready(function () {
                                                                     'unitPrice': $('#updateTrackUnitPriceField').val()
                                                                 }
                                                                 $.ajax({
-                                                                    url: 'tracks'+ '/' + itemId,
+                                                                    url: URLPath + 'tracks'+ '/' + itemId,
                                                                     type: 'PUT',
                                                                     data: JSON.stringify(body)
                                                                 })
@@ -869,7 +869,7 @@ $('document').ready(function () {
                     
                     // GET ajax call to fetch the name by id
                     $.ajax({
-                        url: 'tracks' + '/' + itemId,
+                        url: URLPath + 'tracks' + '/' + itemId,
                         type: 'GET',
                     })
                         .done (function(data) {
@@ -887,7 +887,7 @@ $('document').ready(function () {
                             $('#deleteTrackButtonYes').off('click');
                             $('#deleteTrackButtonYes').on('click', function(e) {
                                 $.ajax({
-                                    url: 'tracks'+ '/' + itemId,
+                                    url: URLPath + 'tracks'+ '/' + itemId,
                                     type: 'DELETE'
                                 })
                                     .done (function(data) {
@@ -927,7 +927,7 @@ $('document').ready(function () {
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) { 
                     $.ajax({
-                        url: 'artists',
+                        url: URLPath + 'artists',
                         type: 'GET',
                         data: {
                             name: $('#searchField').val()
@@ -952,7 +952,7 @@ $('document').ready(function () {
                 $('#fetchAllButton').off('click');
                 $('#fetchAllButton').on('click', function(e) {
                     $.ajax({
-                        url: 'artists',
+                        url: URLPath + 'artists',
                         type: 'GET'
                     })
                         .done (function(data) {
@@ -973,7 +973,7 @@ $('document').ready(function () {
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) {
                     $.ajax({
-                        url: 'albums',
+                        url: URLPath + 'albums',
                         type: 'GET',
                         data: {
                             title: $('#searchField').val()
@@ -998,7 +998,7 @@ $('document').ready(function () {
                 $('#fetchAllButton').off('click');
                 $('#fetchAllButton').on('click', function(e) {
                     $.ajax({
-                        url: 'albums',
+                        url: URLPath + 'albums',
                         type: 'GET'
                     })
                         .done (function(data) {
@@ -1019,7 +1019,7 @@ $('document').ready(function () {
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) {
                     $.ajax({
-                        url: 'tracks',
+                        url: URLPath + 'tracks',
                         type: 'GET',
                         data: {
                             name: $('#searchField').val()
@@ -1043,7 +1043,7 @@ $('document').ready(function () {
                 $('#fetchAllButton').off('click');
                 $('#fetchAllButton').on('click', function(e) {
                     $.ajax({
-                        url: 'tracks',
+                        url: URLPath + 'tracks',
                         type: 'GET'
                     })
                         .done (function(data) {
@@ -1079,7 +1079,7 @@ $('document').ready(function () {
         
         // GET ajax call to fetch all details by id
         $.ajax({
-            url: 'users' + '/' + itemId,
+            url: URLPath + 'users' + '/' + itemId,
             type: 'GET',
         })
             .done (function(data) {
@@ -1122,7 +1122,7 @@ $('document').ready(function () {
                             'password': $('#updateUserPasswordField').val()
                         }
                         $.ajax({
-                            url: 'users'+ '/' + itemId,
+                            url: URLPath + 'users'+ '/' + itemId,
                             type: 'PUT',
                             data: JSON.stringify(body)
                         })
@@ -1152,7 +1152,7 @@ $('document').ready(function () {
                 alert('All fields marked with * are mandatory');
         } else {
             $.ajax({
-                url: 'users',
+                url: URLPath + 'users',
                 type: 'POST',
                 data: {
                     firstName: $('#signupFirstNameField').val(),
@@ -1249,10 +1249,14 @@ $('document').ready(function () {
         }
     });
 
-     // Basket modal
-     $(document).off('click', 'img.userBasket');
-     $(document).on('click', 'img.userBasket', function(e) {
-      
+    // Basket modal
+    $(document).off('click', 'img.userBasket');
+    $(document).on('click', 'img.userBasket', function(e) {
+        
+
+        // Save the id of the clicked item
+        let itemId = this.id;
+
         // Show basket modal
         userBasketModal.show();
         // Close if user clicks on X
@@ -1265,7 +1269,64 @@ $('document').ready(function () {
                 userBasketModal.css('display', 'none');
             }
         });
-     });
+
+         // GET ajax call to fetch all details by id
+         $.ajax({
+            url: URLPath + 'users' + '/' + itemId,
+            type: 'GET',
+        })
+            .done (function(data) {
+                // Populate all the fields with the data received
+                $('#billingAddressField').val(data.Address);
+                $('#billingPostalCodeField').val(data.PostalCode);
+                $('#billingCityField').val(data.City);
+                $('#billingStateField').val(data.State);
+                $('#billingCountryField').val(data.Country);
+
+                // Unbind and bind the click event to the button
+                $('#buyTracksButton').off('click');
+                $('#buyTracksButton').on('click', function(e) {
+                    // Mandatory fields cannot be empty
+                    if (!$('#billingAddressField').val() || !$('#billingCityField').val() || 
+                        !$('#billingCountryField').val()) {
+                        alert('All fields marked with * are mandatory');
+                    } else {
+                        // Body needs to be raw JSON
+                        let body = {
+                            'firstName': $('#updateUserFirstNameField').val(),
+                            'lastName': $('#updateUserLastNameField').val(),
+                            'address': $('#updateUserAddressField').val(),
+                            'postalCode': $('#updateUserPostalCodeField').val(),
+                            'company': $('#updateUserCompanyField').val(),
+                            'city': $('#updateUserCityField').val(),
+                            'state': $('#updateUserStateField').val(),
+                            'country': $('#updateUserCountryField').val(),
+                            'phone': $('#updateUserPhoneField').val(),
+                            'fax': $('#updateUserFaxField').val(),
+                            'email': $('#updateUserEmailField').val(),
+                            'password': $('#updateUserPasswordField').val()
+                        }
+                        $.ajax({
+                            url: URLPath + 'users'+ '/' + itemId,
+                            type: 'PUT',
+                            data: JSON.stringify(body)
+                        })
+                            .done (function(data) {
+                                alert(data.Message);
+                                // Hide the modal after update
+                                updateUserModal.css('display', 'none');
+                            })
+                            .fail (function(data) {
+                                alert(data.responseJSON.Message);
+                            })
+                    }
+                })
+
+            })
+            .fail (function (data) {
+                alert(data.responseJSON.Message);
+            })
+    });
 
 });
 

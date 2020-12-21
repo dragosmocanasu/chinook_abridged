@@ -26,7 +26,8 @@
         //echo '<pre>';
         //print_r($urlPieces);
 
-        if ($pieces == ENTITY) {
+        // On AWS, the path length for homepage changes to - 1
+        if ($pieces == ENTITY - 1) {
             header('Location: login.php');
         }   else {
                 if ($pieces > MAX_PIECES) {
