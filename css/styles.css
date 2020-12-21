@@ -24,7 +24,7 @@ footer {
     text-align: center;
 }
 
-#mandatoryFieldsUpdate {
+#mandatoryFieldsUpdate, #mandatoryFieldsBasket {
     font-style: italic;
     color: grey;
 }
