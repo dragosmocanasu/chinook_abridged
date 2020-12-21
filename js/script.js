@@ -1252,8 +1252,6 @@ $('document').ready(function () {
     // Basket modal
     $(document).off('click', 'img.userBasket');
     $(document).on('click', 'img.userBasket', function(e) {
-        
-
         // Save the id of the clicked item
         let itemId = this.id;
 
