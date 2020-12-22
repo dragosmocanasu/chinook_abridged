@@ -1214,7 +1214,7 @@ $('document').ready(function () {
                 totalPrice += parseFloat(trackPrice);
                 setCookie('total', totalPrice.toFixed(2), 365);
             }   
-        // If it is empty, it's the first time the page is accessed. Cookies are created
+        // If it is empty, it's the first time tracks are added to basket. Cookies are created
         } else {
             alert('Added to basket!');
             addedTracksNames = addedTracksNames.concat(trackName + '###,');
