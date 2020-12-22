@@ -86,7 +86,6 @@ $('document').ready(function () {
                 });
 
                 // Create API call 
-                // Unbind and bind the click event to the button
                 $('#addButton').off('click');
                 $('#addButton').on('click', function(e) {
                     // Show modal
@@ -102,7 +101,6 @@ $('document').ready(function () {
                         }
                     });
                     
-                    // Unbind and bind the click event to the button
                     $('#addArtistButton').off('click');
                     $('#addArtistButton').on('click', function(e) {
                         // Name cannot be empty
@@ -161,7 +159,6 @@ $('document').ready(function () {
                             // Populate the field with the name of the item
                             $('#updateArtistNameField').val(data.Name);
 
-                            // Unbind and bind the click event to the button
                             $('#updateArtistButton').off('click');
                             $('#updateArtistButton').on('click', function(e) {
                                 // Name cannot be empty
@@ -225,14 +222,12 @@ $('document').ready(function () {
                             // Add the name of the item to the question
                             $('span#artistNameDeleteMessage').html(data.Name);
 
-                            // Unbind and bind the click event to the button
                             $('#deleteArtistButtonNo').off('click');
                             $('#deleteArtistButtonNo').on('click', function(e) {
                                 // Hide the modal when user clicks the No button
                                 deleteArtistModal.css('display', 'none');
                             });
 
-                            // Unbind and bind the click event to the button
                             $('#deleteArtistButtonYes').off('click');
                             $('#deleteArtistButtonYes').on('click', function(e) {
                                 $.ajax({
@@ -262,7 +257,6 @@ $('document').ready(function () {
             case 'albums':
                 showButtons();
                 // Search API call
-                // Unbind and bind the click event to the button
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) {
                     $.ajax({
@@ -287,7 +281,6 @@ $('document').ready(function () {
                 });
 
                 // Fetch all API call
-                // Unbind and bind the click event to the button
                 $('#fetchAllButton').off('click');
                 $('#fetchAllButton').on('click', function(e) {
                     $.ajax({
@@ -305,7 +298,6 @@ $('document').ready(function () {
                 });
 
                 // Create API call
-                // Unbind and bind the click event to the button
                 $('#addButton').off('click');
                 $('#addButton').on('click', function(e) { 
                     // Clear the dropdown
@@ -338,7 +330,6 @@ $('document').ready(function () {
                                 }).appendTo($('#addArtistDropdown'));
                             }
 
-                            // Unbind and bind the click event to the button
                             $('#addAlbumButton').off('click');
                             $('#addAlbumButton').on('click', function(e) {
                                 // Title cannot be empty
@@ -425,7 +416,6 @@ $('document').ready(function () {
                                     // Select the correct value from the artist dropdown
                                     $('#updateArtistDropdown').val(artistId);
 
-                                    // Unbind and bind the click event to the button
                                     $('#updateAlbumButton').off('click');
                                     $('#updateAlbumButton').on('click', function(e) {
                                         // Title cannot be empty
@@ -495,14 +485,12 @@ $('document').ready(function () {
                             // Add the title of the item to the question
                             $('span#albumTitleDeleteMessage').html(data.Title);
 
-                            // Unbind and bind the click event to the button
                             $('#deleteAlbumButtonNo').off('click');
                             $('#deleteAlbumButtonNo').on('click', function(e) {
                                 // Hide the modal when user clicks the No button
                                 deleteAlbumModal.css('display', 'none');
                             });
 
-                            // Unbind and bind the click event to the button
                             $('#deleteAlbumButtonYes').off('click');
                             $('#deleteAlbumButtonYes').on('click', function(e) {
                                 $.ajax({
@@ -533,7 +521,6 @@ $('document').ready(function () {
             case 'tracks':
                 showButtons();
                 // Search API call
-                // Unbind and bind the click event to the button
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) {
                     $.ajax({
@@ -575,7 +562,6 @@ $('document').ready(function () {
                 });
 
                 // Create API call
-                // Unbind and bind the click event to the button
                 $('#addButton').off('click');
                 $('#addButton').on('click', function(e) {
                     // Clear the dropdown menus
@@ -638,7 +624,6 @@ $('document').ready(function () {
                                                     }).appendTo($('#addGenreDropdown'));
                                                 }   
 
-                                                // Unbind and bind the click event to the button
                                                 $('#addTrackButton').off('click');
                                                 $('#addTrackButton').on('click', function(e) {
                                                     // All fields are mandatory
@@ -784,7 +769,6 @@ $('document').ready(function () {
                                                         $('#updateMediaTypeDropdown').val(mediaTypeId);
                                                         $('#updateGenreDropdown').val(genreId);
 
-                                                        // Unbind and bind the click event to the button
                                                         $('#updateTrackButton').off('click');
                                                         $('#updateTrackButton').on('click', function(e) {
                                                             // All fields are mandatory
@@ -876,14 +860,12 @@ $('document').ready(function () {
                             // Add the name of the item to the question
                             $('span#trackNameDeleteMessage').html(data.Name);
 
-                            // Unbind and bind the click event to the button
                             $('#deleteTrackButtonNo').off('click');
                             $('#deleteTrackButtonNo').on('click', function(e) {
                                 // Hide the modal when user clicks the No button
                                 deleteTrackModal.css('display', 'none');
                             });
 
-                            // Unbind and bind the click event to the button
                             $('#deleteTrackButtonYes').off('click');
                             $('#deleteTrackButtonYes').on('click', function(e) {
                                 $.ajax({
@@ -969,7 +951,6 @@ $('document').ready(function () {
             case 'albums':
                 showButtons();
                 // Search API call
-                // Unbind and bind the click event to the button
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) {
                     $.ajax({
@@ -994,7 +975,6 @@ $('document').ready(function () {
                 });
 
                 // Fetch all API call
-                // Unbind and bind the click event to the button
                 $('#fetchAllButton').off('click');
                 $('#fetchAllButton').on('click', function(e) {
                     $.ajax({
@@ -1015,7 +995,6 @@ $('document').ready(function () {
             case 'tracks':
                 showButtons();
                 // Search API call
-                // Unbind and bind the click event to the button
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) {
                     $.ajax({
@@ -1097,7 +1076,6 @@ $('document').ready(function () {
                 $('#updateUserEmailField').val(data.Email);
                 $('#updateUserPasswordField').val('');
 
-                // Unbind and bind the click event to the button
                 $('#updateUserButton').off('click');
                 $('#updateUserButton').on('click', function(e) {
                     // Mandatory fields cannot be empty
@@ -1194,7 +1172,7 @@ $('document').ready(function () {
         }
     });
 
-    // Go to login if signup is cancelled
+    // Go to login if signup process is cancelled
     $('#signupBackButton').off('click');
     $('#signupBackButton').on('click', function(e) {
         window.location.href = 'login.php';
@@ -1216,10 +1194,10 @@ $('document').ready(function () {
         if(getCookie('IDs')) {
             // If the same ID has been added, alert
             if (getCookie('IDs').includes(trackId)) {
-                alert ('Track has already been added!');
+                alert('Track has already been added!');
             // If a new track is inserted, add it to the cookies
             } else {
-                alert ('Added to basket!');
+                alert('Added to basket!');
                 addedTracksNames = getCookie('tracks');
                 addedTracksNames = addedTracksNames.concat(trackName + '###,');
                 setCookie('tracks', addedTracksNames, 365);
@@ -1238,7 +1216,7 @@ $('document').ready(function () {
             }   
         // If it is empty, it's the first time the page is accessed. Cookies are created
         } else {
-            alert ('Added to basket!');
+            alert('Added to basket!');
             addedTracksNames = addedTracksNames.concat(trackName + '###,');
             setCookie('tracks', addedTracksNames, 365);
 
@@ -1284,7 +1262,7 @@ $('document').ready(function () {
                 $('#billingStateField').val(data.State);
                 $('#billingCountryField').val(data.Country);
 
-                // Populate the tracks table, if any tracks have been added
+                // Populate the tracks table, either with tracks or display that is empty
                 displayTracksBasket(getCookie('tracks'), getCookie('IDs') ,getCookie('prices'), getCookie('total'));
             })
             .fail (function (data) {
@@ -1298,6 +1276,8 @@ $('document').ready(function () {
             if (!$('#billingAddressField').val() || !$('#billingCityField').val() || 
                 !$('#billingCountryField').val()) {
                 alert('All fields marked with * are mandatory');
+            } else if (!getCookie('IDs')) {
+                alert('You need to purchase at least 1 track!');
             } else {
                 let date = new Date();
                 let year = date.getUTCFullYear();

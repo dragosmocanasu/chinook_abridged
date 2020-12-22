@@ -339,7 +339,7 @@ function displayTracksBasket (trackNames, trackIds, trackPrices, total) {
         $('div#basketTotal').css('font-weight', 'bold');
         $('<br>').appendTo('div#basketTracks');
     } else {
-        $('div#basketTracks').text('Your cart is empty');
+        $('div#basketTracks').text('Your basket is empty');
         $('<br>').appendTo('div#basketTracks');
         $('div#basketTotal').text('Total: 0.00$');
         $('div#basketTotal').css('font-weight', 'bold');
