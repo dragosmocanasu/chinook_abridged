@@ -606,14 +606,12 @@
                                             } else {
                                                 $results = $invoice -> add($_POST['customerId'], $_POST['invoiceDate'], $_POST['billingAddress'], $_POST['billingCity'], 
                                                     $_POST['billingState'], $_POST['billingCountry'], $_POST['billingPostalCode'], $_POST['total']);
-                                                if (empty($results)) {
-                                                    $response['Message'] = 'Invoice exists already';
-                                                    echo json_encode($response, http_response_code(409));
-                                                } else if ($results === -1) {
+                                                if ($results === -1) {
                                                     $response['Message'] = 'Database could not process your request';
                                                     echo json_encode($response, http_response_code(400));
                                                 } else {
-                                                    $response['Message'] = "Created with id $results";
+                                                    $response['Message'] = "Created";
+                                                    $response['Id'] = $results;
                                                     echo json_encode($response, http_response_code(201));
                                                 }
                                             }

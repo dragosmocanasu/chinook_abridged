@@ -915,7 +915,7 @@ $('document').ready(function () {
         }
     });
     
-    // ------------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------
 
     // Customer radio group functionality
     $('.customerRadioGroup').change(function () {
@@ -1271,8 +1271,8 @@ $('document').ready(function () {
             }
         });
 
-         // GET ajax call to fetch all details by id
-         $.ajax({
+        // GET ajax call to fetch all details by id
+        $.ajax({
             url: 'users' + '/' + itemId,
             type: 'GET',
         })
@@ -1286,40 +1286,87 @@ $('document').ready(function () {
 
                 // Populate the tracks table, if any tracks have been added
                 displayTracksBasket(getCookie('tracks'), getCookie('IDs') ,getCookie('prices'), getCookie('total'));
-                
-                // Unbind and bind the click event to the button
-                $('#buyTracksButton').off('click');
-                $('#buyTracksButton').on('click', function(e) {
-                    // Mandatory fields cannot be empty
-                    if (!$('#billingAddressField').val() || !$('#billingCityField').val() || 
-                        !$('#billingCountryField').val()) {
-                        alert('All fields marked with * are mandatory');
-                    } else {
-                        // Body needs to be raw JSON
-                        let body = {
-                            'firstName': $('#updateUserFirstNameField').val()
-                            // fields sent to POST for invoice and invoiceline
-                        }
-                        $.ajax({
-                            //url:
-                            //type: 
-                            //data: JSON.stringify(body)
-                        })
-                            .done (function(data) {
-                                alert(data.Message);
-                                // Hide the modal after update
-                                userBasketModal.css('display', 'none');
-                            })
-                            .fail (function(data) {
-                                alert(data.responseJSON.Message);
-                            })
-                    }
-                })
-
             })
             .fail (function (data) {
                 alert(data.responseJSON.Message);
             })
+
+            // Buy tracks button
+            $('#buyTracksButton').off('click');
+            $('#buyTracksButton').on('click', function(e) {
+            // Mandatory fields cannot be empty
+            if (!$('#billingAddressField').val() || !$('#billingCityField').val() || 
+                !$('#billingCountryField').val()) {
+                alert('All fields marked with * are mandatory');
+            } else {
+                let date = new Date();
+                let year = date.getUTCFullYear();
+                let month = date.getUTCMonth() + 1;
+                let day = date.getUTCDate();
+                let newDate = year + '-' + month + '-' + day;
+                $.ajax({
+                    url: 'invoices',
+                    type: 'POST', 
+                    data: {
+                        customerId: itemId,
+                        invoiceDate: newDate,
+                        billingAddress: $('#billingAddressField').val(),
+                        billingCity: $('#billingCityField').val(),
+                        billingState: $('#billingStateField').val(),
+                        billingCountry: $('#billingCountryField').val(),
+                        billingPostalCode: $('#billingPostalCodeField').val(),
+                        total: getCookie('total')
+                    }
+                })
+                    .done (function(data) {
+                        // Call POST API for invoicelines
+                        alert('Track(s) ordered!');
+                        
+                        let IDs = getCookie('IDs').split(',');
+                        let prices = getCookie('prices').split(',');
+                        for(i = 0; i < IDs.length - 1; i ++ ) {
+                            $.ajax({
+                                url: 'invoicelines',
+                                type: 'POST', 
+                                data: {
+                                    invoiceId: data.Id,
+                                    trackId: IDs[i],
+                                    unitPrice: prices[i],
+                                    quantity: '1'
+                                }
+                            })
+                                .done (function(data) {
+                                    // Hide the modal after purchase
+                                    userBasketModal.css('display', 'none');
+
+                                    // Empty basket
+                                    $('div#basketTracks').empty();
+
+                                    // Clear cookies
+                                    setCookie('tracks', '', 365);
+                                    setCookie('IDs', '', 365);
+                                    setCookie('prices', '', 365);
+                                    setCookie('total', '', 365);
+
+                                    // Empty the strings
+                                    addedTracksNames = '';
+                                    addedTracksIds = '';
+                                    addedTracksPrices = '';
+                                    totalPrice = 0;
+
+                                })
+                                .fail (function(data) {
+                                    alert(data.responseJSON.Message);
+                                })
+                        }
+                        
+                    })
+                    .fail (function(data) {
+                        alert(data.responseJSON.Message);
+                    })
+            }
+        })
+        
     });
 
     // Delete track from basket
@@ -1346,7 +1393,7 @@ $('document').ready(function () {
         }
         // Set the new cookie
         setCookie('tracks', newAddedTracksNames, 365);
-        // Empty the builder
+        // Empty the strings
         addedTracksNames = '';
         newAddedTracksNames = '';
 
@@ -1363,7 +1410,7 @@ $('document').ready(function () {
         }
         // Set the new cokie
         setCookie('IDs', newAddedTracksIds, 365);
-        // Empty the builder
+        // Empty the strings
         addedTracksIds = '';
         newAddedTracksIds = '';
 
@@ -1386,12 +1433,11 @@ $('document').ready(function () {
         }        
         // Set the new cookie
         setCookie('prices', newAddedTracksPrices, 365);
-        // Empty the builder
+        // Empty the strings
         addedTracksPrices = '';
         newAddedTracksPrices = '';         
         displayTracksBasket(getCookie('tracks'), getCookie('IDs') ,getCookie('prices'), getCookie('total'));
     }); 
-    
 });
 
 function showButtons() {

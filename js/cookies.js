@@ -1,16 +1,16 @@
 // Variables used for handling cookies
-let trackId = '';
-let tr = '';
-let trackName = '';
-let trackPrice = 0;
-let totalPrice = 0;
-let addedTracksNames = '';
-let addedTracksIds = '';
-let addedTracksPrices = '';
-let newAddedTracksNames = '';
-let newAddedTracksIds = '';
-let newAddedTracksPrices = '';
-let length = 0;
+var trackId = '';
+var tr = '';
+var trackName = '';
+var trackPrice = 0;
+var totalPrice = 0;
+var addedTracksNames = '';
+var addedTracksIds = '';
+var addedTracksPrices = '';
+var newAddedTracksNames = '';
+var newAddedTracksIds = '';
+var newAddedTracksPrices = '';
+var length = 0;
 
 function setCookie(name, value, days) {
     // Encode value in order to escape semicolons, commas, and whitespace

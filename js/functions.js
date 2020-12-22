@@ -51,7 +51,7 @@ function displayAlbumsAdmin(albumData) {
             url: 'artists/' + artistId,
             type: 'GET'
         })
-            .done (function(data) {
+            .done (function (data) {
                 artistName = data.Name;
                 row.
                     append($('<td />', { 'text': albumTitle})).
@@ -60,7 +60,7 @@ function displayAlbumsAdmin(albumData) {
                     append($('<td />', { 'html': "<img id='" + albumId + "' class='smallButton deleteAlbum' src='img/delete.png'>", 'class': 'action'}))
                 tableBody.append(row);
             })
-            .fail (function(data) {
+            .fail (function (data) {
                 artistName = 'Unknown'
             })
     }
@@ -97,60 +97,60 @@ function displayTracksAdmin(trackData) {
         url: 'albums',
         type: 'GET'
     })
-        .done (function(data) {
+        .done (function (data) {
             albums = data;
             $.ajax({
                 url: 'mediatypes',
                 type: 'GET'
             })
-                .done (function(data) {
-                    mediatypes = data;
-                    $.ajax({
-                        url: 'genres',
-                        type: 'GET'
-                    })
-                        .done (function(data) {
-                            genres = data;
-                            
-                            const tableBody = $('<tbody />');
-                            for (let i = 0; i < trackData.length; i ++) {
-                                const row = $('<tr />');
+            .done (function (data) {
+                mediatypes = data;
+                $.ajax({
+                    url: 'genres',
+                    type: 'GET'
+                })
+                .done (function (data) {
+                    genres = data;
+                    
+                    const tableBody = $('<tbody />');
+                    for (let i = 0; i < trackData.length; i ++) {
+                        const row = $('<tr />');
 
-                                const trackId = trackData[i].TrackId;
-                                const albumId = trackData[i].AlbumId;
-                                const mediaTypeId = trackData[i].MediaTypeId;
-                                const genreId = trackData[i].GenreId;
+                        const trackId = trackData[i].TrackId;
+                        const albumId = trackData[i].AlbumId;
+                        const mediaTypeId = trackData[i].MediaTypeId;
+                        const genreId = trackData[i].GenreId;
 
-                                const trackName = trackData[i].Name;
-                                let albumTitle = albums[albumId-1].Title;
-                                let mediaTypeName = mediatypes[mediaTypeId-1].Name;
-                                let genreName = genres[genreId-1].Name;
+                        const trackName = trackData[i].Name;
+                        let albumTitle = albums[albumId-1].Title;
+                        let mediaTypeName = mediatypes[mediaTypeId-1].Name;
+                        let genreName = genres[genreId-1].Name;
 
-                                row.
-                                    append($('<td />', { 'text': trackName})).
-                                    append($('<td />', { 'text': albumTitle})).
-                                    append($('<td />', { 'text': mediaTypeName})).
-                                    append($('<td />', { 'text': genreName})).
-                                    append($('<td />', { 'text': trackData[i].Composer})).
-                                    append($('<td />', { 'text': trackData[i].Milliseconds})).
-                                    append($('<td />', { 'text': trackData[i].Bytes})).
-                                    append($('<td />', { 'text': trackData[i].UnitPrice})).
-                                    append($('<td />', { 'html': "<img id='" + trackId + "' albumId='" + albumId + "' mediaTypeId='" + mediaTypeId + "' genreId='" + genreId + "' class='smallButton editTrack' src='img/edit.png'>", 'class': 'action'})).
-                                    append($('<td />', { 'html': "<img id='" + trackId + "' class='smallButton deleteTrack' src='img/delete.png'>", 'class': 'action'}))
-                                tableBody.append(row);                                
-                            }
-                            table.append(tableBody);
-                            table.appendTo($('div#adminResults'));
-                            $('<br>').appendTo('div#adminResults');
+                        row.
+                            append($('<td />', { 'text': trackName})).
+                            append($('<td />', { 'text': albumTitle})).
+                            append($('<td />', { 'text': mediaTypeName})).
+                            append($('<td />', { 'text': genreName})).
+                            append($('<td />', { 'text': trackData[i].Composer})).
+                            append($('<td />', { 'text': trackData[i].Milliseconds})).
+                            append($('<td />', { 'text': trackData[i].Bytes})).
+                            append($('<td />', { 'text': trackData[i].UnitPrice})).
+                            append($('<td />', { 'html': "<img id='" + trackId + "' albumId='" + albumId + "' mediaTypeId='" + mediaTypeId + "' genreId='" + genreId + "' class='smallButton editTrack' src='img/edit.png'>", 'class': 'action'})).
+                            append($('<td />', { 'html': "<img id='" + trackId + "' class='smallButton deleteTrack' src='img/delete.png'>", 'class': 'action'}))
+                        tableBody.append(row);                                
+                    }
+                    table.append(tableBody);
+                    table.appendTo($('div#adminResults'));
+                    $('<br>').appendTo('div#adminResults');
 
-                        })
-                        .fail (function (data) {
-                            genres = null;
-                        })
                 })
                 .fail (function (data) {
-                    mediatypes = null;
+                    genres = null;
                 })
+            })
+            .fail (function (data) {
+                mediatypes = null;
+            })
         })
         .fail (function (data) {
             albums = null;
@@ -204,14 +204,14 @@ function displayAlbumsCustomer(albumData) {
             url: 'artists/' + artistId,
             type: 'GET'
         })
-            .done (function(data) {
+            .done (function (data) {
                 artistName = data.Name;
                 row.
                     append($('<td />', { 'text': albumTitle})).
                     append($('<td />', { 'text': artistName}))
                 tableBody.append(row);
             })
-            .fail (function(data) {
+            .fail (function (data) {
                 artistName = 'Unknown'
             })
     }
@@ -335,8 +335,14 @@ function displayTracksBasket (trackNames, trackIds, trackPrices, total) {
         }
         table.append(tableBody);
         table.appendTo($('div#basketTracks'));
-        $('<br>').appendTo('div#basketTracks');
-    }
         $('div#basketTotal').text('Total: ' + total + '$');
         $('div#basketTotal').css('font-weight', 'bold');
+        $('<br>').appendTo('div#basketTracks');
+    } else {
+        $('div#basketTracks').text('Your cart is empty');
+        $('<br>').appendTo('div#basketTracks');
+        $('div#basketTotal').text('Total: 0.00$');
+        $('div#basketTotal').css('font-weight', 'bold');
+        $('<br>').appendTo('div#basketTracks');
+    }
 }
