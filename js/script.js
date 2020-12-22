@@ -137,7 +137,7 @@ $('document').ready(function () {
                 // Update API call 
                 $(document).off('click', 'img.editArtist');
                 $(document).on('click', 'img.editArtist', function(e) {
-                    // Save the ID of the clicked item
+                    // Save the ID of the clicked item (in this case, an artist)
                     let itemId = this.id;
                     // Show modal
                     updateArtistModal.show();
@@ -201,7 +201,7 @@ $('document').ready(function () {
                 // Delete API call 
                 $(document).off('click', 'img.deleteArtist');
                 $(document).on('click', 'img.deleteArtist', function(e) {
-                    // Save the ID of the clicked item
+                    // Save the ID of the clicked item (in this case, an artist)
                     let itemId = this.id;
                     // Show modal
                     deleteArtistModal.show();
@@ -383,7 +383,7 @@ $('document').ready(function () {
                 $(document).on('click', 'img.editAlbum', function(e) {
                     // Clear the dropdown
                     $('#updateArtistDropdown').empty();
-                    // Save the ID of the clicked item
+                    // Save the ID of the clicked item ((in this case, an album)
                     let itemId = this.id;
                     // Save the ID of the artist
                     let artistId = $(this).attr('artistId');
@@ -471,7 +471,7 @@ $('document').ready(function () {
                 // Delete API call 
                 $(document).off('click', 'img.deleteAlbum');
                 $(document).on('click', 'img.deleteAlbum', function(e) {
-                    // Save the ID of the clicked item
+                    // Save the ID of the clicked item ((in this case, an album)
                     let itemId = this.id;
                     // Show modal
                     deleteAlbumModal.show();
@@ -704,7 +704,7 @@ $('document').ready(function () {
                      $('#updateAlbumDropdown').empty();
                      $('#updateMediaTypeDropdown').empty();
                      $('#updateGenreDropdown').empty();
-                    // Save the ID of the clicked item
+                    // Save the ID of the clicked item (in this case, a track)
                     let itemId = this.id;
                     // Save all of the foreign key Ids
                     let albumId = $(this).attr('albumId');
@@ -852,7 +852,7 @@ $('document').ready(function () {
                 // Delete API call 
                 $(document).off('click', 'img.deleteTrack');
                 $(document).on('click', 'img.deleteTrack', function(e) {
-                    // Save the ID of the clicked item
+                    // Save the ID of the clicked item (in this case, a track)
                     let itemId = this.id;
                     // Show modal
                     deleteTrackModal.show();
@@ -1062,7 +1062,7 @@ $('document').ready(function () {
     // Update user data
     $(document).off('click', 'img.editUser');
     $(document).on('click', 'img.editUser', function(e) {
-        // Save the ID of the clicked item
+        // Save the ID of the clicked item (in this case, a user)
         let itemId = this.id;
         // Show modal
         updateUserModal.show();
@@ -1203,7 +1203,7 @@ $('document').ready(function () {
     // Add to basket 
     $(document).off('click', 'img.addTrackToBasket');
     $(document).on('click', 'img.addTrackToBasket', function(e) {
-        // Track Id
+        // Save the id of the clicked item (in this case, a track)
         trackId = this.id; 
         // Table row which contains the added track
         tr = (this.parentElement).parentElement;
@@ -1217,33 +1217,37 @@ $('document').ready(function () {
             // If the same ID has been added, alert
             if (getCookie('IDs').includes(trackId)) {
                 alert ('Track has already been added!');
-                // If a new track is inserted, add it to the cookies
+            // If a new track is inserted, add it to the cookies
             } else {
                 alert ('Added to basket!');
                 addedTracksNames = getCookie('tracks');
-                addedTracksNames = addedTracksNames + trackName + '###,';
+                addedTracksNames = addedTracksNames.concat(trackName + '###,');
                 setCookie('tracks', addedTracksNames, 365);
 
                 addedTracksIds = getCookie('IDs');
-                addedTracksIds = addedTracksIds + trackId + ',';
+                addedTracksIds = addedTracksIds.concat(trackId + ',');
                 setCookie('IDs', addedTracksIds, 365);
 
-                addedTracksPrices = getCookie('total');
-                addedTracksPrices = addedTracksPrices + trackPrice + ',';
+                addedTracksPrices = getCookie('prices');
+                addedTracksPrices = addedTracksPrices.concat(trackPrice + ',');
+                setCookie('prices', addedTracksPrices, 365);
+
+                totalPrice = parseFloat(getCookie('total'));
                 totalPrice += parseFloat(trackPrice);
                 setCookie('total', totalPrice.toFixed(2), 365);
-                
-            }
+            }   
         // If it is empty, it's the first time the page is accessed. Cookies are created
         } else {
             alert ('Added to basket!');
-            addedTracksNames = addedTracksNames + trackName + '###,';
+            addedTracksNames = addedTracksNames.concat(trackName + '###,');
             setCookie('tracks', addedTracksNames, 365);
 
-            addedTracksIds = addedTracksIds + trackId + ',';
+            addedTracksIds = addedTracksIds.concat(trackId + ',');
             setCookie('IDs', addedTracksIds, 365);
 
-            addedTracksPrices = addedTracksPrices + trackPrice + ',';
+            addedTracksPrices = addedTracksPrices.concat(trackPrice + ',');
+            setCookie('prices', addedTracksPrices, 365);
+
             totalPrice += parseFloat(trackPrice);
             setCookie('total', totalPrice.toFixed(2), 365);
         }
@@ -1252,9 +1256,8 @@ $('document').ready(function () {
     // Basket modal
     $(document).off('click', 'img.userBasket');
     $(document).on('click', 'img.userBasket', function(e) {
-        // Save the id of the clicked item
+        // Save the id of the clicked item (in this case, a user)
         let itemId = this.id;
-
         // Show basket modal
         userBasketModal.show();
         // Close if user clicks on X
@@ -1281,6 +1284,9 @@ $('document').ready(function () {
                 $('#billingStateField').val(data.State);
                 $('#billingCountryField').val(data.Country);
 
+                // Populate the tracks table, if any tracks have been added
+                displayTracksBasket(getCookie('tracks'), getCookie('IDs') ,getCookie('prices'), getCookie('total'));
+                
                 // Unbind and bind the click event to the button
                 $('#buyTracksButton').off('click');
                 $('#buyTracksButton').on('click', function(e) {
@@ -1291,28 +1297,18 @@ $('document').ready(function () {
                     } else {
                         // Body needs to be raw JSON
                         let body = {
-                            'firstName': $('#updateUserFirstNameField').val(),
-                            'lastName': $('#updateUserLastNameField').val(),
-                            'address': $('#updateUserAddressField').val(),
-                            'postalCode': $('#updateUserPostalCodeField').val(),
-                            'company': $('#updateUserCompanyField').val(),
-                            'city': $('#updateUserCityField').val(),
-                            'state': $('#updateUserStateField').val(),
-                            'country': $('#updateUserCountryField').val(),
-                            'phone': $('#updateUserPhoneField').val(),
-                            'fax': $('#updateUserFaxField').val(),
-                            'email': $('#updateUserEmailField').val(),
-                            'password': $('#updateUserPasswordField').val()
+                            'firstName': $('#updateUserFirstNameField').val()
+                            // fields sent to POST for invoice and invoiceline
                         }
                         $.ajax({
-                            url: 'users'+ '/' + itemId,
-                            type: 'PUT',
-                            data: JSON.stringify(body)
+                            //url:
+                            //type: 
+                            //data: JSON.stringify(body)
                         })
                             .done (function(data) {
                                 alert(data.Message);
                                 // Hide the modal after update
-                                updateUserModal.css('display', 'none');
+                                userBasketModal.css('display', 'none');
                             })
                             .fail (function(data) {
                                 alert(data.responseJSON.Message);
@@ -1326,6 +1322,76 @@ $('document').ready(function () {
             })
     });
 
+    // Delete track from basket
+    $(document).off('click', 'img.deleteTrackFromBasket');
+    $(document).on('click', 'img.deleteTrackFromBasket', function(e) {
+        // Table row which contains the added track
+        tr = (this.parentElement).parentElement;
+
+        // Save the index of the track
+        trackIndex = $(tr).attr('id'); 
+
+        alert('Deleted!');
+        
+        // Fetch the current cookie for the names
+        addedTracksNames = getCookie('tracks'); 
+        // Split by the separator
+        addedTracksNames = addedTracksNames.split('###,');
+        // Delete the name 
+        addedTracksNames.splice(trackIndex, 1);   
+        length =  addedTracksNames.length;
+        for (i = 0; i < length - 1; i ++) {
+            // Form the new cookie with the remaining names
+            newAddedTracksNames = newAddedTracksNames.concat(addedTracksNames[i] + '###,');
+        }
+        // Set the new cookie
+        setCookie('tracks', newAddedTracksNames, 365);
+        // Empty the builder
+        addedTracksNames = '';
+        newAddedTracksNames = '';
+
+        // Fetch the current cookie for the ids
+        addedTracksIds = getCookie('IDs');
+        // Split by the separator
+        addedTracksIds = addedTracksIds.split(',');
+        // Delete the id
+        addedTracksIds.splice(trackIndex, 1);
+        length =  addedTracksIds.length;
+        for (i = 0; i < length - 1; i ++) {
+            // Form the new cookie with the remaining ids
+            newAddedTracksIds = newAddedTracksIds.concat(addedTracksIds[i] + ',');
+        }
+        // Set the new cokie
+        setCookie('IDs', newAddedTracksIds, 365);
+        // Empty the builder
+        addedTracksIds = '';
+        newAddedTracksIds = '';
+
+        // Fetch the current cookie for the total
+        totalPrice = parseFloat(getCookie('total'));
+        // Fetch the current cookie for all prices
+        addedTracksPrices = getCookie('prices');
+        // Split by the separator
+        addedTracksPrices = addedTracksPrices.split(',');
+        // Update the total price
+        totalPrice -= parseFloat(addedTracksPrices[trackIndex]);
+        // Set the new cookie
+        setCookie('total', totalPrice.toFixed(2), 365);
+        // Delete the price from the array
+        addedTracksPrices.splice(trackIndex, 1);
+        length =  addedTracksPrices.length;
+        for (i = 0; i < length - 1; i ++) {
+            // Form the new cookie with the remaining prices
+            newAddedTracksPrices = newAddedTracksPrices.concat(addedTracksPrices[i] + ',');
+        }        
+        // Set the new cookie
+        setCookie('prices', newAddedTracksPrices, 365);
+        // Empty the builder
+        addedTracksPrices = '';
+        newAddedTracksPrices = '';         
+        displayTracksBasket(getCookie('tracks'), getCookie('IDs') ,getCookie('prices'), getCookie('total'));
+    }); 
+    
 });
 
 function showButtons() {

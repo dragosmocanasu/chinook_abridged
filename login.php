@@ -11,6 +11,7 @@
             setcookie(session_name(), '', time() - 86400, '/');
             setcookie('tracks', false);  
             setcookie('IDs', false);  
+            setcookie('prices', false);
             setcookie('total', false);  
         }            
         // Closing the session

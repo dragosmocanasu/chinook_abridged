@@ -108,7 +108,7 @@
                 <span class="close">
                     &times;
                 </span>
-                Your basket
+                <b>Your basket</b>
                 <br>
                 <br>
                 <label for="billingAddressField">Billing Address*</label>
@@ -135,7 +135,14 @@
                         * required
                 </div>
                 <br>
-
+                <div id="basketTracks">
+           
+                </div>
+                <div id="basketTotal">
+                    
+                </div>
+                <br>
+                <br>
                 <input type="button" id="buyTracksButton" value="Buy">
             </div>
         </div>

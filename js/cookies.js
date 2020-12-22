@@ -7,6 +7,10 @@ let totalPrice = 0;
 let addedTracksNames = '';
 let addedTracksIds = '';
 let addedTracksPrices = '';
+let newAddedTracksNames = '';
+let newAddedTracksIds = '';
+let newAddedTracksPrices = '';
+let length = 0;
 
 function setCookie(name, value, days) {
     // Encode value in order to escape semicolons, commas, and whitespace
