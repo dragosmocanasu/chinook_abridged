@@ -1182,7 +1182,7 @@ $('document').ready(function () {
     $(document).off('click', 'img.addTrackToBasket');
     $(document).on('click', 'img.addTrackToBasket', function(e) {
         // Save the id of the clicked item (in this case, a track)
-        trackId = this.id; 
+        let itemId = this.id; 
         // Table row which contains the added track
         tr = (this.parentElement).parentElement;
         // Name of the track
@@ -1193,7 +1193,7 @@ $('document').ready(function () {
         // If IDs cookie is not empty
         if(getCookie('IDs')) {
             // If the same ID has been added, alert
-            if (getCookie('IDs').includes(trackId)) {
+            if (getCookie('IDs').includes(itemId)) {
                 alert('Track has already been added!');
             // If a new track is inserted, add it to the cookies
             } else {
@@ -1203,7 +1203,7 @@ $('document').ready(function () {
                 setCookie('tracks', addedTracksNames, 365);
 
                 addedTracksIds = getCookie('IDs');
-                addedTracksIds = addedTracksIds.concat(trackId + ',');
+                addedTracksIds = addedTracksIds.concat(itemId + ',');
                 setCookie('IDs', addedTracksIds, 365);
 
                 addedTracksPrices = getCookie('prices');
@@ -1220,7 +1220,7 @@ $('document').ready(function () {
             addedTracksNames = addedTracksNames.concat(trackName + '###,');
             setCookie('tracks', addedTracksNames, 365);
 
-            addedTracksIds = addedTracksIds.concat(trackId + ',');
+            addedTracksIds = addedTracksIds.concat(itemId + ',');
             setCookie('IDs', addedTracksIds, 365);
 
             addedTracksPrices = addedTracksPrices.concat(trackPrice + ',');
