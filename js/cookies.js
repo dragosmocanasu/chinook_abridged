@@ -1,20 +1,20 @@
-// letiables used for handling cookies
-let trackId = '';
-let tr = '';
-let trackName = '';
-let trackPrice = 0;
-let totalPrice = 0;
-let addedTracksNames = '';
-let addedTracksIds = '';
-let addedTracksPrices = '';
-let newAddedTracksNames = '';
-let newAddedTracksIds = '';
-let newAddedTracksPrices = '';
-let length = 0;
+// Variables used for handling cookies
+var trackId = '';
+var tr = '';
+var trackName = '';
+var trackPrice = 0;
+var totalPrice = 0;
+var addedTracksNames = '';
+var addedTracksIds = '';
+var addedTracksPrices = '';
+var newAddedTracksNames = '';
+var newAddedTracksIds = '';
+var newAddedTracksPrices = '';
+var length = 0;
 
 function setCookie(name, value, days) {
     // Encode value in order to escape semicolons, commas, and whitespace
-    let cookie = name + '=' + encodeURIComponent(value);
+    var cookie = name + '=' + encodeURIComponent(value);
     
     if(typeof days === 'number') {
         /* Sets the max-age attribute so that the cookie expires
@@ -27,11 +27,11 @@ function setCookie(name, value, days) {
 
 function getCookie(name) {
     // Split cookie string and get all individual name=value pairs in an array
-    let cookieArr = document.cookie.split(';');
+    var cookieArr = document.cookie.split(';');
     
     // Loop through the array elements
-    for(let i = 0; i < cookieArr.length; i ++) {
-        let cookiePair = cookieArr[i].split('=');
+    for(var i = 0; i < cookieArr.length; i ++) {
+        var cookiePair = cookieArr[i].split('=');
         
         /* Removing whitespace at the beginning of the cookie name
         and compare it with the given string */

@@ -1198,6 +1198,7 @@ $('document').ready(function () {
             // If a new track is inserted, add it to the cookies
             } else {
                 alert('Added to basket!');
+
                 addedTracksNames = getCookie('tracks');
                 addedTracksNames = addedTracksNames.concat(trackName + '###,');
                 setCookie('tracks', addedTracksNames, 365);
@@ -1217,6 +1218,7 @@ $('document').ready(function () {
         // If it is empty, it's the first time tracks are added to basket. Cookies are created
         } else {
             alert('Added to basket!');
+
             addedTracksNames = addedTracksNames.concat(trackName + '###,');
             setCookie('tracks', addedTracksNames, 365);
 
@@ -1262,7 +1264,7 @@ $('document').ready(function () {
                 $('#billingStateField').val(data.State);
                 $('#billingCountryField').val(data.Country);
 
-                // Populate the tracks table, either with tracks or display that is empty
+                // Populate the tracks table, either with the tracks or display that is empty
                 displayTracksBasket(getCookie('tracks'), getCookie('IDs') ,getCookie('prices'), getCookie('total'));
             })
             .fail (function (data) {
@@ -1276,6 +1278,7 @@ $('document').ready(function () {
             if (!$('#billingAddressField').val() || !$('#billingCityField').val() || 
                 !$('#billingCountryField').val()) {
                 alert('All fields marked with * are mandatory');
+                // If no tracks are added, purchase cannot be completed
             } else if (!getCookie('IDs')) {
                 alert('You need to purchase at least 1 track!');
             } else {
@@ -1299,9 +1302,9 @@ $('document').ready(function () {
                     }
                 })
                     .done (function(data) {
-                        // Call POST API for invoicelines
                         alert('Track(s) ordered!');
                         
+                        // For each track, call the POST for invoicelines
                         let IDs = getCookie('IDs').split(',');
                         let prices = getCookie('prices').split(',');
                         for(i = 0; i < IDs.length - 1; i ++ ) {
@@ -1332,6 +1335,7 @@ $('document').ready(function () {
                                     addedTracksNames = '';
                                     addedTracksIds = '';
                                     addedTracksPrices = '';
+                                    // Reset the price
                                     totalPrice = 0;
 
                                 })
@@ -1354,7 +1358,6 @@ $('document').ready(function () {
     $(document).on('click', 'img.deleteTrackFromBasket', function(e) {
         // Table row which contains the added track
         tr = (this.parentElement).parentElement;
-
         // Save the index of the track
         trackIndex = $(tr).attr('id'); 
 
@@ -1402,7 +1405,7 @@ $('document').ready(function () {
         addedTracksPrices = addedTracksPrices.split(',');
         // Update the total price
         totalPrice -= parseFloat(addedTracksPrices[trackIndex]);
-        // Set the new cookie
+        // Set the new cookie for the total price
         setCookie('total', totalPrice.toFixed(2), 365);
         // Delete the price from the array
         addedTracksPrices.splice(trackIndex, 1);
@@ -1411,11 +1414,13 @@ $('document').ready(function () {
             // Form the new cookie with the remaining prices
             newAddedTracksPrices = newAddedTracksPrices.concat(addedTracksPrices[i] + ',');
         }        
-        // Set the new cookie
+        // Set the new cookie for all prices
         setCookie('prices', newAddedTracksPrices, 365);
         // Empty the strings
         addedTracksPrices = '';
         newAddedTracksPrices = '';         
+
+        // Refresh the basket with the remaining tracks
         displayTracksBasket(getCookie('tracks'), getCookie('IDs') ,getCookie('prices'), getCookie('total'));
     }); 
 });

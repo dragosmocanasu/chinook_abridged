@@ -35,11 +35,13 @@
         require_once('src/customer.php');
 
         $userValidation = true;
+
         $email = $_POST['email'];
         $password = $_POST['password'];
 
         $admin = new Admin();
         $customer = new Customer();
+        
         $validAdmin = $admin -> validate($email, $password);
         $validCustomer = $customer -> validate($email, $password);
         

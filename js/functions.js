@@ -1,3 +1,4 @@
+// Displays the artists for the admin page, with the edit and delete buttons
 function displayArtistsAdmin(artistData) {
     $('div#adminResults').empty();
 
@@ -26,6 +27,7 @@ function displayArtistsAdmin(artistData) {
     $('<br>').appendTo('div#adminResults');
 }
 
+// Displays the albums for the admin page, with the edit and delete buttons
 function displayAlbumsAdmin(albumData) {
     $('div#adminResults').empty();
 
@@ -47,6 +49,7 @@ function displayAlbumsAdmin(albumData) {
         const albumTitle = albumData[i].Title;
         const artistId = albumData[i].ArtistId;
         let artistName = '';
+        // Fetch the artist for an album
         $.ajax({
             url: 'artists/' + artistId,
             type: 'GET'
@@ -69,6 +72,7 @@ function displayAlbumsAdmin(albumData) {
     $('<br>').appendTo('div#adminResults');
 }
 
+// Displays the tracks for the admin page, with the edit and delete buttons
 function displayTracksAdmin(trackData) {
     $('div#adminResults').empty();
 
@@ -93,18 +97,21 @@ function displayTracksAdmin(trackData) {
     let mediatypes = [];
     let genres = [];
     
+    // Fetch the albums for a track
     $.ajax({
         url: 'albums',
         type: 'GET'
     })
         .done (function (data) {
             albums = data;
+            // Fetch the media type for a track
             $.ajax({
                 url: 'mediatypes',
                 type: 'GET'
             })
             .done (function (data) {
                 mediatypes = data;
+                // Fetch the genre for a track
                 $.ajax({
                     url: 'genres',
                     type: 'GET'
@@ -157,6 +164,7 @@ function displayTracksAdmin(trackData) {
         })    
 }
 
+// Displays the artists for the customer page
 function displayArtistsCustomer(artistData) {
     $('div#customerHomepageResults').empty();
 
@@ -171,7 +179,6 @@ function displayArtistsCustomer(artistData) {
     const tableBody = $('<tbody />');
     for (let i = 0; i < artistData.length; i ++) {
         const row = $('<tr />');
-        //const artistId = artistData[i].ArtistId;
         row.
             append($('<td />', { 'text': artistData[i].Name}))
         tableBody.append(row);
@@ -181,6 +188,7 @@ function displayArtistsCustomer(artistData) {
     $('<br>').appendTo('div#customerHomepageResults');
 }
 
+// Displays the albums for the customer page
 function displayAlbumsCustomer(albumData) {
     $('div#customerHomepageResults').empty();
 
@@ -196,7 +204,6 @@ function displayAlbumsCustomer(albumData) {
     const tableBody = $('<tbody />');
     for (let i = 0; i < albumData.length; i ++) {
         const row = $('<tr />');
-        //const albumId = albumData[i].AlbumId;
         const albumTitle = albumData[i].Title;
         const artistId = albumData[i].ArtistId;
         let artistName = '';
@@ -220,6 +227,7 @@ function displayAlbumsCustomer(albumData) {
     $('<br>').appendTo('div#customerHomepageResults');
 }
 
+// Displays the tracks for the customer page, with the buy button
 function displayTracksCustomer(trackData) {
     $('div#customerHomepageResults').empty();
 
@@ -305,9 +313,11 @@ function displayTracksCustomer(trackData) {
         }) 
 }
 
+// Display the tracks in the basket modal, with the delete button
 function displayTracksBasket (trackNames, trackIds, trackPrices, total) {
     $('div#basketTracks').empty();
 
+    // If there is any data to display, form the table
     if (trackNames) {
         const table = $('<table />');
         const header = $('<thead />');
@@ -338,9 +348,11 @@ function displayTracksBasket (trackNames, trackIds, trackPrices, total) {
         $('div#basketTotal').text('Total: ' + total + '$');
         $('div#basketTotal').css('font-weight', 'bold');
         $('<br>').appendTo('div#basketTracks');
+        // If not, show a message and a total of 0
     } else {
         $('div#basketTracks').text('Your basket is empty');
         $('<br>').appendTo('div#basketTracks');
+        
         $('div#basketTotal').text('Total: 0.00$');
         $('div#basketTotal').css('font-weight', 'bold');
         $('<br>').appendTo('div#basketTracks');

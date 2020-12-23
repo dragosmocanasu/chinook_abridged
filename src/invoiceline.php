@@ -5,7 +5,6 @@
     class InvoiceLine extends DB {
         // Retrieves the invoiceline(s) by invoice Id
         function search($invoiceId) {
-            echo 'hello';
             $query = <<<'SQL'
                 SELECT *
                 FROM invoiceline
