@@ -6,7 +6,7 @@ function displayArtistsAdmin(artistData) {
     const header = $('<thead />');
     const headerRow = $('<tr />');
     headerRow.
-        append($('<th />', { 'text': 'Name'})).
+        append($('<th />', { 'html': 'Name'})).
         append($('<th />', { 'class': 'action'})).
         append($('<th />', { 'class': 'action'}))
     header.append(headerRow);
@@ -17,7 +17,7 @@ function displayArtistsAdmin(artistData) {
         const row = $('<tr />');
         const artistId = artistData[i].ArtistId;
         row.
-            append($('<td />', { 'text': artistData[i].Name})).
+            append($('<td />', { 'html': artistData[i].Name})).
             append($('<td />', { 'html': "<img id='" + artistId + "' class='smallButton editArtist' src='img/edit.png'>", 'class': 'action'})).
             append($('<td />', { 'html': "<img id='" + artistId + "' class='smallButton deleteArtist' src='img/delete.png'>", 'class': 'action'}))
         tableBody.append(row);
@@ -35,8 +35,8 @@ function displayAlbumsAdmin(albumData) {
     const header = $('<thead />');
     const headerRow = $('<tr />');
     headerRow.
-        append($('<th />', { 'text': 'Title'})).
-        append($('<th />', { 'text': 'Artist'})).
+        append($('<th />', { 'html': 'Title'})).
+        append($('<th />', { 'html': 'Artist'})).
         append($('<th />', { 'class': 'action'})).
         append($('<th />', { 'class': 'action'}))
     header.append(headerRow);
@@ -57,8 +57,8 @@ function displayAlbumsAdmin(albumData) {
             .done (function (data) {
                 artistName = data.Name;
                 row.
-                    append($('<td />', { 'text': albumTitle})).
-                    append($('<td />', { 'text': artistName})).
+                    append($('<td />', { 'html': albumTitle})).
+                    append($('<td />', { 'html': artistName})).
                     append($('<td />', { 'html': "<img id='" + albumId + "' artistId='" + artistId + "' class='smallButton editAlbum' src='img/edit.png'>", 'class': 'action'})).
                     append($('<td />', { 'html': "<img id='" + albumId + "' class='smallButton deleteAlbum' src='img/delete.png'>", 'class': 'action'}))
                 tableBody.append(row);
@@ -80,14 +80,14 @@ function displayTracksAdmin(trackData) {
     const header = $('<thead />');
     const headerRow = $('<tr />');
     headerRow.
-        append($('<th />', { 'text': 'Name'})).
-        append($('<th />', { 'text': 'Album'})).
-        append($('<th />', { 'text': 'Media Type'})).
-        append($('<th />', { 'text': 'Genre'})).
-        append($('<th />', { 'text': 'Composer'})).
-        append($('<th />', { 'text': 'Milliseconds'})).
-        append($('<th />', { 'text': 'Bytes'})).
-        append($('<th />', { 'text': 'Unit Price'})).
+        append($('<th />', { 'html': 'Name'})).
+        append($('<th />', { 'html': 'Album'})).
+        append($('<th />', { 'html': 'Media Type'})).
+        append($('<th />', { 'html': 'Genre'})).
+        append($('<th />', { 'html': 'Composer'})).
+        append($('<th />', { 'html': 'Milliseconds'})).
+        append($('<th />', { 'html': 'Bytes'})).
+        append($('<th />', { 'html': 'Unit Price'})).
         append($('<th />', { 'class': 'action'})).
         append($('<th />', { 'class': 'action'}))
     header.append(headerRow);
@@ -139,14 +139,14 @@ function displayTracksAdmin(trackData) {
                         let genreName = genres[genreId-1].Name;
 
                         row.
-                            append($('<td />', { 'text': trackName})).
-                            append($('<td />', { 'text': albumTitle})).
-                            append($('<td />', { 'text': mediaTypeName})).
-                            append($('<td />', { 'text': genreName})).
-                            append($('<td />', { 'text': trackData[i].Composer})).
-                            append($('<td />', { 'text': trackData[i].Milliseconds})).
-                            append($('<td />', { 'text': trackData[i].Bytes})).
-                            append($('<td />', { 'text': trackData[i].UnitPrice})).
+                            append($('<td />', { 'html': trackName})).
+                            append($('<td />', { 'html': albumTitle})).
+                            append($('<td />', { 'html': mediaTypeName})).
+                            append($('<td />', { 'html': genreName})).
+                            append($('<td />', { 'html': trackData[i].Composer})).
+                            append($('<td />', { 'html': trackData[i].Milliseconds})).
+                            append($('<td />', { 'html': trackData[i].Bytes})).
+                            append($('<td />', { 'html': trackData[i].UnitPrice})).
                             append($('<td />', { 'html': "<img id='" + trackId + "' albumId='" + albumId + "' mediaTypeId='" + mediaTypeId + "' genreId='" + genreId + "' class='smallButton editTrack' src='img/edit.png'>", 'class': 'action'})).
                             append($('<td />', { 'html': "<img id='" + trackId + "' class='smallButton deleteTrack' src='img/delete.png'>", 'class': 'action'}))
                         tableBody.append(row);                                
@@ -177,7 +177,7 @@ function displayArtistsCustomer(artistData) {
     const header = $('<thead />');
     const headerRow = $('<tr />');
     headerRow.
-        append($('<th />', { 'text': 'Name'}))
+        append($('<th />', { 'html': 'Name'}))
     header.append(headerRow);
     table.append(header);
 
@@ -185,7 +185,7 @@ function displayArtistsCustomer(artistData) {
     for (let i = 0; i < artistData.length; i ++) {
         const row = $('<tr />');
         row.
-            append($('<td />', { 'text': artistData[i].Name}))
+            append($('<td />', { 'html': artistData[i].Name}))
         tableBody.append(row);
     }
     table.append(tableBody);
@@ -201,8 +201,8 @@ function displayAlbumsCustomer(albumData) {
     const header = $('<thead />');
     const headerRow = $('<tr />');
     headerRow.
-        append($('<th />', { 'text': 'Title'})).
-        append($('<th />', { 'text': 'Artist'}))
+        append($('<th />', { 'html': 'Title'})).
+        append($('<th />', { 'html': 'Artist'}))
     header.append(headerRow);
     table.append(header);
 
@@ -219,8 +219,8 @@ function displayAlbumsCustomer(albumData) {
             .done (function (data) {
                 artistName = data.Name;
                 row.
-                    append($('<td />', { 'text': albumTitle})).
-                    append($('<td />', { 'text': artistName}))
+                    append($('<td />', { 'html': albumTitle})).
+                    append($('<td />', { 'html': artistName}))
                 tableBody.append(row);
             })
             .fail (function (data) {
@@ -240,14 +240,14 @@ function displayTracksCustomer(trackData) {
     const header = $('<thead />');
     const headerRow = $('<tr />');
     headerRow.
-        append($('<th />', { 'text': 'Name'})).
-        append($('<th />', { 'text': 'Album'})).
-        append($('<th />', { 'text': 'Media Type'})).
-        append($('<th />', { 'text': 'Genre'})).
-        append($('<th />', { 'text': 'Composer'})).
-        append($('<th />', { 'text': 'Milliseconds'})).
-        append($('<th />', { 'text': 'Bytes'})).
-        append($('<th />', { 'text': 'Unit Price'})).
+        append($('<th />', { 'html': 'Name'})).
+        append($('<th />', { 'html': 'Album'})).
+        append($('<th />', { 'html': 'Media Type'})).
+        append($('<th />', { 'html': 'Genre'})).
+        append($('<th />', { 'html': 'Composer'})).
+        append($('<th />', { 'html': 'Milliseconds'})).
+        append($('<th />', { 'html': 'Bytes'})).
+        append($('<th />', { 'html': 'Unit Price'})).
         append($('<th />', { 'class': 'action'}))
     header.append(headerRow);
     table.append(header);
@@ -294,14 +294,14 @@ function displayTracksCustomer(trackData) {
                         let genreName = genres[genreId-1].Name;
                 
                         row.
-                            append($('<td />', { 'text': trackName, 'class': 'trackName'})).
-                            append($('<td />', { 'text': albumTitle, 'class': 'albumTitle'})).
-                            append($('<td />', { 'text': mediaTypeName, 'class': 'mediaTypeName'})).
-                            append($('<td />', { 'text': genreName, 'class':'genreName'})).
-                            append($('<td />', { 'text': trackData[i].Composer, 'class':'composer'})).
-                            append($('<td />', { 'text': trackData[i].Milliseconds, 'class':'milliseconds'})).
-                            append($('<td />', { 'text': trackData[i].Bytes, class:'bytes'})).
-                            append($('<td />', { 'text': trackData[i].UnitPrice, class:'unitPrice'})).
+                            append($('<td />', { 'html': trackName, 'class': 'trackName'})).
+                            append($('<td />', { 'html': albumTitle, 'class': 'albumTitle'})).
+                            append($('<td />', { 'html': mediaTypeName, 'class': 'mediaTypeName'})).
+                            append($('<td />', { 'html': genreName, 'class':'genreName'})).
+                            append($('<td />', { 'html': trackData[i].Composer, 'class':'composer'})).
+                            append($('<td />', { 'html': trackData[i].Milliseconds, 'class':'milliseconds'})).
+                            append($('<td />', { 'html': trackData[i].Bytes, class:'bytes'})).
+                            append($('<td />', { 'html': trackData[i].UnitPrice, class:'unitPrice'})).
                             append($('<td />', { 'html': "<img id='" + trackId + "' albumId='" + albumId + "' mediaTypeId='" + mediaTypeId + "' genreId='" + genreId + "' class='smallButton addTrackToBasket' src='img/add-to-cart.png'>", 'class': 'action'}))
                         tableBody.append(row);                                
                     }
@@ -332,8 +332,8 @@ function displayTracksBasket (trackNames, trackIds, trackPrices, total) {
         const header = $('<thead />');
         const headerRow = $('<tr />');
         headerRow.
-            append($('<th />', { 'text': 'Name'})).
-            append($('<th />', { 'text': 'Price'})).
+            append($('<th />', { 'html': 'Name'})).
+            append($('<th />', { 'html': 'Price'})).
             append($('<th />', { 'class': 'action'}))
         header.append(headerRow);
         table.append(header);
@@ -347,8 +347,8 @@ function displayTracksBasket (trackNames, trackIds, trackPrices, total) {
             const row = $('<tr />');
             row.attr('id', i);
             row.
-                append($('<td />', { 'text': trackNames[i], 'class': 'trackName'})).
-                append($('<td />', { 'text': trackPrices[i], class:'trackPrice'})).
+                append($('<td />', { 'html': trackNames[i], 'class': 'trackName'})).
+                append($('<td />', { 'html': trackPrices[i], class:'trackPrice'})).
                 append($('<td />', { 'html': "<img class='smallButton deleteTrackFromBasket' src='img/delete.png'>", 'class': 'action'}))
             tableBody.append(row);                                
         }
