@@ -18,7 +18,7 @@
 
             $this -> disconnect();
 
-            return $results;
+            return $this -> sanitize($results);
         }   
 
           // Retrieves all invoices
@@ -35,7 +35,7 @@
 
             $this -> disconnect();
 
-            return $results;
+            return $this -> sanitize($results);
         }
         
         // Retrieves the invoice by id
@@ -52,7 +52,7 @@
 
             $this -> disconnect();
         
-            return $results;
+            return $this -> sanitize($results);
         }
         
         // Creates a new invoice
@@ -60,26 +60,7 @@
             $billingPostalCode, $total) {
             try {
                 $this -> pdo -> beginTransaction();
-
-                // Check if the invoice exists already
-                $query = <<<'SQL'
-                    SELECT COUNT(*) AS total 
-                    FROM invoice
-                    WHERE CustomerId = ? AND InvoiceDate = ? AND BillingAddress = ? AND BillingCity = ? AND BillingState = ? 
-                        AND BillingCountry = ? and BillingPostalCode = ? AND Total = ? 
-                SQL;
-
-                $statement = $this -> pdo -> prepare($query);
-                $statement -> execute([$customerId, $invoiceDate, $billingAddress, $billingCity, $billingState, $billingCountry, 
-                    $billingPostalCode, $total]);
-                // If exists, rollback and disconnect 
-                if ($statement -> fetch()['total'] > 0) {
-                    $this -> pdo -> rollBack();
-                    $this -> disconnect();
-                    return 0;
-                }
-
-                // If not, insert the new invoice
+                
                 $query = <<<'SQL'
                     INSERT INTO invoice (CustomerId, InvoiceDate, BillingAddress, BillingCity, BillingState, BillingCountry, BillingPostalCode, Total)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?);
@@ -97,7 +78,7 @@
 
             $this -> disconnect();
             
-            return $newId;
+            return $this -> sanitize($newId);
         }
 
         // Updates an invoice
@@ -128,7 +109,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
 
         // Deletes an invoice
@@ -157,7 +138,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
     }
 ?>

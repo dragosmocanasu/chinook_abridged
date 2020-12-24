@@ -44,7 +44,7 @@
             $results = $statement -> fetch();
             $this -> disconnect();
             
-            return $results;
+            return $this -> sanitize($results);
         }   
 
         // Retrieves all users
@@ -61,7 +61,7 @@
 
             $this -> disconnect();
             
-            return $results;
+            return $this -> sanitize($results);
         }   
 
 
@@ -79,7 +79,7 @@
 
             $this -> disconnect();
         
-            return $results;
+            return $this -> sanitize($results);
         }
         
         // Create a new user
@@ -123,7 +123,7 @@
             }
 
             $this -> disconnect();
-            return $newId;
+            return $this -> sanitize($newId);;
         }
         
         // Updates a user
@@ -170,7 +170,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
 
         // Deletes a user
@@ -199,7 +199,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
         
     }

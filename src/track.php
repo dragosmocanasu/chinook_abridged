@@ -17,7 +17,7 @@
 
             $this -> disconnect();
 
-            return $results;
+            return $this -> sanitize($results);
         }   
 
           // Retrieves all tracks
@@ -33,7 +33,7 @@
 
             $this -> disconnect();
 
-            return $results;
+            return $this -> sanitize($results);
         }
         
         // Retrieves the track by id
@@ -50,7 +50,7 @@
 
             $this -> disconnect();
         
-            return $results;
+            return $this -> sanitize($results);
         }
         
         // Creates a new track
@@ -93,7 +93,7 @@
 
             $this -> disconnect();
             
-            return $newId;
+            return $this -> sanitize($newId);
         }
 
         // Updates a track
@@ -124,7 +124,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
 
         // Deletes a track
@@ -153,7 +153,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
     }
 ?>

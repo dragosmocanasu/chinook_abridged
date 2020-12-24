@@ -17,7 +17,7 @@
 
             $this -> disconnect();
             
-            return $results;
+            return $this -> sanitize($results);
         }   
 
         // Retrieves all mediatypes
@@ -33,7 +33,7 @@
 
             $this -> disconnect();
             
-            return $results;
+            return $this -> sanitize($results);
         }   
         
         // Retrieves the mediatype by id
@@ -50,7 +50,7 @@
 
             $this -> disconnect();
         
-            return $results;
+            return $this -> sanitize($results);
         }
     }
 ?>
