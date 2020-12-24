@@ -120,6 +120,7 @@ function displayTracksAdmin(trackData) {
                     genres = data;
                     
                     const tableBody = $('<tbody />');
+                    
                     for (let i = 0; i < trackData.length; i ++) {
                         const row = $('<tr />');
 
@@ -129,7 +130,11 @@ function displayTracksAdmin(trackData) {
                         const genreId = trackData[i].GenreId;
 
                         const trackName = trackData[i].Name;
-                        let albumTitle = albums[albumId-1].Title;
+                        let filteredAlbum = '';
+                        filteredAlbum = albums.filter(function (item) {;
+                            return item.AlbumId == albumId;
+                        });
+                        let albumTitle = filteredAlbum[0].Title;
                         let mediaTypeName = mediatypes[mediaTypeId-1].Name;
                         let genreName = genres[genreId-1].Name;
 
@@ -280,7 +285,11 @@ function displayTracksCustomer(trackData) {
                         const genreId = trackData[i].GenreId;
                 
                         const trackName = trackData[i].Name;
-                        let albumTitle = albums[albumId-1].Title;
+                        let filteredAlbum = '';
+                        filteredAlbum = albums.filter(function (item) {;
+                            return item.AlbumId == albumId;
+                        });
+                        let albumTitle = filteredAlbum[0].Title;
                         let mediaTypeName = mediatypes[mediaTypeId-1].Name;
                         let genreName = genres[genreId-1].Name;
                 
