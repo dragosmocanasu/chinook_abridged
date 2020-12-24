@@ -326,7 +326,7 @@ $('document').ready(function () {
                             for (let i = 0; i < data.length; i ++) {
                                 $('<option />', {
                                     'value': data[i].ArtistId,
-                                    'text': data[i].Name
+                                    'html': data[i].Name
                                 }).appendTo($('#addArtistDropdown'));
                             }
 
@@ -410,7 +410,7 @@ $('document').ready(function () {
                                     for (let i = 0; i < data.length; i ++) {
                                         $('<option />', {
                                             'value': data[i].ArtistId,
-                                            'text': data[i].Name
+                                            'html': data[i].Name
                                         }).appendTo($('#updateArtistDropdown'));
                                     }
                                     // Select the correct value from the artist dropdown
@@ -592,7 +592,7 @@ $('document').ready(function () {
                             for (let i = 0; i < data.length; i ++) {
                                 $('<option />', {
                                     'value': data[i].AlbumId,
-                                    'text': data[i].Title
+                                    'html': data[i].Title
                                 }).appendTo($('#addAlbumDropdown'));
                             }   
                             // GET ajax call fo fetch all mediatypes
@@ -606,7 +606,7 @@ $('document').ready(function () {
                                     for (let i = 0; i < data.length; i ++) {
                                         $('<option />', {
                                             'value': data[i].MediaTypeId,
-                                            'text': data[i].Name
+                                            'html': data[i].Name
                                         }).appendTo($('#addMediaTypeDropdown'));
                                     }   
                                     // GET ajax call fo fetch all genres
@@ -620,7 +620,7 @@ $('document').ready(function () {
                                                 for (let i = 0; i < data.length; i ++) {
                                                     $('<option />', {
                                                         'value': data[i].GenreId,
-                                                        'text': data[i].Name
+                                                        'html': data[i].Name
                                                     }).appendTo($('#addGenreDropdown'));
                                                 }   
 
@@ -733,7 +733,7 @@ $('document').ready(function () {
                                     for (let i = 0; i < data.length; i ++) {
                                         $('<option />', {
                                             'value': data[i].AlbumId,
-                                            'text': data[i].Title
+                                            'html': data[i].Title
                                         }).appendTo($('#updateAlbumDropdown'));
                                     }   
                                     // GET ajax call fo fetch all mediatypes
@@ -747,7 +747,7 @@ $('document').ready(function () {
                                             for (let i = 0; i < data.length; i ++) {
                                                 $('<option />', {
                                                     'value': data[i].MediaTypeId,
-                                                    'text': data[i].Name
+                                                    'html': data[i].Name
                                                 }).appendTo($('#updateMediaTypeDropdown'));
                                             }   
                                             // GET ajax call fo fetch all genres
@@ -761,7 +761,7 @@ $('document').ready(function () {
                                                         for (let i = 0; i < data.length; i ++) {
                                                             $('<option />', {
                                                                 'value': data[i].GenreId,
-                                                                'text': data[i].Name
+                                                                'html': data[i].Name
                                                             }).appendTo($('#updateGenreDropdown'));
                                                         }
                                                         // Select all the correct value from all the dropdowns
