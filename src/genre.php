@@ -17,7 +17,7 @@
 
             $this -> disconnect();
             
-            return $results;
+            return $this -> sanitize($results); 
         }   
 
         // Retrieves all genres
@@ -33,7 +33,7 @@
 
             $this -> disconnect();
             
-            return $results;
+            return $this -> sanitize($results); 
         }   
         
         // Retrieves the genre by id
@@ -50,7 +50,7 @@
 
             $this -> disconnect();
         
-            return $results;
+            return $this -> sanitize($results); 
         }
     }
 ?>

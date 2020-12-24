@@ -18,7 +18,7 @@
 
             $this -> disconnect();
 
-            return $results;
+            return $this -> sanitize($results);
         }   
 
           // Retrieves all invoices
@@ -35,7 +35,7 @@
 
             $this -> disconnect();
 
-            return $results;
+            return $this -> sanitize($results);
         }
         
         // Retrieves the invoice by id
@@ -52,7 +52,7 @@
 
             $this -> disconnect();
         
-            return $results;
+            return $this -> sanitize($results);
         }
         
         // Creates a new invoice
@@ -78,7 +78,7 @@
 
             $this -> disconnect();
             
-            return $newId;
+            return $this -> sanitize($newId);
         }
 
         // Updates an invoice
@@ -109,7 +109,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
 
         // Deletes an invoice
@@ -138,7 +138,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
     }
 ?>

@@ -17,7 +17,7 @@
 
             $this -> disconnect();
 
-            return $results;
+            return $this -> sanitize($results);
         }   
 
           // Retrieves all invoicelines
@@ -34,7 +34,7 @@
 
             $this -> disconnect();
 
-            return $results;
+            return $this -> sanitize($results);
         }
         
         // Retrieves the invoiceline by id
@@ -51,7 +51,7 @@
 
             $this -> disconnect();
         
-            return $results;
+            return $this -> sanitize($results);
         }
         
         // Creates a new invoiceline
@@ -92,7 +92,7 @@
 
             $this -> disconnect();
             
-            return $newId;
+            return $this -> sanitize($newId);
         }
 
         // Updates an invoiceline
@@ -121,7 +121,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
 
         // Deletes an invoiceline
@@ -150,7 +150,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
     }
 ?>

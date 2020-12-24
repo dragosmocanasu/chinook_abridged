@@ -17,7 +17,7 @@
 
             $this -> disconnect();
             
-            return $results;
+            return $this -> sanitize($results);
         }   
 
         // Retrieves all albums
@@ -33,7 +33,7 @@
 
             $this -> disconnect();
             
-            return $results;
+            return $this -> sanitize($results);
         }   
         
         // Retrieves the album by id
@@ -50,7 +50,7 @@
 
             $this -> disconnect();
         
-            return $results;
+            return $this -> sanitize($results);
         }
         
         // Creates a new album
@@ -91,7 +91,7 @@
 
             $this -> disconnect();
             
-            return $newId;
+            return $this -> sanitize($newId);
         }
 
         // Updates an album
@@ -120,7 +120,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
 
         // Deletes an album
@@ -149,7 +149,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
     }
 ?>

@@ -17,7 +17,7 @@
 
             $this -> disconnect();
             
-            return $results;
+            return $this -> sanitize($results);
         }   
 
         // Retrieves all artists
@@ -33,7 +33,7 @@
 
             $this -> disconnect();
             
-            return $results;
+            return $this -> sanitize($results);
         }   
         
         // Retrieves the artist by id
@@ -50,7 +50,7 @@
 
             $this -> disconnect();
         
-            return $results;
+            return $this -> sanitize($results);
         }
         
         // Creates a new artist 
@@ -91,7 +91,7 @@
 
             $this -> disconnect();
             
-            return $newId;
+            return $this -> sanitize($newId);
         }
 
         // Updates an artist
@@ -120,7 +120,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
 
         // Deletes an artist
@@ -149,7 +149,7 @@
             }
             $this -> disconnect();
 
-            return $response;
+            return $this -> sanitize($response);
         }
     }
 ?>
