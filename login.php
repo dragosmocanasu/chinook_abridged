@@ -4,6 +4,14 @@
     session_start();
     $userValidation = false;
 
+    if (empty($_SESSION['dc537c1258d65'])) {
+        $_SESSION['dc537c1258d65'] = bin2hex(random_bytes(32));
+    }
+
+    if (empty($_SESSION['5688e092c7a2e'])) {
+        $_SESSION['5688e092c7a2e'] = bin2hex(random_bytes(32));
+    }
+
     // If the user has clicked on 'Logout', the session is destroyed
     if (isset($_POST['logout'])) {
         // Invalidating the session cookie
@@ -15,8 +23,9 @@
             setcookie('total', false);  
         }            
         // Closing the session
+        session_unset();
         session_destroy();
-        
+    
     // If the user is already logged in, he/she is redirected to the main page
     } else if (isset($_SESSION['userType'])) {
         switch ($_SESSION['userType']) {
@@ -45,13 +54,15 @@
         $validAdmin = $admin -> validate($email, $password);
         $validCustomer = $customer -> validate($email, $password);
         
-        if($validAdmin) {
+        if($validAdmin && hash_equals($_SESSION['dc537c1258d65'], $_POST['dc537c1258d65'])) {
             session_start();
+            session_regenerate_id();
 
             $_SESSION['userType'] = 'admin';
             header('Location: admin_homepage.php');
-        } else if($validCustomer) {
+        } else if($validCustomer && hash_equals($_SESSION['5688e092c7a2e'], $_POST['5688e092c7a2e'])) {
             session_start();
+            session_regenerate_id();
 
             $_SESSION['userType'] = 'customer';
             $_SESSION['userId'] = $customer -> CustomerId;
@@ -89,6 +100,8 @@
             <input type="password" name="password" id="passwordField" required>
             <br>
             <br>
+            <input type="hidden" name="dc537c1258d65" value="<?=$_SESSION['dc537c1258d65']?>">
+            <input type="hidden" name="5688e092c7a2e" value="<?=$_SESSION['5688e092c7a2e']?>">
             <input type="submit" id="loginButton" value="Login">
             </fieldset>
         </form>
