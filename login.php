@@ -4,11 +4,11 @@
     session_start();
     $userValidation = false;
 
-    if (empty($_SESSION['dc537c1258d65'])) {
+    if (!isset($_SESSION['dc537c1258d65'])) {
         $_SESSION['dc537c1258d65'] = bin2hex(random_bytes(32));
     }
 
-    if (empty($_SESSION['5688e092c7a2e'])) {
+    if (!isset($_SESSION['5688e092c7a2e'])) {
         $_SESSION['5688e092c7a2e'] = bin2hex(random_bytes(32));
     }
 
@@ -25,6 +25,7 @@
         // Closing the session
         session_unset();
         session_destroy();
+        header("Refresh:0");
     
     // If the user is already logged in, he/she is redirected to the main page
     } else if (isset($_SESSION['userType'])) {
@@ -78,7 +79,7 @@
     </header>
     <main> 
         <?php
-            if ($userValidation && (!$validAdmin || $validCustomer)) {
+            if ($userValidation && (    !$validAdmin || $validCustomer)) {
         ?>
         <div class="errorMessage">
                 Invalid email or password.
