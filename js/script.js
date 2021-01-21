@@ -46,26 +46,28 @@ $('document').ready(function () {
                 // Search API call
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) { 
-                    $.ajax({
-                        url: 'artists',
-                        type: 'GET',
-                        data: {
-                            name: $('#searchField').val()
-                        }
-                    })
-                        .done (function(data) {
-                            // Search field cannot be empty
-                            if (!$('#searchField').val()) {
-                                $('div#adminResults').html('<br>The name cannot be empty');
-                            } else {
+                    // Search field cannot be empty
+                    if (!$('#searchField').val()) {
+                        $('div#adminResults').html('<br>The name cannot be empty');
+                    } else if (($('#searchField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                        alert("The input field can't contain invalid characters!");
+                    } else {        
+                        $.ajax({
+                            url: 'artists',
+                            type: 'GET',
+                            data: {
+                                name: $('#searchField').val()
+                            }
+                        })
+                            .done (function(data) {
                                 // Display results and clear the search field
                                 displayArtistsAdmin(data);
                                 $('#searchField').val('');
-                            }
-                        })
-                        .fail (function(data) {
-                            $('div#adminResults').html('<br>There is no data matching the entered text.');
-                        })
+                            })
+                            .fail (function(data) {
+                                $('div#adminResults').html('<br>There is no data matching the entered text.');
+                            })
+                    }
                 });
 
                 // Fetch all API call
@@ -106,6 +108,8 @@ $('document').ready(function () {
                         // Name cannot be empty
                         if (!$('#addArtistNameField').val()) {
                             alert('Name cannot be empty');
+                        } else if (($('#addArtistNameField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                            alert("The input field can't contain invalid characters!");
                         } else {
                             $.ajax({
                                 url: 'artists',
@@ -164,6 +168,8 @@ $('document').ready(function () {
                                 // Name cannot be empty
                                 if (!$('#updateArtistNameField').val()) {
                                     alert('Name cannot be empty');
+                                } else if (($('#updateArtistNameField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                                    alert("The input field can't contain invalid characters!");
                                 } else {
                                     // Body needs to be raw JSON
                                     let body = {
@@ -259,25 +265,27 @@ $('document').ready(function () {
                 // Search API call
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) {
-                    $.ajax({
-                        url: 'albums',
-                        type: 'GET',
-                        data: {
-                            title: $('#searchField').val()
-                        }
-                    })
-                        .done (function(data) { 
-                            // Search field cannot be empty
-                            if (!$('#searchField').val()) {
-                                $('div#adminResults').html('<br>The title cannot be empty');
-                            } else {
-                                displayAlbumsAdmin(data);        
-                                $('#searchField').val('');
+                    // Search field cannot be empty
+                    if (!$('#searchField').val()) {
+                        $('div#adminResults').html('<br>The title cannot be empty');
+                    } else if (($('#searchField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                        alert("The input field can't contain invalid characters!");
+                    } else {
+                        $.ajax({
+                            url: 'albums',
+                            type: 'GET',
+                            data: {
+                                title: $('#searchField').val()
                             }
                         })
-                        .fail (function(data) {
-                            $('div#adminResults').html('<br>There is no data matching the entered text.');
-                        })
+                            .done (function(data) {  
+                                displayAlbumsAdmin(data);        
+                                $('#searchField').val('');
+                            })
+                            .fail (function(data) {
+                                $('div#adminResults').html('<br>There is no data matching the entered text.');
+                            })
+                    }
                 });
 
                 // Fetch all API call
@@ -335,6 +343,8 @@ $('document').ready(function () {
                                 // Title cannot be empty
                                 if (!$('#addAlbumTitleField').val()) {
                                     alert('Title cannot be empty');
+                                } else if (($('#addAlbumTitleField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                                    alert("The input field can't contain invalid characters!");
                                 } else if (!$('#addArtistDropdown').val()) {
                                     alert('You have to choose an artist');
                                 } else {
@@ -421,6 +431,8 @@ $('document').ready(function () {
                                         // Title cannot be empty
                                         if (!$('#updateAlbumTitleField').val()) {
                                             alert('Title cannot be empty');
+                                        } else if (($('#updateAlbumTitleField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                                            alert("The input field can't contain invalid characters!");
                                         } else if (!$('#updateArtistDropdown').val()) {
                                             alert('You have to choose an artist');
                                         } else {
@@ -523,25 +535,27 @@ $('document').ready(function () {
                 // Search API call
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) {
-                    $.ajax({
-                        url: 'tracks',
-                        type: 'GET',
-                        data: {
-                            name: $('#searchField').val()
-                        }
-                    })
-                        .done (function(data) { 
-                            // Search field cannot be empty
-                            if (!$('#searchField').val()) {
-                                $('div#adminResults').html('<br>The name cannot be empty');
-                            } else {
-                                displayTracksAdmin(data);
-                                $('#searchField').val('');
+                    // Search field cannot be empty
+                    if (!$('#searchField').val()) {
+                        $('div#adminResults').html('<br>The name cannot be empty');
+                    } else if (($('#searchField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                        alert("The input field can't contain invalid characters!");  
+                    } else {
+                        $.ajax({
+                            url: 'tracks',
+                            type: 'GET',
+                            data: {
+                                name: $('#searchField').val()
                             }
                         })
-                        .fail (function(data) {
-                            $('div#adminResults').html('<br>There is no data matching the entered text.');
-                        })
+                            .done (function(data) { 
+                                displayTracksAdmin(data);
+                                $('#searchField').val('');
+                            })
+                            .fail (function(data) {
+                                $('div#adminResults').html('<br>There is no data matching the entered text.');
+                            })
+                    }
                 });
                
                 // Fetch all API call
@@ -632,6 +646,8 @@ $('document').ready(function () {
                                                     !$('#addTrackComposerField').val() || !$('#addTrackMillisecondsField').val() ||
                                                     !$('#addTrackBytesField').val() || !$('#addTrackUnitPriceField').val()) {
                                                         alert('All fields are mandatory');
+                                                    }  else if (($('#addTrackNameField').val().match('[=!@#$%^*?":{}|<>;]')) || ($('#addTrackComposerField').val().match('[=!@#$%^*?":{}|<>;]'))) {
+                                                        alert("The input field(s) can't contain invalid characters!");
                                                     }  else {
                                                         $.ajax({
                                                             url: 'tracks',
@@ -777,7 +793,9 @@ $('document').ready(function () {
                                                             !$('#updateTrackComposerField').val() || !$('#updateTrackMillisecondsField').val() ||
                                                             !$('#updateTrackBytesField').val() || !$('#updateTrackUnitPriceField').val()) {
                                                                 alert('All fields are mandatory');
-                                                            }  else {
+                                                            }   else if (($('#updateTrackNameField').val().match('[=!@#$%^*?":{}|<>;]')) || ($('#updateTrackComposerField').val().match('[=!@#$%^*?":{}|<>;]'))){
+                                                                alert("The input field can't contain invalid characters!");
+                                                            }   else {
                                                                 // Body needs to be raw JSON
                                                                 let body = {
                                                                     'name': $('#updateTrackNameField').val(),
@@ -907,27 +925,29 @@ $('document').ready(function () {
                 showButtons();
                 // Search API call
                 $('#searchButton').off('click');
-                $('#searchButton').on('click', function(e) { 
-                    $.ajax({
-                        url: 'artists',
-                        type: 'GET',
-                        data: {
-                            name: $('#searchField').val()
-                        }
-                    })
-                        .done (function(data) {
-                            // Search field cannot be empty
-                            if (!$('#searchField').val()) {
-                                $('div#customerHomepageResults').html('<br>The name cannot be empty');
-                            } else {
+                $('#searchButton').on('click', function(e) {
+                    // Search field cannot be empty
+                    if (!$('#searchField').val()) {
+                        $('div#customerHomepageResults').html('<br>The name cannot be empty');
+                    } else if (($('#searchField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                        alert("The input field can't contain invalid characters!");
+                    } else {
+                        $.ajax({
+                            url: 'artists',
+                            type: 'GET',
+                            data: {
+                                name: $('#searchField').val()
+                            }
+                        })
+                            .done (function(data) {
                                 // Display results and clear the search field
                                 displayArtistsCustomer(data);
                                 $('#searchField').val('');
-                            }
-                        })
-                        .fail (function(data) {
-                            $('div#customerHomepageResults').html('<br>There is no data matching the entered text.');
-                        })
+                            })
+                            .fail (function(data) {
+                                $('div#customerHomepageResults').html('<br>There is no data matching the entered text.');
+                            })
+                    }
                 });
 
                 // Fetch all API call
@@ -953,25 +973,27 @@ $('document').ready(function () {
                 // Search API call
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) {
-                    $.ajax({
-                        url: 'albums',
-                        type: 'GET',
-                        data: {
-                            title: $('#searchField').val()
-                        }
-                    })
-                        .done (function(data) { 
-                            // Search field cannot be empty
-                            if (!$('#searchField').val()) {
-                                $('div#customerHomepageResults').html('<br>The title cannot be empty');
-                            } else {
-                                displayAlbumsCustomer(data);        
-                                $('#searchField').val('');
+                    // Search field cannot be empty
+                    if (!$('#searchField').val()) {
+                        $('div#customerHomepageResults').html('<br>The title cannot be empty');
+                    } else if (($('#searchField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                        alert("The input field can't contain invalid characters!");
+                    } else {
+                        $.ajax({
+                            url: 'albums',
+                            type: 'GET',
+                            data: {
+                                title: $('#searchField').val()
                             }
                         })
-                        .fail (function(data) {
-                            $('div#customerHomepageResults').html('<br>There is no data matching the entered text.');
-                        })
+                            .done (function(data) { 
+                                displayAlbumsCustomer(data);        
+                                $('#searchField').val('');
+                            })
+                            .fail (function(data) {
+                                $('div#customerHomepageResults').html('<br>There is no data matching the entered text.');
+                            })
+                    }
                 });
 
                 // Fetch all API call
@@ -997,25 +1019,27 @@ $('document').ready(function () {
                 // Search API call
                 $('#searchButton').off('click');
                 $('#searchButton').on('click', function(e) {
-                    $.ajax({
-                        url: 'tracks',
-                        type: 'GET',
-                        data: {
-                            name: $('#searchField').val()
-                        }
-                    })
-                        .done (function(data) { 
-                            // Search field cannot be empty
-                            if (!$('#searchField').val()) {
-                                $('div#customerHomepageResults').html('<br>The name cannot be empty');
-                            } else {
-                                displayTracksCustomer(data);
-                                $('#searchField').val('');
+                    // Search field cannot be empty
+                    if (!$('#searchField').val()) {
+                        $('div#customerHomepageResults').html('<br>The name cannot be empty');
+                    } else if (($('#searchField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                        alert("The input field can't contain invalid characters!");
+                    } else {
+                        $.ajax({
+                            url: 'tracks',
+                            type: 'GET',
+                            data: {
+                                name: $('#searchField').val()
                             }
                         })
-                        .fail (function(data) {
-                            $('div#customerHomepageResults').html('<br>There is no data matching the entered text.');
-                        })
+                            .done (function(data) { 
+                                displayTracksCustomer(data);
+                                $('#searchField').val('');
+                            })
+                            .fail (function(data) {
+                                $('div#customerHomepageResults').html('<br>There is no data matching the entered text.');
+                            })
+                    }
                 });
                
                 // Fetch all API call
@@ -1083,6 +1107,13 @@ $('document').ready(function () {
                         !$('#updateUserAddressField').val() || !$('#updateUserCityField').val() || !$('#updateUserCountryField').val() || 
                         !$('#updateUserPhoneField').val() || !$('#updateUserEmailField').val()) {
                         alert('All fields marked with * are mandatory');
+                    } else if (($('#updateUserFirstNameField').val()).match('[=!@#$%^*?":{}|<>;]') || 
+                        ($('#updateUserLastNameField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserAddressField').val()).match('[=!@#$%^*?":{}|<>;]') || 
+                        ($('#updateUserPostalCodeField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserCompanyField').val()).match('[=!@#$%^*?":{}|<>;]') || 
+                        ($('#updateUserCityField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserStateField').val()).match('[=!@#$%^*?":{}|<>;]') ||
+                        ($('#updateUserCountryField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserPhoneField').val()).match('[=!@#$%^*?":{}|<>;]') ||
+                        ($('#updateUserFaxField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                            alert("The input field(s) can't contain invalid characters!");
                     } else {
                         // Body needs to be raw JSON
                         let body = {
@@ -1128,6 +1159,13 @@ $('document').ready(function () {
             !$('#signupCityField').val() || !$('#signupCountryField').val() || !$('#signupPhoneField').val() || !$('#signupEmailField').val() ||
             !$('#signupPasswordField').val()) {
                 alert('All fields marked with * are mandatory');
+        } else if (($('#updateUserFirstNameField').val()).match('[=!@#$%^*?":{}|<>;]') || 
+            ($('#updateUserLastNameField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserAddressField').val()).match('[=!@#$%^*?":{}|<>;]') || 
+            ($('#updateUserPostalCodeField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserCompanyField').val()).match('[=!@#$%^*?":{}|<>;]') || 
+            ($('#updateUserCityField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserStateField').val()).match('[=!@#$%^*?":{}|<>;]') ||
+            ($('#updateUserCountryField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserPhoneField').val()).match('[=!@#$%^*?":{}|<>;]') ||
+            ($('#updateUserFaxField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                alert("The input field(s) can't contain invalid characters!");
         } else {
             $.ajax({
                 url: 'users',
@@ -1191,7 +1229,7 @@ $('document').ready(function () {
         trackPrice = tr.querySelector('.unitPrice').textContent;
 
         // If IDs cookie is not empty
-        if(getCookie('IDs')) {
+        if (getCookie('IDs')) {
             // If the same ID has been added, alert
             if (getCookie('IDs').includes(itemId)) {
                 alert('Track has already been added!');
@@ -1279,6 +1317,10 @@ $('document').ready(function () {
                 !$('#billingCountryField').val()) {
                 alert('All fields marked with * are mandatory');
                 // If no tracks are added, purchase cannot be completed
+            } else if (($('#billingAddressField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#billingCityField').val()).match('[=!@#$%^*?":{}|<>;]') ||
+                ($('#billingStateField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#billingCountryField').val()).match('[=!@#$%^*?":{}|<>;]') || 
+                ($('#billingPostalCodeField').val()).match('[=!@#$%^*?":{}|<>;]') ) {
+                    alert("The input field can't contain invalid characters!");
             } else if (!getCookie('IDs')) {
                 alert('You need to purchase at least 1 track!');
             } else {

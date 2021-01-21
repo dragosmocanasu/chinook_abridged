@@ -36,7 +36,7 @@
         * false turns off the double encoding of HTML characters
         * &amp; will not become &amp;amp;
         * array_map submits every element of the array to the function in the 1st param
-        * array_map takes a native function, not an object method as the 1st param. Therefore, we call it as array($this, 'funcName)
+        * array_map takes a native function, not an object method as the 1st param. Therefore, we call it as array($this, 'funcName')
         */
         public function sanitize ($text) {
             if (is_array($text)) {

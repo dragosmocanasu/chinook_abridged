@@ -15,11 +15,11 @@
                         Sign up
                     </legend>
                     <label for="signupFirstNameField">First Name*</label>
-                    <input type="text" id="signupFirstNameField" name="signupFirstNameField" maxlength="40" required>
+                    <input type="text" id="signupFirstNameField" name="signupFirstNameField" maxlength="40" required pattern="[A-Za-z]{1,20}">
                     <br>
                     <br>
                     <label for="signupLastNameField">Last Name*</label>
-                    <input type="text" id="signupLastNameField" name="signupLastNameField" maxlength="20" required>
+                    <input type="text" id="signupLastNameField" name="signupLastNameField" maxlength="20" required pattern="[A-Za-z]{1,20}">
                     <br>
                     <br>
                     <label for="signupAddressField">Address*</label>
@@ -35,15 +35,15 @@
                     <br>
                     <br>
                     <label for="signupCityField">City*</label>
-                    <input type="text" id="signupCityField" name="signupCityField" maxlength="40" required>
+                    <input type="text" id="signupCityField" name="signupCityField" maxlength="40" required pattern="[A-Za-z]{1,20}">
                     <br>
                     <br>
                     <label for="signupStateField">State</label>
-                    <input type="text" id="signupStateField" name="signupStateField" maxlength="40">
+                    <input type="text" id="signupStateField" name="signupStateField" maxlength="40" pattern="[A-Za-z]{1,20}">
                     <br>
                     <br>
                     <label for="signupCountryField">Country*</label>
-                    <input type="text" id="signupCountryField" name="signupCountryField" maxlength="40" required>
+                    <input type="text" id="signupCountryField" name="signupCountryField" maxlength="40" required pattern="[A-Za-z]{1,20}">
                     <br>
                     <br>
                     <label for="signupPhoneField">Phone*</label>
