@@ -1157,10 +1157,10 @@ $('document').ready(function () {
             !$('#signupCityField').val() || !$('#signupCountryField').val() || !$('#signupPhoneField').val() || !$('#signupEmailField').val() ||
             !$('#signupPasswordField').val()) {
                 alert('All fields marked with * are mandatory');
-        } else if (($('#updateUserFirstNameField').val()).match('[=!@#$%^*?":{}|<>;]') || 
-            ($('#updateUserLastNameField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserAddressField').val()).match('[=!@#$%^*?":{}|<>;]') || 
-            ($('#updateUserCityField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserCountryField').val()).match('[=!@#$%^*?":{}|<>;]') || 
-            ($('#updateUserPhoneField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+        } else if (($('#signupFirstNameField').val()).match('[=!@#$%^*?":{}|<>;]') || 
+            ($('#signupLastNameField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#signupAddressField').val()).match('[=!@#$%^*?":{}|<>;]') || 
+            ($('#signupCityField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#signupCountryField').val()).match('[=!@#$%^*?":{}|<>;]') || 
+            ($('#signupPhoneField').val()).match('[=!@#$%^*?":{}|<>;]')) {
                 alert("The input field(s) can't contain invalid characters!");
         } else {
             $.ajax({
