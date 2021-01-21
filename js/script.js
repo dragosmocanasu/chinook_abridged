@@ -1109,12 +1109,10 @@ $('document').ready(function () {
                         alert('All fields marked with * are mandatory');
                     } else if (($('#updateUserFirstNameField').val()).match('[=!@#$%^*?":{}|<>;]') || 
                         ($('#updateUserLastNameField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserAddressField').val()).match('[=!@#$%^*?":{}|<>;]') || 
-                        ($('#updateUserPostalCodeField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserCompanyField').val()).match('[=!@#$%^*?":{}|<>;]') || 
-                        ($('#updateUserCityField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserStateField').val()).match('[=!@#$%^*?":{}|<>;]') ||
-                        ($('#updateUserCountryField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserPhoneField').val()).match('[=!@#$%^*?":{}|<>;]') ||
-                        ($('#updateUserFaxField').val()).match('[=!@#$%^*?":{}|<>;]')) {
-                                alert("The input field(s) can't contain invalid characters!");
-                        }  else {
+                        ($('#updateUserCityField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserCountryField').val()).match('[=!@#$%^*?":{}|<>;]') || 
+                        ($('#updateUserPhoneField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                            alert("The input field(s) can't contain invalid characters!");
+                    } else {
                         // Body needs to be raw JSON
                         let body = {
                             'firstName': $('#updateUserFirstNameField').val(),
@@ -1161,12 +1159,10 @@ $('document').ready(function () {
                 alert('All fields marked with * are mandatory');
         } else if (($('#updateUserFirstNameField').val()).match('[=!@#$%^*?":{}|<>;]') || 
             ($('#updateUserLastNameField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserAddressField').val()).match('[=!@#$%^*?":{}|<>;]') || 
-            ($('#updateUserPostalCodeField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserCompanyField').val()).match('[=!@#$%^*?":{}|<>;]') || 
-            ($('#updateUserCityField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserStateField').val()).match('[=!@#$%^*?":{}|<>;]') ||
-            ($('#updateUserCountryField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserPhoneField').val()).match('[=!@#$%^*?":{}|<>;]') ||
-            ($('#updateUserFaxField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+            ($('#updateUserCityField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#updateUserCountryField').val()).match('[=!@#$%^*?":{}|<>;]') || 
+            ($('#updateUserPhoneField').val()).match('[=!@#$%^*?":{}|<>;]')) {
                 alert("The input field(s) can't contain invalid characters!");
-        }  else {
+        } else {
             $.ajax({
                 url: URLPath + 'users',
                 type: 'POST',
@@ -1318,10 +1314,9 @@ $('document').ready(function () {
                 alert('All fields marked with * are mandatory');
                 // If no tracks are added, purchase cannot be completed
             } else if (($('#billingAddressField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#billingCityField').val()).match('[=!@#$%^*?":{}|<>;]') ||
-                ($('#billingStateField').val()).match('[=!@#$%^*?":{}|<>;]') || ($('#billingCountryField').val()).match('[=!@#$%^*?":{}|<>;]') || 
-                ($('#billingPostalCodeField').val()).match('[=!@#$%^*?":{}|<>;]') ) {
-                    alert("The input field can't contain invalid characters!");
-            }  else if (!getCookie('IDs')) {
+                    ($('#billingCountryField').val()).match('[=!@#$%^*?":{}|<>;]')) {
+                        alert("The input field can't contain invalid characters!");
+            } else if (!getCookie('IDs')) {
                 alert('You need to purchase at least 1 track!');
             } else {
                 let date = new Date();
