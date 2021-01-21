@@ -490,6 +490,10 @@
                                     !isset($_POST['city']) || !isset($_POST['state']) || !isset($_POST['country']) || 
                                     !isset($_POST['phone']) || !isset($_POST['fax']) || !isset($_POST['email']) || !isset($_POST['password'])) {
                                         echo formatError();
+                                    } else if (preg_match('/[=!@#$%^*?":{}|<>;]/', $_POST['postalCode']) || preg_match('/[=!@#$%^*?":{}|<>;]/', $_POST['company']) ||
+                                        preg_match('/[=!@#$%^*?":{}|<>;]/', $_POST['state']) || preg_match('/[=!@#$%^*?":{}|<>;]/', $_POST['fax'])) {
+                                            $response['Message'] = 'Fields cannot contain invalid characters!';
+                                            echo json_encode($response, http_response_code(403));
                                     } else {
                                         $results = $user -> create($_POST['firstName'], $_POST['lastName'],  $_POST['address'], $_POST['postalCode'], 
                                         $_POST['company'], $_POST['city'], $_POST['state'], $_POST['country'],  $_POST['phone'],
@@ -519,6 +523,10 @@
                                     !isset($userData['city']) || !isset($userData['state']) || !isset($userData['country']) || 
                                     !isset($userData['phone']) || !isset($userData['fax']) || !isset($userData['email']) || !isset($userData['password'])) {
                                         echo formatError();
+                                    } else if (preg_match('/[=!@#$%^*?":{}|<>;]/', $userData['postalCode']) || preg_match('/[=!@#$%^*?":{}|<>;]/', $userData['company']) ||
+                                        preg_match('/[=!@#$%^*?":{}|<>;]/', $userData['state']) || preg_match('/[=!@#$%^*?":{}|<>;]/', $userData['fax'])) {
+                                            $response['Message'] = 'Fields cannot contain invalid characters!';
+                                            echo json_encode($response, http_response_code(403));
                                     } else {
                                         $results = $user -> update($urlPieces[ID], $userData['firstName'], $userData['lastName'], $userData['address'], $userData['postalCode'],
                                         $userData['company'], $userData['city'], $userData['state'], $userData['country'], $userData['phone'], $userData['fax'], $userData['email'], $userData['password']);
@@ -603,6 +611,9 @@
                                         if (!isset($_POST['customerId']) || !isset($_POST['invoiceDate']) || !isset($_POST['billingAddress']) || !isset($_POST['billingCity']) 
                                             || !isset($_POST['billingState']) || !isset($_POST['billingCountry']) || !isset($_POST['billingPostalCode']) || !isset($_POST['total'])) {
                                                 echo formatError();
+                                            } else if (preg_match('/[=!@#$%^*?":{}|<>;]/', $_POST['billingPostalCode']) || preg_match('/[=!@#$%^*?":{}|<>;]/', $_POST['billingState'])) {
+                                                    $response['Message'] = 'Fields cannot contain invalid characters!';
+                                                    echo json_encode($response, http_response_code(403));
                                             } else {
                                                 $results = $invoice -> add($_POST['customerId'], $_POST['invoiceDate'], $_POST['billingAddress'], $_POST['billingCity'], 
                                                     $_POST['billingState'], $_POST['billingCountry'], $_POST['billingPostalCode'], $_POST['total']);
