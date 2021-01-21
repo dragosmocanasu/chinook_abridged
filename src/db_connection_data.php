@@ -1,5 +1,5 @@
 <?php
-    $host = 'chinook.cviutjqza9wf.us-east-1.rds.amazonaws.com';
+    $host = 'database-1.cujxmoyqqjlb.us-east-1.rds.amazonaws.com';
     $db = 'chinook_abridged';
     $username = 'admin';
     $password = 'dragosparola';
